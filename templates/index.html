@@ -1,0 +1,533 @@
+{% extends "base.html" %}
+
+{% block title %}SaveTogether - Plateforme d'Épargne Communautaire Intelligente{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section position-relative overflow-hidden">
+    <!-- Animated Background Elements -->
+    <div class="hero-bg-elements">
+        <div class="bg-shape shape-1"></div>
+        <div class="bg-shape shape-2"></div>
+        <div class="bg-shape shape-3"></div>
+        <div class="floating-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+    
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content animate-slide-in-left">
+                    <!-- Dynamic Badge -->
+                    <div class="hero-badge mb-4 animate-fade-in-up">
+                        <div class="badge-content">
+                            <span class="badge-icon">🚀</span>
+                            <span class="badge-text">Plateforme d'Épargne Intelligente</span>
+                            <div class="badge-glow"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic Typography -->
+                    <h1 class="hero-title mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <span class="title-line-1">Épargnez Ensemble,</span>
+                        <span class="title-line-2 gradient-text">Réussissez Ensemble</span>
+                        <span class="title-accent">💰</span>
+                    </h1>
+                    
+                    <!-- Interactive Description -->
+                    <div class="hero-description mb-5 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <p class="lead text-white fs-5 mb-3" style="opacity: 0.95;">Unissez vos forces avec vos amis et votre famille pour atteindre vos objectifs financiers.</p>
+                        <div class="feature-tags">
+                            <span class="feature-tag">Vacances de Rêve</span>
+                            <span class="feature-tag">Fonds Mariage</span>
+                            <span class="feature-tag">Éducation</span>
+                            <span class="feature-tag">Fonds d'Urgence</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Enhanced CTA Buttons -->
+                    <div class="hero-actions mb-4 animate-fade-in-up" style="animation-delay: 0.6s;">
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg hero-btn-primary">
+                            <span class="btn-content">
+                                <i class="fas fa-rocket me-2"></i>
+                                <span>Commencer Gratuitement</span>
+                            </span>
+                            <div class="btn-shine"></div>
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg hero-btn-secondary">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            Connexion
+                        </a>
+                    </div>
+                    
+                    <!-- Trust Indicators -->
+                    <div class="trust-indicators animate-fade-in-up" style="animation-delay: 0.8s;">
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <i class="fas fa-shield-check"></i>
+                            </div>
+                            <span>Sécurité Bancaire</span>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <span>Mobile First</span>
+                        </div>
+                        <div class="trust-item">
+                            <div class="trust-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span>10K+ Utilisateurs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Visual Section -->
+            <div class="col-lg-6 text-center">
+                <div class="hero-visual position-relative animate-slide-in-right">
+                    <!-- Floating Elements -->
+                    <div class="floating-elements">
+                        <div class="floating-card savings-card animate-zoom-in" style="animation-delay: 0.6s;">
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-number">5</div>
+                                <div class="card-label">Membres</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                        
+                        <div class="floating-card progress-card animate-zoom-in" style="animation-delay: 0.8s;">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-number">75%</div>
+                                <div class="card-label">Terminé</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                        
+                        <div class="floating-card amount-card animate-zoom-in" style="animation-delay: 1s;">
+                            <div class="card-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-number">15K</div>
+                                <div class="card-label">MAD Épargné</div>
+                            </div>
+                            <div class="card-glow"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Main Visual -->
+                    <div class="main-visual">
+                        <div class="savings-dashboard">
+                            <div class="dashboard-header">
+                                <h4 class="dashboard-title">Fonds Mariage</h4>
+                                <div class="dashboard-status">Actif</div>
+                            </div>
+                            
+                            <div class="progress-visual">
+                                <div class="progress-ring-container">
+                                    <svg class="progress-ring" width="280" height="280">
+                                        <circle class="progress-ring-bg" stroke="#ffffff20" stroke-width="6" fill="transparent" r="130" cx="140" cy="140"/>
+                                        <circle class="progress-ring-fill" stroke="url(#gradient)" stroke-width="6" fill="transparent" r="130" cx="140" cy="140" style="stroke-dasharray: 816.8; stroke-dashoffset: 204.2;"/>
+                                        <defs>
+                                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#10B981"/>
+                                                <stop offset="100%" style="stop-color:#34D399"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <div class="progress-content">
+                                        <div class="progress-percentage">75%</div>
+                                        <div class="progress-amount">15,000 MAD</div>
+                                        <div class="progress-target">sur 20,000 MAD</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">5</div>
+                                    <div class="stat-label">Membres</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">42</div>
+                                    <div class="stat-label">Jours Restants</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">1.2K</div>
+                                    <div class="stat-label">Moy/Mois</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5 position-relative">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
+                    <i class="fas fa-star me-2"></i>Fonctionnalités
+                </div>
+                <h2 class="display-4 fw-bold mb-3">Pourquoi Choisir SaveTogether ?</h2>
+                <p class="lead text-muted fs-5">Des fonctionnalités puissantes conçues pour rendre l'épargne de groupe facile et transparente</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Épargne de Groupe</h4>
+                    <p class="text-muted mb-4">Créez ou rejoignez des groupes d'épargne avec vos amis et votre famille. Définissez des objectifs collectifs et suivez les progrès ensemble.</p>
+                    <div class="feature-highlight bg-primary bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-primary fw-semibold">Collaboratif</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Suivi des Progrès</h4>
+                    <p class="text-muted mb-4">Des tableaux de bord visuels et des graphiques montrent vos progrès d'épargne en temps réel. Restez motivé avec des jalons clairs.</p>
+                    <div class="feature-highlight bg-success bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-success fw-semibold">Temps réel</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Notifications Intelligentes</h4>
+                    <p class="text-muted mb-4">Recevez des rappels pour les contributions et célébrez les étapes ensemble. Ne manquez jamais une mise à jour importante.</p>
+                    <div class="feature-highlight bg-warning bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-warning fw-semibold">Intelligent</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Sécurisé et Privé</h4>
+                    <p class="text-muted mb-4">Vos données financières sont protégées par une sécurité de niveau bancaire. Seuls les membres du groupe peuvent voir vos contributions.</p>
+                    <div class="feature-highlight bg-info bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-info fw-semibold">Sécurisé</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Compatible Mobile</h4>
+                    <p class="text-muted mb-4">Accédez à vos groupes d'épargne partout, à tout moment. Un design responsive fonctionne parfaitement sur tous les appareils.</p>
+                    <div class="feature-highlight bg-secondary bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-secondary fw-semibold">Responsive</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Fonctionnalités Premium</h4>
+                    <p class="text-muted mb-4">Exportation de données, rappels automatisés et analyses avancées. Passez à Premium pour seulement 19 MAD/mois.</p>
+                    <div class="feature-highlight bg-danger bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
+                        <small class="text-danger fw-semibold">Premium</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-3">Comment ça Marche</h2>
+                <p class="lead text-muted">Commencez en trois étapes simples</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4 text-center">
+                <div class="step-number mb-3">
+                    <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">1</span>
+                </div>
+                <h4 class="fw-bold mb-3">Créer ou Rejoindre un Groupe</h4>
+                <p class="text-muted">Créez un nouveau groupe d'épargne ou rejoignez-en un existant avec un code d'invitation. Définissez votre objectif financier partagé.</p>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="step-number mb-3">
+                    <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">2</span>
+                </div>
+                <h4 class="fw-bold mb-3">Suivre les Contributions</h4>
+                <p class="text-muted">Ajoutez vos contributions et regardez les progrès de votre groupe grandir. Voyez les mises à jour en temps réel de tous les membres.</p>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="step-number mb-3">
+                    <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">3</span>
+                </div>
+                <h4 class="fw-bold mb-3">Atteindre Votre Objectif</h4>
+                <p class="text-muted">Célébrez quand vous atteignez votre objectif ! Exportez les données et planifiez votre prochaine aventure d'épargne ensemble.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
+                    <i class="fas fa-tag me-2"></i>Tarifs
+                </div>
+                <h2 class="display-4 fw-bold mb-3">Choisissez Votre Plan</h2>
+                <p class="lead text-muted fs-5">Commencez gratuitement et passez à Premium quand vous avez besoin de plus</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center g-4">
+            <!-- Free Plan -->
+            <div class="col-md-6 col-lg-5">
+                <div class="card h-100 border-2 shadow-sm">
+                    <div class="card-header text-center bg-light py-4">
+                        <h3 class="mb-2">Freemium</h3>
+                        <div class="display-4 fw-bold text-primary mb-2">0 MAD</div>
+                        <p class="text-muted mb-0">par mois</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Créer des groupes d'épargne illimités
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Suivre les progrès avec des graphiques
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Inviter des amis et la famille
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Notifications de base
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Interface mobile-friendly
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-times text-muted me-2"></i>
+                                <span class="text-muted">Export de données</span>
+                            </li>
+                            <li class="mb-0">
+                                <i class="fas fa-times text-muted me-2"></i>
+                                <span class="text-muted">Rappels automatisés</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center bg-light py-3">
+                        <span class="text-muted">Parfait pour commencer</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Premium Plan -->
+            <div class="col-md-6 col-lg-5">
+                <div class="card h-100 border-primary border-3 position-relative shadow-lg">
+                    <div class="position-absolute top-0 start-50 translate-middle">
+                        <span class="badge bg-primary fs-6 px-3 py-2">Le Plus Populaire</span>
+                    </div>
+                    <div class="card-header text-center bg-primary text-white py-4">
+                        <h3 class="mb-2">Premium</h3>
+                        <div class="display-4 fw-bold mb-2">19 MAD</div>
+                        <p class="mb-0 opacity-75">par mois</p>
+                    </div>
+                    <div class="card-body p-4">
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <strong>Tout dans Freemium</strong>
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Export des données en CSV
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Rappels automatisés
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Analyses avancées
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Support prioritaire
+                            </li>
+                            <li class="mb-3">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Notifications personnalisées
+                            </li>
+                            <li class="mb-0">
+                                <i class="fas fa-check text-success me-2"></i>
+                                Contributions récurrentes
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center bg-light py-3">
+                        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-crown me-2"></i>Commencer Premium
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
+                    <i class="fas fa-users me-2"></i>Our Team
+                </div>
+                <h2 class="display-4 fw-bold mb-3">Meet Our Team</h2>
+                <p class="lead text-muted fs-5">The passionate team behind SaveTogether</p>
+            </div>
+        </div>
+        
+        <div class="row g-4 justify-content-center">
+            <!-- Soufiane Ekouines -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
+                    <div class="mb-3">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Soufiane Ekouines</h5>
+                    <p class="text-muted small mb-3">Development Team</p>
+                    <div class="d-flex gap-2 justify-content-center mb-3">
+                        <a href="mailto:soufianeekouines@gmail.com" class="btn btn-sm btn-outline-primary" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://soufianeekouines.vercel.app/" target="_blank" class="btn btn-sm btn-outline-primary" title="Portfolio">
+                            <i class="fas fa-globe"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Oussmane Bouzit -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
+                    <div class="mb-3">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Oussmane Bouzit</h5>
+                    <p class="text-muted small mb-3">Development Team</p>
+                    <div class="d-flex gap-2 justify-content-center mb-3">
+                        <span class="text-muted small">Team Member</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Aya Bezgaoui -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
+                    <div class="mb-3">
+                        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Aya Bezgaoui</h5>
+                    <p class="text-muted small mb-3">Development Team</p>
+                    <div class="d-flex gap-2 justify-content-center mb-3">
+                        <span class="text-muted small">Team Member</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Walaa Allam -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
+                    <div class="mb-3">
+                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Walaa Allam</h5>
+                    <p class="text-muted small mb-3">Development Team</p>
+                    <div class="d-flex gap-2 justify-content-center mb-3">
+                        <span class="text-muted small">Team Member</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="display-5 fw-bold mb-4">Prêt à Commencer à Épargner Ensemble ?</h2>
+                <p class="lead mb-4">Rejoignez des milliers d'utilisateurs qui atteignent déjà leurs objectifs financiers avec SaveTogether.</p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-user-plus me-2"></i>S'inscrire Gratuitement
+                    </a>
+                    <a href="{{ url_for('pricing') }}" class="btn btn-outline-primary btn-lg px-5">
+                        <i class="fas fa-crown me-2"></i>Voir les Tarifs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
