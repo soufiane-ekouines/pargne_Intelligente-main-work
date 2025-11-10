@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - {{ group.name }} - SaveTogether{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-2">
+                        <i class="fas fa-chart-line text-primary me-2"></i>{{ group.name }} - Analytics
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <a href="{{ url_for('group_detail', group_id=group.id) }}" class="text-decoration-none">
+                            <i class="fas fa-arrow-left me-1"></i>Back to Group
+                        </a>
+                    </p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="fas fa-print me-2"></i>Print Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Metrics Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-primary mb-2" style="font-size: 2rem;">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="mb-1">{{ "%.1f"|format(progress_percentage) }}%</h3>
+                    <p class="text-muted mb-0 small">Goal Progress</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-success mb-2" style="font-size: 2rem;">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="mb-1">{{ total_contributed }} MAD</h3>
+                    <p class="text-muted mb-0 small">Total Saved</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-warning mb-2" style="font-size: 2rem;">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <h3 class="mb-1">{{ avg_contribution }} MAD</h3>
+                    <p class="text-muted mb-0 small">Avg Contribution</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-info mb-2" style="font-size: 2rem;">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="mb-1">{{ days_active }}</h3>
+                    <p class="text-muted mb-0 small">Days Active</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+        <!-- Progress Over Time -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-area me-2"></i>Progress Over Time
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="progressChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Member Contributions Pie -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-pie me-2"></i>Contributions by Member
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="memberPieChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4 mb-4">
+        <!-- Monthly Trend -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calendar-week me-2"></i>Monthly Contribution Trend
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Member Performance Bar -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Member Performance
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="memberBarChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Predictive Analysis -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-crystal-ball me-2"></i>Predictive Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Estimated Completion Date</span>
+                            <strong class="text-primary">{{ estimated_completion }}</strong>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-primary" style="width: {{ progress_percentage }}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Required Monthly Average</span>
+                            <strong class="text-success">{{ required_monthly }} MAD/month</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Current Monthly Average</span>
+                            <strong class="text-info">{{ current_monthly }} MAD/month</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-{{ prediction_status }}" role="alert">
+                        <i class="fas fa-{{ prediction_icon }} me-2"></i>{{ prediction_message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Patterns & Trends -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-search-dollar me-2"></i>Patterns & Trends
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Key Insights</h6>
+                    <ul class="list-unstyled">
+                        {% for pattern in patterns %}
+                        <li class="mb-2">
+                            <i class="fas fa-{{ pattern.icon }} text-{{ pattern.color }} me-2"></i>
+                            {{ pattern.text }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <h6 class="fw-bold mt-4 mb-3">Contribution Frequency</h6>
+                    <div class="progress mb-2" style="height: 25px;">
+                        <div class="progress-bar bg-success" style="width: {{ frequency.active }}%">
+                            {{ frequency.active }}% Active
+                        </div>
+                        <div class="progress-bar bg-warning" style="width: {{ frequency.moderate }}%">
+                            {{ frequency.moderate }}% Moderate
+                        </div>
+                        <div class="progress-bar bg-danger" style="width: {{ frequency.low }}%">
+                            {{ frequency.low }}% Low
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistical Analysis -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-calculator me-2"></i>Statistical Analysis
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block">Mean Contribution</small>
+                                <h5 class="mb-0">{{ stats.mean }} MAD</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block">Median Contribution</small>
+                                <h5 class="mb-0">{{ stats.median }} MAD</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block">Standard Deviation</small>
+                                <h5 class="mb-0">{{ stats.std_dev }} MAD</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block">Consistency Score</small>
+                                <h5 class="mb-0">{{ stats.consistency }}%</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Member Stats Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-users me-2"></i>Detailed Member Statistics
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Member</th>
+                                    <th>Total Contributions</th>
+                                    <th>Count</th>
+                                    <th>Average</th>
+                                    <th>Last Contribution</th>
+                                    <th>Contribution Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for member in member_stats %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if member.profile_picture %}
+                                            <img src="{{ url_for('static', filename=member.profile_picture) }}" 
+                                                 class="rounded-circle me-2" 
+                                                 style="width: 30px; height: 30px; object-fit: cover;"
+                                                 alt="{{ member.username }}">
+                                            {% else %}
+                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" 
+                                                 style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            {% endif %}
+                                            {{ member.username }}
+                                        </div>
+                                    </td>
+                                    <td class="fw-bold text-success">{{ member.total }} MAD</td>
+                                    <td>{{ member.count }}</td>
+                                    <td>{{ member.average }} MAD</td>
+                                    <td>{{ member.last_date }}</td>
+                                    <td>
+                                        <div class="progress" style="height: 20px; width: 100px;">
+                                            <div class="progress-bar bg-{{ member.rate_color }}" 
+                                                 style="width: {{ member.rate }}%">
+                                                {{ member.rate }}%
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Progress Over Time Chart
+const progressCtx = document.getElementById('progressChart').getContext('2d');
+const progressChart = new Chart(progressCtx, {
+    type: 'line',
+    data: {
+        labels: {{ progress_dates | tojson }},
+        datasets: [{
+            label: 'Total Saved (MAD)',
+            data: {{ progress_amounts | tojson }},
+            borderColor: 'rgb(102, 126, 234)',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Member Contributions Pie Chart
+const memberPieCtx = document.getElementById('memberPieChart').getContext('2d');
+const memberPieChart = new Chart(memberPieCtx, {
+    type: 'doughnut',
+    data: {
+        labels: {{ member_names | tojson }},
+        datasets: [{
+            data: {{ member_totals | tojson }},
+            backgroundColor: [
+                'rgb(102, 126, 234)',
+                'rgb(16, 185, 129)',
+                'rgb(251, 191, 36)',
+                'rgb(239, 68, 68)',
+                'rgb(59, 130, 246)',
+                'rgb(168, 85, 247)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true
+    }
+});
+
+// Monthly Trend Chart
+const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
+const monthlyChart = new Chart(monthlyCtx, {
+    type: 'bar',
+    data: {
+        labels: {{ monthly_labels | tojson }},
+        datasets: [{
+            label: 'Monthly Total (MAD)',
+            data: {{ monthly_amounts | tojson }},
+            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+            borderColor: 'rgb(16, 185, 129)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: { beginAtZero: true }
+        }
+    }
+});
+
+// Member Performance Bar Chart
+const memberBarCtx = document.getElementById('memberBarChart').getContext('2d');
+const memberBarChart = new Chart(memberBarCtx, {
+    type: 'horizontalBar',
+    data: {
+        labels: {{ member_names | tojson }},
+        datasets: [{
+            label: 'Total Contributions (MAD)',
+            data: {{ member_totals | tojson }},
+            backgroundColor: 'rgba(102, 126, 234, 0.8)',
+            borderColor: 'rgb(102, 126, 234)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        indexAxis: 'y',
+        scales: {
+            x: { beginAtZero: true }
+        }
+    }
+});
+</script>
+{% endblock %}

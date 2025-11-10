@@ -1067,6 +1067,222 @@ def upload_profile_picture():
         flash(f'Error uploading picture: {str(e)}', 'error')
         return redirect(url_for('settings'))
 
+@app.route('/groups/<int:group_id>/analytics')
+@login_required
+def group_analytics(group_id):
+    """Group analytics page with charts and predictions"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Check if user is member of this group
+    cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ? AND status = ?', 
+                  (group_id, current_user.id, 'active'))
+    if not cursor.fetchone():
+        flash('Vous n\'êtes pas membre de ce groupe', 'error')
+        conn.close()
+        return redirect(url_for('dashboard'))
+    
+    # Get group info
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
+    
+    # Get all approved contributions
+    cursor.execute('''
+        SELECT c.amount, c.contribution_date, u.username, u.profile_picture
+        FROM contributions c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.group_id = ? AND c.status = 'approved'
+        ORDER BY c.contribution_date
+    ''', (group_id,))
+    contributions = cursor.fetchall()
+    
+    # Get total contributed
+    cursor.execute('SELECT COALESCE(SUM(amount), 0) FROM contributions WHERE group_id = ? AND status = "approved"', (group_id,))
+    total_contributed = cursor.fetchone()[0]
+    
+    # Calculate progress percentage
+    progress_percentage = (total_contributed / group['target_amount']) * 100 if group['target_amount'] > 0 else 0
+    
+    # Calculate statistics
+    import statistics
+    from datetime import datetime, timedelta
+    
+    contribution_amounts = [float(c['amount']) for c in contributions]
+    
+    avg_contribution = round(statistics.mean(contribution_amounts), 2) if contribution_amounts else 0
+    median_contribution = round(statistics.median(contribution_amounts), 2) if contribution_amounts else 0
+    std_dev = round(statistics.stdev(contribution_amounts), 2) if len(contribution_amounts) > 1 else 0
+    
+    # Calculate days active
+    if contributions:
+        first_contribution = datetime.strptime(contributions[0]['contribution_date'], '%Y-%m-%d %H:%M:%S')
+        days_active = (datetime.now() - first_contribution).days + 1
+    else:
+        days_active = 1
+    
+    # Progress over time data
+    progress_dates = []
+    progress_amounts = []
+    cumulative = 0
+    for contrib in contributions:
+        cumulative += float(contrib['amount'])
+        progress_dates.append(contrib['contribution_date'][:10])
+        progress_amounts.append(cumulative)
+    
+    # Member statistics
+    cursor.execute('''
+        SELECT u.username, u.profile_picture,
+               COALESCE(SUM(c.amount), 0) as total,
+               COUNT(c.id) as count,
+               MAX(c.contribution_date) as last_date
+        FROM users u
+        JOIN group_members gm ON u.id = gm.user_id
+        LEFT JOIN contributions c ON u.id = c.user_id AND c.group_id = ? AND c.status = 'approved'
+        WHERE gm.group_id = ? AND gm.status = 'active'
+        GROUP BY u.id, u.username, u.profile_picture
+        ORDER BY total DESC
+    ''', (group_id, group_id))
+    member_data = cursor.fetchall()
+    
+    member_stats = []
+    member_names = []
+    member_totals = []
+    
+    for member in member_data:
+        total = float(member['total'])
+        count = member['count']
+        average = round(total / count, 2) if count > 0 else 0
+        last_date = member['last_date'][:10] if member['last_date'] else 'Never'
+        rate = round((total / total_contributed * 100), 1) if total_contributed > 0 else 0
+        
+        rate_color = 'success' if rate >= 30 else 'warning' if rate >= 15 else 'danger'
+        
+        member_stats.append({
+            'username': member['username'],
+            'profile_picture': member['profile_picture'],
+            'total': round(total, 2),
+            'count': count,
+            'average': average,
+            'last_date': last_date,
+            'rate': rate,
+            'rate_color': rate_color
+        })
+        
+        member_names.append(member['username'])
+        member_totals.append(round(total, 2))
+    
+    # Monthly trend
+    cursor.execute('''
+        SELECT strftime('%Y-%m', contribution_date) as month,
+               SUM(amount) as total
+        FROM contributions
+        WHERE group_id = ? AND status = 'approved'
+        GROUP BY month
+        ORDER BY month
+    ''', (group_id,))
+    monthly_data = cursor.fetchall()
+    
+    monthly_labels = [m['month'] for m in monthly_data]
+    monthly_amounts = [float(m['total']) for m in monthly_data]
+    
+    # Predictive analysis
+    current_monthly = round(sum(monthly_amounts) / len(monthly_amounts), 2) if monthly_amounts else 0
+    remaining = float(group['target_amount']) - total_contributed
+    
+    if current_monthly > 0:
+        months_needed = remaining / current_monthly
+        estimated_completion = (datetime.now() + timedelta(days=int(months_needed * 30))).strftime('%B %Y')
+    else:
+        estimated_completion = 'Unknown'
+        months_needed = 999
+    
+    required_monthly = round(remaining / max(1, (datetime.strptime(group['deadline'], '%Y-%m-%d').year - datetime.now().year) * 12 + 
+                                            (datetime.strptime(group['deadline'], '%Y-%m-%d').month - datetime.now().month)), 2) if group['deadline'] else 0
+    
+    # Prediction status
+    if progress_percentage >= 100:
+        prediction_status = 'success'
+        prediction_icon = 'check-circle'
+        prediction_message = 'Congratulations! Goal achieved!'
+    elif current_monthly >= required_monthly:
+        prediction_status = 'success'
+        prediction_icon = 'chart-line'
+        prediction_message = f'On track! At current rate, you\'ll reach your goal by {estimated_completion}.'
+    elif current_monthly >= required_monthly * 0.7:
+        prediction_status = 'warning'
+        prediction_icon = 'exclamation-triangle'
+        prediction_message = f'Slightly behind schedule. Increase contributions to {required_monthly} MAD/month to stay on track.'
+    else:
+        prediction_status = 'danger'
+        prediction_icon = 'exclamation-circle'
+        prediction_message = f'Behind schedule. Need {required_monthly} MAD/month to meet deadline.'
+    
+    # Patterns and trends
+    patterns = []
+    
+    # Check consistency
+    consistency = round((1 - (std_dev / avg_contribution if avg_contribution > 0 else 1)) * 100, 1)
+    if consistency > 70:
+        patterns.append({'icon': 'check', 'color': 'success', 'text': f'Highly consistent contributions ({consistency}% consistency score)'})
+    else:
+        patterns.append({'icon': 'chart-line', 'color': 'warning', 'text': f'Variable contribution patterns ({consistency}% consistency score)'})
+    
+    # Check trend
+    if len(monthly_amounts) >= 2:
+        if monthly_amounts[-1] > monthly_amounts[-2]:
+            patterns.append({'icon': 'arrow-up', 'color': 'success', 'text': 'Increasing trend in recent months'})
+        elif monthly_amounts[-1] < monthly_amounts[-2]:
+            patterns.append({'icon': 'arrow-down', 'color': 'danger', 'text': 'Decreasing trend in recent months'})
+        else:
+            patterns.append({'icon': 'minus', 'color': 'info', 'text': 'Stable contribution pattern'})
+    
+    # Check participation
+    active_members = len([m for m in member_stats if m['count'] > 0])
+    total_members = len(member_stats)
+    participation_rate = round((active_members / total_members * 100), 1) if total_members > 0 else 0
+    patterns.append({'icon': 'users', 'color': 'info', 'text': f'{participation_rate}% member participation rate'})
+    
+    # Frequency distribution
+    high_freq = len([m for m in member_stats if m['count'] >= len(monthly_labels) * 2])
+    mid_freq = len([m for m in member_stats if len(monthly_labels) <= m['count'] < len(monthly_labels) * 2])
+    low_freq = total_members - high_freq - mid_freq
+    
+    frequency = {
+        'active': round((high_freq / total_members * 100), 1) if total_members > 0 else 0,
+        'moderate': round((mid_freq / total_members * 100), 1) if total_members > 0 else 0,
+        'low': round((low_freq / total_members * 100), 1) if total_members > 0 else 0
+    }
+    
+    conn.close()
+    
+    return render_template('group_analytics.html',
+                         group=group,
+                         total_contributed=round(total_contributed, 2),
+                         progress_percentage=round(progress_percentage, 2),
+                         avg_contribution=avg_contribution,
+                         days_active=days_active,
+                         progress_dates=progress_dates,
+                         progress_amounts=progress_amounts,
+                         member_names=member_names,
+                         member_totals=member_totals,
+                         monthly_labels=monthly_labels,
+                         monthly_amounts=monthly_amounts,
+                         member_stats=member_stats,
+                         estimated_completion=estimated_completion,
+                         required_monthly=required_monthly,
+                         current_monthly=current_monthly,
+                         prediction_status=prediction_status,
+                         prediction_icon=prediction_icon,
+                         prediction_message=prediction_message,
+                         patterns=patterns,
+                         frequency=frequency,
+                         stats={
+                             'mean': avg_contribution,
+                             'median': median_contribution,
+                             'std_dev': std_dev,
+                             'consistency': consistency
+                         })
+
 @app.route('/settings')
 @login_required
 def settings():

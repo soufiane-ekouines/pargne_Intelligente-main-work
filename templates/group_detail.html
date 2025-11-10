@@ -171,6 +171,9 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-2">
+                        <a href="{{ url_for('group_analytics', group_id=group.id) }}" class="btn btn-success">
+                            <i class="fas fa-chart-line me-2"></i>View Analytics
+                        </a>
                         {% if is_admin %}
                         <a href="{{ url_for('manage_requests', group_id=group.id) }}" class="btn btn-warning">
                             <i class="fas fa-user-cog me-2"></i>Manage Requests
