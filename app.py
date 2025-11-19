@@ -25,13 +25,20 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY', 'savetogether-secret-key-2024')
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
 
-google_bp = make_google_blueprint(
-    client_id=GOOGLE_CLIENT_ID,
-    client_secret=GOOGLE_CLIENT_SECRET,
-    scope=['openid', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
-    redirect_to='google_login'
-)
-app.register_blueprint(google_bp, url_prefix='/login')
+# Only register Google OAuth if credentials are provided
+if GOOGLE_CLIENT_ID != 'your-google-client-id' and GOOGLE_CLIENT_SECRET != 'your-google-client-secret':
+    try:
+        google_bp = make_google_blueprint(
+            client_id=GOOGLE_CLIENT_ID,
+            client_secret=GOOGLE_CLIENT_SECRET,
+            scope=['openid', 'https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'],
+            redirect_to='google_login'
+        )
+        app.register_blueprint(google_bp, url_prefix='/login')
+    except Exception as e:
+        print(f"Warning: Google OAuth setup failed: {str(e)}")
+else:
+    print("Warning: Google OAuth not configured (missing credentials)")
 
 # Initialize Flask-Login
 login_manager = LoginManager()
@@ -124,6 +131,11 @@ def logout():
 @app.route('/login/google')
 def google_login():
     """Handle Google OAuth login"""
+    # Check if Google OAuth is configured
+    if GOOGLE_CLIENT_ID == 'your-google-client-id' or GOOGLE_CLIENT_SECRET == 'your-google-client-secret':
+        flash('Google OAuth n\'est pas configuré', 'error')
+        return redirect(url_for('login'))
+    
     if not google.authorized:
         return redirect(url_for('google.login'))
     
@@ -1064,3 +1076,6 @@ else:
     except Exception as e:
         print(f"Warning: Database initialization failed: {str(e)}")
         # Continue anyway - connection will be tested on first request
+
+# Export app for Vercel
+app = app
