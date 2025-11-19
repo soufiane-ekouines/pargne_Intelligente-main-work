@@ -81,6 +81,32 @@ def index():
     """Landing page - accessible to everyone"""
     return render_template('index.html')
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint to verify app and database status"""
+    status = {
+        'app': 'running',
+        'database': 'unknown',
+        'env_vars': {
+            'SUPABASE_URL': 'set' if os.getenv('SUPABASE_URL') else 'missing',
+            'SUPABASE_ANON_KEY': 'set' if os.getenv('SUPABASE_ANON_KEY') else 'missing',
+            'FLASK_SECRET_KEY': 'set' if os.getenv('FLASK_SECRET_KEY') else 'missing'
+        }
+    }
+    
+    try:
+        from database import supabase
+        if supabase:
+            # Try a simple query
+            supabase.table('users').select('id').limit(1).execute()
+            status['database'] = 'connected'
+        else:
+            status['database'] = 'not initialized'
+    except Exception as e:
+        status['database'] = f'error: {str(e)}'
+    
+    return jsonify(status)
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """User registration"""
