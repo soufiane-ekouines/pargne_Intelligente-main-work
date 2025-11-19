@@ -375,81 +375,98 @@ function markNotificationRead(notificationId) {
         });
 }
 
-// Create Group Modal Handler
-document.getElementById('createGroupForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        name: document.getElementById('modal_group_name').value,
-        description: document.getElementById('modal_group_description').value,
-        category: document.getElementById('modal_group_category').value,
-        target_amount: parseFloat(document.getElementById('modal_group_target_amount').value),
-        deadline: document.getElementById('modal_group_deadline').value || null
-    };
-    
-    try {
-        const response = await fetch('/groups/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Create Group Modal Handler
+    const createGroupForm = document.getElementById('createGroupForm');
+    if (createGroupForm) {
+        createGroupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('modal_group_name').value,
+                description: document.getElementById('modal_group_description').value,
+                category: document.getElementById('modal_group_category').value,
+                target_amount: parseFloat(document.getElementById('modal_group_target_amount').value),
+                deadline: document.getElementById('modal_group_deadline').value || null
+            };
+            
+            try {
+                const response = await fetch('/groups/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Close modal
+                    const modalElement = document.getElementById('createGroupModal');
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Show success message
+                    alert(data.message);
+                    
+                    // Reload page to show new group
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Erreur lors de la création du groupe: ' + error.message);
+            }
         });
-        
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('createGroupModal'));
-            modal.hide();
-            
-            // Show success message
-            alert(data.message);
-            
-            // Reload page to show new group
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    } catch (error) {
-        alert('Erreur lors de la création du groupe: ' + error.message);
     }
-});
 
-// Join Group Modal Handler
-document.getElementById('joinGroupForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        invite_code: document.getElementById('modal_invite_code').value
-    };
-    
-    try {
-        const response = await fetch('/groups/join', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+    // Join Group Modal Handler
+    const joinGroupForm = document.getElementById('joinGroupForm');
+    if (joinGroupForm) {
+        joinGroupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                invite_code: document.getElementById('modal_invite_code').value
+            };
+            
+            try {
+                const response = await fetch('/groups/join', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    // Close modal
+                    const modalElement = document.getElementById('joinGroupModal');
+                    const modal = bootstrap.Modal.getInstance(modalElement);
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Show success message
+                    alert(data.message);
+                    
+                    // Reload page
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Erreur lors de la demande: ' + error.message);
+            }
         });
-        
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            // Close modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('joinGroupModal'));
-            modal.hide();
-            
-            // Show success message
-            alert(data.message);
-            
-            // Reload page
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    } catch (error) {
-        alert('Erreur lors de la demande: ' + error.message);
     }
 });
 </script>
