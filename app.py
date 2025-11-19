@@ -25,6 +25,9 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY', 'savetogether-secret-key-2024')
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
 
+# Track if Google OAuth is enabled
+google_oauth_enabled = False
+
 # Only register Google OAuth if credentials are provided
 if GOOGLE_CLIENT_ID != 'your-google-client-id' and GOOGLE_CLIENT_SECRET != 'your-google-client-secret':
     try:
@@ -35,6 +38,8 @@ if GOOGLE_CLIENT_ID != 'your-google-client-id' and GOOGLE_CLIENT_SECRET != 'your
             redirect_to='google_login'
         )
         app.register_blueprint(google_bp, url_prefix='/login')
+        google_oauth_enabled = True
+        print("✓ Google OAuth configured")
     except Exception as e:
         print(f"Warning: Google OAuth setup failed: {str(e)}")
 else:
@@ -44,6 +49,11 @@ else:
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'  # type: ignore
+
+# Context processor to make google_oauth_enabled available in templates
+@app.context_processor
+def inject_google_oauth_status():
+    return {'google_oauth_enabled': google_oauth_enabled}
 
 # Database configuration (Supabase)
 # All database operations now handled by database.py module
