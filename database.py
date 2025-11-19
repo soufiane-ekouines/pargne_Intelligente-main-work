@@ -15,12 +15,16 @@ load_dotenv()
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_ANON_KEY = os.getenv('SUPABASE_ANON_KEY')
 
-# Initialize Supabase client only if credentials are provided
-if SUPABASE_URL and SUPABASE_ANON_KEY:
-    supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
-else:
+# Initialize Supabase client
+try:
+    if SUPABASE_URL and SUPABASE_ANON_KEY:
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+        print("✓ Supabase client initialized")
+    else:
+        raise Exception("Missing SUPABASE_URL or SUPABASE_ANON_KEY environment variables")
+except Exception as e:
+    print(f"✗ Failed to initialize Supabase client: {str(e)}")
     supabase = None
-    print("Warning: SUPABASE_URL or SUPABASE_ANON_KEY not set")
 
 
 class Database:
@@ -48,6 +52,8 @@ class Database:
     @staticmethod
     def create_user(username, email, password_hash, google_id=None, google_email=None, profile_picture=None):
         """Create a new user"""
+        if not supabase:
+            raise Exception("Database not initialized")
         data = {
             'username': username,
             'email': email,
@@ -62,12 +68,16 @@ class Database:
     @staticmethod
     def get_user_by_id(user_id):
         """Get user by ID"""
+        if not supabase:
+            return None
         result = supabase.table('users').select('*').eq('id', user_id).execute()
         return result.data[0] if result.data else None
     
     @staticmethod
     def get_user_by_username(username):
         """Get user by username"""
+        if not supabase:
+            return None
         result = supabase.table('users').select('*').eq('username', username).execute()
         return result.data[0] if result.data else None
     
