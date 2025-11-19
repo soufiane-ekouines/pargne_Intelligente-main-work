@@ -1,6 +1,6 @@
 """
 SaveTogether - Smart Community Savings Platform
-Main Flask application file - Supabase PostgreSQL Version
+Main Flask application file
 """
 
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
@@ -22,8 +22,9 @@ app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'savetogether-secret-key-2024')
 
 # Google OAuth Configuration
-GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id')
-GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
+# NOTE: Set these environment variables or update with your Google OAuth credentials
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID', 'your-google-client-id')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
 
 google_bp = make_google_blueprint(
     client_id=GOOGLE_CLIENT_ID,
@@ -36,7 +37,7 @@ app.register_blueprint(google_bp, url_prefix='/login')
 # Initialize Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'  # type: ignore
+login_manager.login_view = 'login'
 
 # Database configuration (Supabase)
 # All database operations now handled by database.py module
@@ -57,6 +58,8 @@ def load_user(user_id):
         return User(user_data['id'], user_data['username'], user_data['email'], 
                    user_data['is_premium'], user_data.get('profile_picture'))
     return None
+
+# Removed get_db_connection - now using Supabase via database.py
 
 def premium_required(f):
     """Decorator to require premium subscription"""
@@ -133,34 +136,49 @@ def google_login():
             google_data = resp.json()
             google_id = google_data.get('id')
             email = google_data.get('email')
-            name = google_data.get('name', email.split('@')[0] if email else 'user')
+            name = google_data.get('name', email.split('@')[0])
             profile_picture = google_data.get('picture')
             
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            
             # Check if user exists by google_id or email
-            user_data = Database.get_user_by_google_id(google_id)
-            if not user_data:
-                user_data = Database.get_user_by_email(email)
+            cursor.execute(
+                'SELECT id, username, email, is_premium, profile_picture FROM users WHERE google_id = ? OR email = ?',
+                (google_id, email)
+            )
+            user_data = cursor.fetchone()
             
             if user_data:
                 # User exists, update google info if needed
-                Database.update_user(user_data['id'], 
-                                    google_id=google_id, 
-                                    google_email=email, 
-                                    profile_picture=profile_picture)
+                cursor.execute(
+                    'UPDATE users SET google_id = ?, google_email = ?, profile_picture = ? WHERE id = ?',
+                    (google_id, email, profile_picture, user_data['id'])
+                )
                 user = User(user_data['id'], user_data['username'], user_data['email'], 
-                          user_data['is_premium'], profile_picture or user_data.get('profile_picture'))
+                          user_data['is_premium'], profile_picture or user_data['profile_picture'])
             else:
                 # Create new user
                 username = name
                 # Ensure username is unique
                 base_username = username
                 counter = 1
-                while Database.get_user_by_username(username):
+                while True:
+                    cursor.execute('SELECT id FROM users WHERE username = ?', (username,))
+                    if not cursor.fetchone():
+                        break
                     username = f"{base_username}{counter}"
                     counter += 1
                 
-                new_user = Database.create_user(username, email, '', google_id, email, profile_picture)
-                user = User(new_user['id'], username, email, False, profile_picture)
+                cursor.execute(
+                    'INSERT INTO users (username, email, google_id, google_email, profile_picture, password_hash) VALUES (?, ?, ?, ?, ?, ?)',
+                    (username, email, google_id, email, profile_picture, '')  # Empty password for OAuth users
+                )
+                user_id = cursor.lastrowid
+                user = User(user_id, username, email, False, profile_picture)
+            
+            conn.commit()
+            conn.close()
             
             login_user(user)
             flash(f'Connecté avec succès via Google !', 'success')
@@ -174,29 +192,56 @@ def google_login():
 @login_required
 def dashboard():
     """Main dashboard showing user's groups and progress"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Get user's groups (only active memberships)
-    groups = Database.get_user_groups(current_user.id)
+    cursor.execute('''
+        SELECT g.id, g.name, g.description, g.target_amount, g.deadline, g.created_at,
+               COALESCE(contrib.total_contributed, 0) as total_contributed,
+               COUNT(DISTINCT CASE WHEN gm2.status = 'active' THEN gm2.user_id END) as member_count
+        FROM groups g
+        INNER JOIN group_members gm ON g.id = gm.group_id AND gm.user_id = ? AND gm.status = 'active'
+        LEFT JOIN group_members gm2 ON g.id = gm2.group_id
+        LEFT JOIN (
+            SELECT group_id, SUM(amount) as total_contributed
+            FROM contributions
+            WHERE status = 'approved'
+            GROUP BY group_id
+        ) contrib ON g.id = contrib.group_id
+        GROUP BY g.id, g.name, g.description, g.target_amount, g.deadline, g.created_at, contrib.total_contributed
+        ORDER BY g.created_at DESC
+    ''', (current_user.id,))
     
-    # Get recent approved contributions
-    recent_contributions = Database.get_recent_contributions(current_user.id, limit=10)
+    groups = cursor.fetchall()
     
-    # Format for template
-    formatted_contributions = []
-    for contrib in recent_contributions:
-        formatted_contributions.append({
-            'amount': contrib['amount'],
-            'description': contrib['description'],
-            'contribution_date': contrib['contribution_date'],
-            'group_name': contrib['groups']['name'],
-            'username': contrib['users']['username']
-        })
+    # Get recent approved contributions only
+    cursor.execute('''
+        SELECT c.amount, c.description, c.contribution_date, g.name as group_name, u.username
+        FROM contributions c
+        JOIN groups g ON c.group_id = g.id
+        JOIN users u ON c.user_id = u.id
+        WHERE c.group_id IN (
+            SELECT group_id FROM group_members WHERE user_id = ?
+        ) AND c.status = 'approved'
+        ORDER BY c.contribution_date DESC
+        LIMIT 10
+    ''', (current_user.id,))
+    
+    recent_contributions = cursor.fetchall()
     
     # Get unread notifications
-    notifications = Database.get_user_notifications(current_user.id, is_read=False)
+    cursor.execute('''
+        SELECT * FROM notifications 
+        WHERE user_id = ? AND is_read = FALSE 
+        ORDER BY created_at DESC
+    ''', (current_user.id,))
     
-    return render_template('dashboard.html', groups=groups, 
-                         recent_contributions=formatted_contributions, 
-                         notifications=notifications)
+    notifications = cursor.fetchall()
+    
+    conn.close()
+    
+    return render_template('dashboard.html', groups=groups, recent_contributions=recent_contributions, notifications=notifications)
 
 @app.route('/groups/create', methods=['GET', 'POST'])
 @login_required
@@ -224,31 +269,41 @@ def create_group():
             flash('Nom et montant requis', 'error')
             return render_template('create_group.html')
         
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
         # Generate invite code
         invite_code = str(uuid.uuid4())[:8]
         
         # Create group
-        group = Database.create_group(name, description, category, target_amount, 
-                                     deadline, current_user.id, invite_code)
+        cursor.execute('''
+            INSERT INTO groups (name, description, category, target_amount, deadline, created_by, invite_code)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        ''', (name, description, category, target_amount, deadline, current_user.id, invite_code))
         
-        if group:
-            group_id = group['id']
-            
-            # Add creator as member with 'active' status
-            Database.add_group_member(group_id, current_user.id, 'active')
-            
-            # Return JSON for AJAX requests
-            if request.is_json or request.content_type == 'application/json':
-                return jsonify({
-                    'status': 'success',
-                    'message': f'Groupe "{name}" créé avec succès !',
-                    'group_id': group_id,
-                    'group_name': name,
-                    'invite_code': invite_code
-                })
-            
-            flash(f'Groupe "{name}" créé avec succès ! Code d\'invitation : {invite_code}', 'success')
-            return redirect(url_for('group_detail', group_id=group_id))
+        group_id = cursor.lastrowid
+        
+        # Add creator as member with 'active' status
+        cursor.execute('''
+            INSERT INTO group_members (group_id, user_id, status)
+            VALUES (?, ?, ?)
+        ''', (group_id, current_user.id, 'active'))
+        
+        conn.commit()
+        conn.close()
+        
+        # Return JSON for AJAX requests
+        if request.is_json or request.content_type == 'application/json':
+            return jsonify({
+                'status': 'success',
+                'message': f'Groupe "{name}" créé avec succès !',
+                'group_id': group_id,
+                'group_name': name,
+                'invite_code': invite_code
+            })
+        
+        flash(f'Groupe "{name}" créé avec succès ! Code d\'invitation : {invite_code}', 'success')
+        return redirect(url_for('group_detail', group_id=group_id))
     
     return render_template('create_group.html')
 
@@ -257,74 +312,77 @@ def create_group():
 def join_group():
     """Join a group using invite code - now requires admin approval"""
     if request.method == 'POST':
-        try:
-            # Check if it's an AJAX request
-            if request.is_json or request.content_type == 'application/json':
-                data = request.get_json()
-                invite_code = data.get('invite_code')
-            else:
-                invite_code = request.form['invite_code']
-            
-            if not invite_code:
-                flash('Please enter an invite code', 'error')
-                return render_template('join_group.html')
-            
-            # Find group by invite code
-            group = Database.get_group_by_invite_code(invite_code)
-            
-            if not group:
-                if request.is_json or request.content_type == 'application/json':
-                    return jsonify({'status': 'error', 'message': 'Code d\'invitation invalide'}), 400
-                flash('Code d\'invitation invalide', 'error')
-                return render_template('join_group.html')
-            
-            group_id = group['id']
-            admin_id = group['created_by']
-            group_name = group['name']
-            
-            # Check if user is already a member (any status)
-            existing = Database.get_group_membership(group_id, current_user.id)
-            
-            if existing:
-                status = existing['status']
-                if status == 'active':
-                    message = 'Vous êtes déjà membre actif de ce groupe'
-                elif status == 'pending':
-                    message = 'Votre demande est en attente d\'approbation'
-                elif status == 'rejected':
-                    message = 'Votre demande a été refusée'
-                else:
-                    message = 'Vous avez déjà une demande en cours'
-                
-                if request.is_json or request.content_type == 'application/json':
-                    return jsonify({'status': 'error', 'message': message}), 400
-                flash(message, 'error')
-                return render_template('join_group.html')
-            
-            # Add user to group with 'pending' status
-            Database.add_group_member(group_id, current_user.id, 'pending')
-            
-            # Notify the admin
-            Database.create_notification(admin_id, group_id, 
-                f'{current_user.username} souhaite rejoindre le groupe "{group_name}". Attendez l\'approbation.')
-            
-            # Notify the user
-            Database.create_notification(current_user.id, group_id, 
-                f'Votre demande pour rejoindre "{group_name}" est en attente d\'approbation.')
-            
-            success_message = 'Demande envoyée ! Vous serez notifié lorsque l\'admin approuvera votre demande.'
-            if request.is_json or request.content_type == 'application/json':
-                return jsonify({'status': 'success', 'message': success_message})
-            
-            flash(success_message, 'success')
-            return redirect(url_for('dashboard'))
+        # Check if it's an AJAX request
+        if request.is_json or request.content_type == 'application/json':
+            data = request.get_json()
+            invite_code = data.get('invite_code')
+        else:
+            invite_code = request.form['invite_code']
         
-        except Exception as e:
-            print(f"Error in join_group: {str(e)}")
-            import traceback
-            traceback.print_exc()
-            flash(f'An error occurred: {str(e)}', 'error')
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # Find group by invite code
+        cursor.execute('SELECT id, created_by, name FROM groups WHERE invite_code = ?', (invite_code,))
+        group = cursor.fetchone()
+        
+        if not group:
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': 'Code d\'invitation invalide'}), 400
+            flash('Code d\'invitation invalide', 'error')
+            conn.close()
             return render_template('join_group.html')
+        
+        group_id = group['id']
+        admin_id = group['created_by']
+        group_name = group['name']
+        
+        # Check if user is already a member (any status)
+        cursor.execute('SELECT id, status FROM group_members WHERE group_id = ? AND user_id = ?', (group_id, current_user.id))
+        existing = cursor.fetchone()
+        
+        if existing:
+            status = existing['status']
+            if status == 'active':
+                message = 'Vous êtes déjà membre actif de ce groupe'
+            elif status == 'pending':
+                message = 'Votre demande est en attente d\'approbation'
+            elif status == 'rejected':
+                message = 'Votre demande a été refusée'
+            else:
+                message = 'Vous avez déjà une demande en cours'
+            
+            conn.close()
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': message}), 400
+            flash(message, 'error')
+            return render_template('join_group.html')
+        
+        # Add user to group with 'pending' status
+        cursor.execute('INSERT INTO group_members (group_id, user_id, status) VALUES (?, ?, ?)', 
+                      (group_id, current_user.id, 'pending'))
+        
+        # Notify the admin
+        cursor.execute('''
+            INSERT INTO notifications (user_id, group_id, message)
+            VALUES (?, ?, ?)
+        ''', (admin_id, group_id, f'{current_user.username} souhaite rejoindre le groupe "{group_name}". Attendez l\'approbation.'))
+        
+        # Notify the user
+        cursor.execute('''
+            INSERT INTO notifications (user_id, group_id, message)
+            VALUES (?, ?, ?)
+        ''', (current_user.id, group_id, f'Votre demande pour rejoindre "{group_name}" est en attente d\'approbation.'))
+        
+        conn.commit()
+        conn.close()
+        
+        success_message = 'Demande envoyée ! Vous serez notifié lorsque l\'admin approuvera votre demande.'
+        if request.is_json or request.content_type == 'application/json':
+            return jsonify({'status': 'success', 'message': success_message})
+        
+        flash(success_message, 'success')
+        return redirect(url_for('dashboard'))
     
     return render_template('join_group.html')
 
@@ -332,8 +390,12 @@ def join_group():
 @login_required
 def manage_requests(group_id):
     """Manage group join requests (admin only)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Get group details
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     if not group:
         flash('Groupe introuvable', 'error')
@@ -345,30 +407,32 @@ def manage_requests(group_id):
         return redirect(url_for('group_detail', group_id=group_id))
     
     # Get all pending and rejected members
-    all_requests = Database.get_pending_and_rejected_members(group_id)
+    cursor.execute('''
+        SELECT gm.id as membership_id, u.id as user_id, u.username, u.email, 
+               u.profile_picture, gm.joined_at, gm.status
+        FROM group_members gm
+        JOIN users u ON gm.user_id = u.id
+        WHERE gm.group_id = ? AND gm.status IN ('pending', 'rejected')
+        ORDER BY 
+            CASE gm.status 
+                WHEN 'pending' THEN 1 
+                WHEN 'rejected' THEN 2 
+            END,
+            gm.joined_at DESC
+    ''', (group_id,))
+    
+    all_requests = cursor.fetchall()
     
     # Separate pending and rejected
-    pending_members = []
-    rejected_members = []
-    
-    for req in all_requests:
-        member_data = {
-            'membership_id': req['id'],
-            'user_id': req['user_id'],
-            'username': req['users']['username'],
-            'email': req['users']['email'],
-            'profile_picture': req['users'].get('profile_picture'),
-            'joined_at': req['joined_at'],
-            'status': req['status']
-        }
-        
-        if req['status'] == 'pending':
-            pending_members.append(member_data)
-        else:
-            rejected_members.append(member_data)
+    pending_members = [m for m in all_requests if m['status'] == 'pending']
+    rejected_members = [m for m in all_requests if m['status'] == 'rejected']
     
     # Get active members count
-    active_count = Database.get_active_member_count(group_id)
+    cursor.execute('SELECT COUNT(*) FROM group_members WHERE group_id = ? AND status = ?', 
+                  (group_id, 'active'))
+    active_count = cursor.fetchone()[0]
+    
+    conn.close()
     
     return render_template('manage_requests.html', 
                          group=group, 
@@ -380,86 +444,81 @@ def manage_requests(group_id):
 @login_required
 def group_detail(group_id):
     """Group detail page with progress and contributions"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if user is active member of this group
-    membership = Database.get_group_membership(group_id, current_user.id)
-    if not membership or membership['status'] != 'active':
+    cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ? AND status = ?', 
+                  (group_id, current_user.id, 'active'))
+    if not cursor.fetchone():
         flash('Vous n\'êtes pas membre actif de ce groupe', 'error')
         return redirect(url_for('dashboard'))
     
     # Get group details
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     # Get group members (only active)
-    member_list = Database.get_group_members(group_id, 'active')
-    members = []
-    for m in member_list:
-        members.append({
-            'username': m['users']['username'],
-            'email': m['users']['email'],
-            'profile_picture': m['users'].get('profile_picture'),
-            'joined_at': m['joined_at'],
-            'status': m['status']
-        })
+    cursor.execute('''
+        SELECT u.username, u.email, u.profile_picture, gm.joined_at, gm.status
+        FROM group_members gm
+        JOIN users u ON gm.user_id = u.id
+        WHERE gm.group_id = ? AND gm.status = 'active'
+        ORDER BY gm.joined_at
+    ''', (group_id,))
     
-    # Check if current user is admin
-    is_admin = (group['created_by'] == current_user.id)
+    members = cursor.fetchall()
     
     # Get pending and rejected members (only for admin)
     pending_members = []
     rejected_members = []
+    is_admin = (group['created_by'] == current_user.id)
     if is_admin:
-        all_requests = Database.get_pending_and_rejected_members(group_id)
-        for req in all_requests:
-            member_data = {
-                'membership_id': req['id'],
-                'user_id': req['user_id'],
-                'username': req['users']['username'],
-                'email': req['users']['email'],
-                'profile_picture': req['users'].get('profile_picture'),
-                'joined_at': req['joined_at'],
-                'status': req['status']
-            }
-            
-            if req['status'] == 'pending':
-                pending_members.append(member_data)
-            else:
-                rejected_members.append(member_data)
+        cursor.execute('''
+            SELECT gm.id as membership_id, u.id as user_id, u.username, u.email, u.profile_picture, gm.joined_at, gm.status
+            FROM group_members gm
+            JOIN users u ON gm.user_id = u.id
+            WHERE gm.group_id = ? AND gm.status IN ('pending', 'rejected')
+            ORDER BY gm.status, gm.joined_at
+        ''', (group_id,))
+        all_requests = cursor.fetchall()
+        
+        # Separate pending and rejected
+        pending_members = [m for m in all_requests if m['status'] == 'pending']
+        rejected_members = [m for m in all_requests if m['status'] == 'rejected']
     
-    # Get total approved contributions
-    total_contributed = Database.get_total_contributions(group_id, 'approved')
+    # Get total approved contributions only
+    cursor.execute('SELECT COALESCE(SUM(amount), 0) FROM contributions WHERE group_id = ? AND status = "approved"', (group_id,))
+    total_contributed = cursor.fetchone()[0]
     
     # Get pending contributions (only for admin)
     pending_contributions = []
     if is_admin:
-        pending_contribs = Database.get_pending_contributions(group_id)
-        for pc in pending_contribs:
-            pending_contributions.append({
-                'id': pc['id'],
-                'amount': pc['amount'],
-                'description': pc['description'],
-                'proof_image': pc['proof_image'],
-                'contribution_date': pc['contribution_date'],
-                'user_id': pc['user_id'],
-                'username': pc['users']['username'],
-                'profile_picture': pc['users'].get('profile_picture')
-            })
+        cursor.execute('''
+            SELECT c.id, c.amount, c.description, c.proof_image, c.contribution_date, c.user_id, u.username, u.profile_picture
+            FROM contributions c
+            JOIN users u ON c.user_id = u.id
+            WHERE c.group_id = ? AND c.status = 'pending'
+            ORDER BY c.contribution_date DESC
+        ''', (group_id,))
+        pending_contributions = cursor.fetchall()
     
-    # Get approved contributions history
-    approved_contribs = Database.get_group_contributions(group_id, 'approved')
-    contributions = []
-    for ac in approved_contribs:
-        contributions.append({
-            'amount': ac['amount'],
-            'description': ac['description'],
-            'contribution_date': ac['contribution_date'],
-            'username': ac['users']['username'],
-            'profile_picture': ac['users'].get('profile_picture'),
-            'proof_image': ac.get('proof_image')
-        })
+    # Get approved contributions history only
+    cursor.execute('''
+        SELECT c.amount, c.description, c.contribution_date, u.username, u.profile_picture, c.proof_image
+        FROM contributions c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.group_id = ? AND c.status = 'approved'
+        ORDER BY c.contribution_date DESC
+    ''', (group_id,))
+    
+    contributions = cursor.fetchall()
     
     # Calculate progress percentage
     progress_percentage = (total_contributed / group['target_amount']) * 100 if group['target_amount'] > 0 else 0
 
+    conn.close()
+    
     return render_template('group_detail.html', group=group, members=members, 
                          total_contributed=total_contributed, contributions=contributions,
                          progress_percentage=progress_percentage, is_admin=is_admin,
@@ -474,10 +533,15 @@ def contribute(group_id):
         amount = float(request.form['amount'])
         description = request.form.get('description', '')
         
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
         # Check if user is active member of this group
-        membership = Database.get_group_membership(group_id, current_user.id)
-        if not membership or membership['status'] != 'active':
+        cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ? AND status = ?', 
+                      (group_id, current_user.id, 'active'))
+        if not cursor.fetchone():
             flash('Vous n\'êtes pas membre actif de ce groupe', 'error')
+            conn.close()
             return redirect(url_for('dashboard'))
         
         # Handle proof image upload (optional)
@@ -500,71 +564,108 @@ def contribute(group_id):
                 proof_image = f"uploads/proofs/{unique_filename}"
         
         # Determine initial status based on proof image
+        # If proof image provided, requires admin approval
+        # If no proof image, auto-approved
         status = 'pending' if proof_image else 'approved'
         
         # Add contribution
-        Database.create_contribution(group_id, current_user.id, amount, description, proof_image, status)
+        cursor.execute('''
+            INSERT INTO contributions (group_id, user_id, amount, description, proof_image, status)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (group_id, current_user.id, amount, description, proof_image, status))
         
         # Get group info
-        group = Database.get_group_by_id(group_id)
-        group_name = group['name']
-        admin_id = group['created_by']
+        cursor.execute('SELECT name, created_by FROM groups WHERE id = ?', (group_id,))
+        group_data = cursor.fetchone()
+        group_name = group_data['name']
+        admin_id = group_data['created_by']
         
         if status == 'pending':
             # Notify admin to review the contribution
-            Database.create_notification(admin_id, group_id, 
-                f'{current_user.username} submitted a contribution of {amount} MAD with proof image for review in "{group_name}"')
+            cursor.execute('''
+                INSERT INTO notifications (user_id, group_id, message)
+                VALUES (?, ?, ?)
+            ''', (admin_id, group_id, f'{current_user.username} submitted a contribution of {amount} MAD with proof image for review in "{group_name}"'))
             flash(f'Contribution de {amount} MAD soumise ! En attente de l\'approbation de l\'admin.', 'info')
         else:
             # Auto-approved, create notifications for other members
-            active_members = Database.get_group_members(group_id, 'active')
+            cursor.execute('''
+                SELECT user_id FROM group_members 
+                WHERE group_id = ? AND user_id != ? AND status = 'active'
+            ''', (group_id, current_user.id))
             
-            for member in active_members:
-                if member['user_id'] != current_user.id:
-                    Database.create_notification(member['user_id'], group_id, 
-                        f'{current_user.username} contributed {amount} MAD to "{group_name}"')
+            for member in cursor.fetchall():
+                cursor.execute('''
+                    INSERT INTO notifications (user_id, group_id, message)
+                    VALUES (?, ?, ?)
+                ''', (member['user_id'], group_id, f'{current_user.username} contributed {amount} MAD to "{group_name}"'))
             
             flash(f'Contribution de {amount} MAD ajoutée avec succès !', 'success')
         
+        conn.commit()
+        conn.close()
+        
         return redirect(url_for('group_detail', group_id=group_id))
     
-    group = Database.get_group_by_id(group_id)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
+    conn.close()
+    
     return render_template('contribute.html', group=group)
 
 @app.route('/groups/<int:group_id>/contributions/<int:contribution_id>/approve', methods=['POST'])
 @login_required
 def approve_contribution(group_id, contribution_id):
     """Approve a pending contribution (admin only)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if current user is admin of the group
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT created_by, name FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     if not group or group['created_by'] != current_user.id:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Accès non autorisé'}), 403
     
     # Check if contribution exists and is pending
-    contribution = Database.get_contribution_by_id(contribution_id)
+    cursor.execute('SELECT id, user_id, amount, status FROM contributions WHERE id = ? AND group_id = ? AND status = ?', 
+                  (contribution_id, group_id, 'pending'))
+    contribution = cursor.fetchone()
     
-    if not contribution or contribution['group_id'] != group_id or contribution['status'] != 'pending':
+    if not contribution:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Contribution introuvable'}), 404
     
     # Update status to approved
-    Database.update_contribution_status(contribution_id, 'approved')
+    cursor.execute('UPDATE contributions SET status = ? WHERE id = ?', ('approved', contribution_id))
     
     # Get contributor info
-    contributor = Database.get_user_by_id(contribution['user_id'])
-    username = contributor['username']
+    cursor.execute('SELECT username FROM users WHERE id = ?', (contribution['user_id'],))
+    username = cursor.fetchone()['username']
     
     # Notify the contributor
-    Database.create_notification(contribution['user_id'], group_id, 
-        f'Your contribution of {contribution["amount"]} MAD to "{group["name"]}" has been approved!')
+    cursor.execute('''
+        INSERT INTO notifications (user_id, group_id, message)
+        VALUES (?, ?, ?)
+    ''', (contribution['user_id'], group_id, f'Your contribution of {contribution["amount"]} MAD to "{group["name"]}" has been approved!'))
     
     # Notify other group members
-    active_members = Database.get_group_members(group_id, 'active')
+    cursor.execute('''
+        SELECT user_id FROM group_members 
+        WHERE group_id = ? AND user_id != ? AND user_id != ? AND status = 'active'
+    ''', (group_id, contribution['user_id'], current_user.id))
     
-    for member in active_members:
-        if member['user_id'] != contribution['user_id'] and member['user_id'] != current_user.id:
-            Database.create_notification(member['user_id'], group_id, 
-                f'{username} contributed {contribution["amount"]} MAD to "{group["name"]}"')
+    for member in cursor.fetchall():
+        cursor.execute('''
+            INSERT INTO notifications (user_id, group_id, message)
+            VALUES (?, ?, ?)
+        ''', (member['user_id'], group_id, f'{username} contributed {contribution["amount"]} MAD to "{group["name"]}"'))
+    
+    conn.commit()
+    conn.close()
     
     return jsonify({'status': 'success', 'message': 'Contribution approuvée avec succès !'})
 
@@ -572,24 +673,37 @@ def approve_contribution(group_id, contribution_id):
 @login_required
 def reject_contribution(group_id, contribution_id):
     """Reject a pending contribution (admin only)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if current user is admin of the group
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT created_by, name FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     if not group or group['created_by'] != current_user.id:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Accès non autorisé'}), 403
     
     # Check if contribution exists and is pending
-    contribution = Database.get_contribution_by_id(contribution_id)
+    cursor.execute('SELECT id, user_id, amount FROM contributions WHERE id = ? AND group_id = ? AND status = ?', 
+                  (contribution_id, group_id, 'pending'))
+    contribution = cursor.fetchone()
     
-    if not contribution or contribution['group_id'] != group_id or contribution['status'] != 'pending':
+    if not contribution:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Contribution introuvable'}), 404
     
     # Update status to rejected
-    Database.update_contribution_status(contribution_id, 'rejected')
+    cursor.execute('UPDATE contributions SET status = ? WHERE id = ?', ('rejected', contribution_id))
     
     # Notify the contributor
-    Database.create_notification(contribution['user_id'], group_id, 
-        f'Your contribution of {contribution["amount"]} MAD to "{group["name"]}" has been rejected. Please contact the admin for more info.')
+    cursor.execute('''
+        INSERT INTO notifications (user_id, group_id, message)
+        VALUES (?, ?, ?)
+    ''', (contribution['user_id'], group_id, f'Your contribution of {contribution["amount"]} MAD to "{group["name"]}" has been rejected. Please contact the admin for more info.'))
+    
+    conn.commit()
+    conn.close()
     
     return jsonify({'status': 'success', 'message': 'Contribution rejetée'})
 
@@ -597,7 +711,15 @@ def reject_contribution(group_id, contribution_id):
 @login_required
 def mark_notification_read(notification_id):
     """Mark a notification as read"""
-    Database.mark_notification_read(notification_id, current_user.id)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE notifications SET is_read = TRUE 
+        WHERE id = ? AND user_id = ?
+    ''', (notification_id, current_user.id))
+    conn.commit()
+    conn.close()
+    
     return jsonify({'status': 'success'})
 
 @app.route('/export/<int:group_id>')
@@ -605,16 +727,29 @@ def mark_notification_read(notification_id):
 @premium_required
 def export_group_data(group_id):
     """Export group data as CSV (Premium feature)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if user is member of this group
-    membership = Database.get_group_membership(group_id, current_user.id)
-    if not membership:
+    cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ?', (group_id, current_user.id))
+    if not cursor.fetchone():
         flash('Vous n\'êtes pas membre de ce groupe', 'error')
         return redirect(url_for('dashboard'))
     
     # Get group data
-    export_data = Database.get_group_export_data(group_id)
-    group = export_data['group']
-    contributions = export_data['contributions']
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
+    
+    cursor.execute('''
+        SELECT c.amount, c.description, c.contribution_date, u.username
+        FROM contributions c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.group_id = ?
+        ORDER BY c.contribution_date DESC
+    ''', (group_id,))
+    
+    contributions = cursor.fetchall()
+    conn.close()
     
     # Generate CSV content
     csv_content = f"Group: {group['name']}\n"
@@ -623,7 +758,7 @@ def export_group_data(group_id):
     csv_content += "Amount,Description,Date,Contributor\n"
     
     for contribution in contributions:
-        csv_content += f"{contribution['amount']},{contribution['description']},{contribution['contribution_date']},{contribution['users']['username']}\n"
+        csv_content += f"{contribution['amount']},{contribution['description']},{contribution['contribution_date']},{contribution['username']}\n"
     
     from flask import Response
     return Response(
@@ -641,7 +776,12 @@ def pricing():
 @login_required
 def upgrade():
     """Upgrade to premium (simulated)"""
-    Database.update_user_premium(current_user.id, True)
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('UPDATE users SET is_premium = TRUE WHERE id = ?', (current_user.id,))
+    conn.commit()
+    conn.close()
+    
     flash('Félicitations ! Vous avez été mis à niveau vers Premium !', 'success')
     return redirect(url_for('dashboard'))
 
@@ -657,36 +797,49 @@ def update_profile():
             flash('Username and email are required', 'error')
             return redirect(url_for('settings'))
         
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
         # Check if username is taken by another user
-        existing_user = Database.get_user_by_username(username)
-        if existing_user and existing_user['id'] != current_user.id:
+        cursor.execute('SELECT id FROM users WHERE username = ? AND id != ?', (username, current_user.id))
+        if cursor.fetchone():
             flash('Username already taken by another user', 'error')
+            conn.close()
             return redirect(url_for('settings'))
         
         # Check if email is taken by another user
-        existing_email = Database.get_user_by_email(email)
-        if existing_email and existing_email['id'] != current_user.id:
+        cursor.execute('SELECT id FROM users WHERE email = ? AND id != ?', (email, current_user.id))
+        if cursor.fetchone():
             flash('Email already taken by another user', 'error')
+            conn.close()
             return redirect(url_for('settings'))
         
         # Update user information
-        updated_user = Database.update_user(current_user.id, username=username, email=email)
+        cursor.execute('UPDATE users SET username = ?, email = ? WHERE id = ?',
+                      (username, email, current_user.id))
+        rows_affected = cursor.rowcount
+        conn.commit()
         
-        if updated_user:
-            # Reload user from database
-            user_data = Database.get_user_by_id(current_user.id)
-            
-            if user_data:
-                from flask_login import logout_user, login_user
-                new_user = User(user_data['id'], user_data['username'], user_data['email'], 
-                               user_data['is_premium'], user_data.get('profile_picture'))
-                logout_user()
-                login_user(new_user)
-                flash('Profile updated successfully!', 'success')
-            else:
-                flash('Error reloading user data', 'error')
-        else:
+        # Verify update was successful
+        if rows_affected == 0:
             flash('Error: Profile update failed', 'error')
+            conn.close()
+            return redirect(url_for('settings'))
+        
+        # Reload user from database
+        cursor.execute('SELECT id, username, email, is_premium, profile_picture FROM users WHERE id = ?', (current_user.id,))
+        user_data = cursor.fetchone()
+        conn.close()
+        
+        if user_data:
+            from flask_login import logout_user, login_user
+            updated_user = User(user_data['id'], user_data['username'], user_data['email'], 
+                               user_data['is_premium'], user_data['profile_picture'])
+            logout_user()
+            login_user(updated_user)
+            flash('Profile updated successfully!', 'success')
+        else:
+            flash('Error reloading user data', 'error')
         
         return redirect(url_for('settings'))
         
@@ -715,7 +868,7 @@ def upload_profile_picture():
         
         # Check file extension
         allowed_extensions = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-        filename = secure_filename(file.filename) if file.filename else 'profile.jpg'
+        filename = secure_filename(file.filename)
         file_ext = filename.rsplit('.', 1)[1].lower() if '.' in filename else ''
         
         if file_ext not in allowed_extensions:
@@ -743,15 +896,24 @@ def upload_profile_picture():
         profile_picture_path = f"uploads/profiles/{unique_filename}"
         
         # Update database
-        Database.update_user(current_user.id, profile_picture=profile_picture_path)
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE users SET profile_picture = ? WHERE id = ?', 
+                      (profile_picture_path, current_user.id))
+        conn.commit()
+        conn.close()
         
         # Force reload user from database
         from flask_login import logout_user, login_user
-        user_data = Database.get_user_by_id(current_user.id)
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, username, email, is_premium, profile_picture FROM users WHERE id = ?', (current_user.id,))
+        user_data = cursor.fetchone()
+        conn.close()
         
         if user_data:
             updated_user = User(user_data['id'], user_data['username'], user_data['email'], 
-                               user_data['is_premium'], user_data.get('profile_picture'))
+                               user_data['is_premium'], user_data['profile_picture'])
             logout_user()
             login_user(updated_user)
         
@@ -766,30 +928,34 @@ def upload_profile_picture():
 @login_required
 def group_analytics(group_id):
     """Group analytics page with charts and predictions"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if user is member of this group
-    membership = Database.get_group_membership(group_id, current_user.id)
-    if not membership or membership['status'] != 'active':
+    cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ? AND status = ?', 
+                  (group_id, current_user.id, 'active'))
+    if not cursor.fetchone():
         flash('Vous n\'êtes pas membre de ce groupe', 'error')
+        conn.close()
         return redirect(url_for('dashboard'))
     
     # Get group info
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT * FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     # Get all approved contributions
-    contributions = Database.get_all_contributions_for_analytics(group_id)
-    
-    # Format contributions for template
-    formatted_contribs = []
-    for c in contributions:
-        formatted_contribs.append({
-            'amount': c['amount'],
-            'contribution_date': c['contribution_date'],
-            'username': c['users']['username'],
-            'profile_picture': c['users'].get('profile_picture')
-        })
+    cursor.execute('''
+        SELECT c.amount, c.contribution_date, u.username, u.profile_picture
+        FROM contributions c
+        JOIN users u ON c.user_id = u.id
+        WHERE c.group_id = ? AND c.status = 'approved'
+        ORDER BY c.contribution_date
+    ''', (group_id,))
+    contributions = cursor.fetchall()
     
     # Get total contributed
-    total_contributed = Database.get_total_contributions(group_id, 'approved')
+    cursor.execute('SELECT COALESCE(SUM(amount), 0) FROM contributions WHERE group_id = ? AND status = "approved"', (group_id,))
+    total_contributed = cursor.fetchone()[0]
     
     # Calculate progress percentage
     progress_percentage = (total_contributed / group['target_amount']) * 100 if group['target_amount'] > 0 else 0
@@ -798,16 +964,16 @@ def group_analytics(group_id):
     import statistics
     from datetime import datetime, timedelta
     
-    contribution_amounts = [float(c['amount']) for c in formatted_contribs]
+    contribution_amounts = [float(c['amount']) for c in contributions]
     
     avg_contribution = round(statistics.mean(contribution_amounts), 2) if contribution_amounts else 0
     median_contribution = round(statistics.median(contribution_amounts), 2) if contribution_amounts else 0
     std_dev = round(statistics.stdev(contribution_amounts), 2) if len(contribution_amounts) > 1 else 0
     
     # Calculate days active
-    if formatted_contribs:
-        first_contribution = datetime.fromisoformat(formatted_contribs[0]['contribution_date'].replace('Z', '+00:00'))
-        days_active = (datetime.now() - first_contribution.replace(tzinfo=None)).days + 1
+    if contributions:
+        first_contribution = datetime.strptime(contributions[0]['contribution_date'], '%Y-%m-%d %H:%M:%S')
+        days_active = (datetime.now() - first_contribution).days + 1
     else:
         days_active = 1
     
@@ -815,20 +981,31 @@ def group_analytics(group_id):
     progress_dates = []
     progress_amounts = []
     cumulative = 0
-    for contrib in formatted_contribs:
+    for contrib in contributions:
         cumulative += float(contrib['amount'])
-        date_str = contrib['contribution_date'][:10] if isinstance(contrib['contribution_date'], str) else str(contrib['contribution_date'])[:10]
-        progress_dates.append(date_str)
+        progress_dates.append(contrib['contribution_date'][:10])
         progress_amounts.append(cumulative)
     
     # Member statistics
-    member_stats_data = Database.get_member_contribution_stats(group_id)
+    cursor.execute('''
+        SELECT u.username, u.profile_picture,
+               COALESCE(SUM(c.amount), 0) as total,
+               COUNT(c.id) as count,
+               MAX(c.contribution_date) as last_date
+        FROM users u
+        JOIN group_members gm ON u.id = gm.user_id
+        LEFT JOIN contributions c ON u.id = c.user_id AND c.group_id = ? AND c.status = 'approved'
+        WHERE gm.group_id = ? AND gm.status = 'active'
+        GROUP BY u.id, u.username, u.profile_picture
+        ORDER BY total DESC
+    ''', (group_id, group_id))
+    member_data = cursor.fetchall()
     
     member_stats = []
     member_names = []
     member_totals = []
     
-    for member in member_stats_data:
+    for member in member_data:
         total = float(member['total'])
         count = member['count']
         average = round(total / count, 2) if count > 0 else 0
@@ -851,20 +1028,19 @@ def group_analytics(group_id):
         member_names.append(member['username'])
         member_totals.append(round(total, 2))
     
-    # Monthly trend - simplified for Supabase
-    monthly_labels = []
-    monthly_amounts = []
+    # Monthly trend
+    cursor.execute('''
+        SELECT strftime('%Y-%m', contribution_date) as month,
+               SUM(amount) as total
+        FROM contributions
+        WHERE group_id = ? AND status = 'approved'
+        GROUP BY month
+        ORDER BY month
+    ''', (group_id,))
+    monthly_data = cursor.fetchall()
     
-    if formatted_contribs:
-        from collections import defaultdict
-        monthly_data = defaultdict(float)
-        
-        for contrib in formatted_contribs:
-            date_str = contrib['contribution_date'][:7] if isinstance(contrib['contribution_date'], str) else str(contrib['contribution_date'])[:7]
-            monthly_data[date_str] += float(contrib['amount'])
-        
-        monthly_labels = sorted(monthly_data.keys())
-        monthly_amounts = [monthly_data[month] for month in monthly_labels]
+    monthly_labels = [m['month'] for m in monthly_data]
+    monthly_amounts = [float(m['total']) for m in monthly_data]
     
     # Predictive analysis
     current_monthly = round(sum(monthly_amounts) / len(monthly_amounts), 2) if monthly_amounts else 0
@@ -877,11 +1053,8 @@ def group_analytics(group_id):
         estimated_completion = 'Unknown'
         months_needed = 999
     
-    required_monthly = 0
-    if group['deadline']:
-        deadline_date = datetime.fromisoformat(str(group['deadline']))
-        months_remaining = max(1, (deadline_date.year - datetime.now().year) * 12 + (deadline_date.month - datetime.now().month))
-        required_monthly = round(remaining / months_remaining, 2)
+    required_monthly = round(remaining / max(1, (datetime.strptime(group['deadline'], '%Y-%m-%d').year - datetime.now().year) * 12 + 
+                                            (datetime.strptime(group['deadline'], '%Y-%m-%d').month - datetime.now().month)), 2) if group['deadline'] else 0
     
     # Prediction status
     if progress_percentage >= 100:
@@ -937,6 +1110,8 @@ def group_analytics(group_id):
         'low': round((low_freq / total_members * 100), 1) if total_members > 0 else 0
     }
     
+    conn.close()
+    
     return render_template('group_analytics.html',
                          group=group,
                          total_contributed=round(total_contributed, 2),
@@ -976,15 +1151,21 @@ def settings():
 @login_required
 def api_group_progress(group_id):
     """API endpoint for group progress data"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if user is member
-    membership = Database.get_group_membership(group_id, current_user.id)
-    if not membership:
+    cursor.execute('SELECT id FROM group_members WHERE group_id = ? AND user_id = ?', (group_id, current_user.id))
+    if not cursor.fetchone():
         return jsonify({'error': 'Access denied'}), 403
     
-    group = Database.get_group_by_id(group_id)
-    target_amount = group['target_amount']
+    cursor.execute('SELECT target_amount FROM groups WHERE id = ?', (group_id,))
+    target_amount = cursor.fetchone()[0]
     
-    total_contributed = Database.get_total_contributions(group_id)
+    cursor.execute('SELECT COALESCE(SUM(amount), 0) FROM contributions WHERE group_id = ?', (group_id,))
+    total_contributed = cursor.fetchone()[0]
+    
+    conn.close()
     
     return jsonify({
         'target': float(target_amount),
@@ -996,30 +1177,45 @@ def api_group_progress(group_id):
 @login_required
 def approve_member(group_id, user_id):
     """Approve a pending or rejected member request (admin only)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if current user is admin of the group
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT created_by FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     if not group or group['created_by'] != current_user.id:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Accès non autorisé'}), 403
     
     # Check if membership exists and is pending or rejected
-    membership = Database.get_group_membership(group_id, user_id)
+    cursor.execute('SELECT id, status FROM group_members WHERE group_id = ? AND user_id = ? AND status IN (?, ?)', 
+                  (group_id, user_id, 'pending', 'rejected'))
+    membership = cursor.fetchone()
     
-    if not membership or membership['status'] not in ['pending', 'rejected']:
+    if not membership:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Demande introuvable'}), 404
     
     # Update status to active
-    Database.update_member_status(group_id, user_id, 'active')
+    cursor.execute('UPDATE group_members SET status = ? WHERE group_id = ? AND user_id = ?', 
+                  ('active', group_id, user_id))
     
     # Get group name and user info for notification
-    group_name = group['name']
+    cursor.execute('SELECT name FROM groups WHERE id = ?', (group_id,))
+    group_name = cursor.fetchone()['name']
     
-    user = Database.get_user_by_id(user_id)
-    username = user['username']
+    cursor.execute('SELECT username FROM users WHERE id = ?', (user_id,))
+    username = cursor.fetchone()['username']
     
     # Notify the user
-    Database.create_notification(user_id, group_id, 
-        f'Votre demande pour rejoindre "{group_name}" a été approuvée !')
+    cursor.execute('''
+        INSERT INTO notifications (user_id, group_id, message)
+        VALUES (?, ?, ?)
+    ''', (user_id, group_id, f'Votre demande pour rejoindre "{group_name}" a été approuvée !'))
+    
+    conn.commit()
+    conn.close()
     
     return jsonify({'status': 'success', 'message': f'{username} a été ajouté au groupe avec succès'})
 
@@ -1027,36 +1223,48 @@ def approve_member(group_id, user_id):
 @login_required
 def reject_member(group_id, user_id):
     """Reject a pending member request (admin only)"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
     # Check if current user is admin of the group
-    group = Database.get_group_by_id(group_id)
+    cursor.execute('SELECT created_by FROM groups WHERE id = ?', (group_id,))
+    group = cursor.fetchone()
     
     if not group or group['created_by'] != current_user.id:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Accès non autorisé'}), 403
     
-    # Check if membership exists and is pending
-    membership = Database.get_group_membership(group_id, user_id)
+    # Check if membership exists and is pending (can only reject pending requests)
+    cursor.execute('SELECT id, status FROM group_members WHERE group_id = ? AND user_id = ? AND status = ?', 
+                  (group_id, user_id, 'pending'))
+    membership = cursor.fetchone()
     
-    if not membership or membership['status'] != 'pending':
+    if not membership:
+        conn.close()
         return jsonify({'status': 'error', 'message': 'Demande introuvable ou déjà traitée'}), 404
     
     # Update status to rejected
-    Database.update_member_status(group_id, user_id, 'rejected')
+    cursor.execute('UPDATE group_members SET status = ? WHERE group_id = ? AND user_id = ?', 
+                  ('rejected', group_id, user_id))
     
     # Get group name and user info for notification
-    group_name = group['name']
+    cursor.execute('SELECT name FROM groups WHERE id = ?', (group_id,))
+    group_name = cursor.fetchone()['name']
     
-    user = Database.get_user_by_id(user_id)
-    username = user['username']
+    cursor.execute('SELECT username FROM users WHERE id = ?', (user_id,))
+    username = cursor.fetchone()['username']
     
     # Notify the user
-    Database.create_notification(user_id, group_id, 
-        f'Votre demande pour rejoindre "{group_name}" a été refusée.')
+    cursor.execute('''
+        INSERT INTO notifications (user_id, group_id, message)
+        VALUES (?, ?, ?)
+    ''', (user_id, group_id, f'Votre demande pour rejoindre "{group_name}" a été refusée.'))
+    
+    conn.commit()
+    conn.close()
     
     return jsonify({'status': 'success', 'message': f'La demande de {username} a été refusée'})
 
 if __name__ == '__main__':
-    db.init_db()
+    init_db()
     app.run(debug=True, host='0.0.0.0', port=5000)
-else:
-    # For Vercel serverless deployment
-    db.init_db()
