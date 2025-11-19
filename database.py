@@ -15,8 +15,12 @@ load_dotenv()
 SUPABASE_URL = os.getenv('SUPABASE_URL')
 SUPABASE_ANON_KEY = os.getenv('SUPABASE_ANON_KEY')
 
-# Initialize Supabase client
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+# Initialize Supabase client only if credentials are provided
+if SUPABASE_URL and SUPABASE_ANON_KEY:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_ANON_KEY)
+else:
+    supabase = None
+    print("Warning: SUPABASE_URL or SUPABASE_ANON_KEY not set")
 
 
 class Database:
@@ -28,6 +32,9 @@ class Database:
         Initialize database - verify connection
         Schema should be created manually in Supabase SQL Editor using supabase_schema.sql
         """
+        if not supabase:
+            raise Exception("Supabase client not initialized. Check SUPABASE_URL and SUPABASE_ANON_KEY environment variables.")
+        
         try:
             # Test connection by querying users table
             supabase.table('users').select('id').limit(1).execute()
