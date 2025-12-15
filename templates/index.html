@@ -89,86 +89,49 @@
                 </div>
             </div>
             
-            <!-- Enhanced Visual Section -->
+            <!-- Simplified Illustration Section -->
             <div class="col-lg-6 text-center">
                 <div class="hero-visual position-relative animate-slide-in-right">
-                    <!-- Floating Elements -->
-                    <div class="floating-elements">
-                        <div class="floating-card savings-card animate-zoom-in" style="animation-delay: 0.6s;">
-                            <div class="card-icon">
-                                <i class="fas fa-users"></i>
+                    <!-- Illustration Container -->
+                    <div class="illustration-container rounded-4 shadow-lg" style="height: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
+                        <!-- Decorative Elements -->
+                        <div class="illustration-elements">
+                            <div class="element element-1" style="position: absolute; top: 15%; left: 10%; opacity: 0.7;">
+                                <i class="fas fa-piggy-bank fa-3x text-warning"></i>
                             </div>
-                            <div class="card-content">
-                                <div class="card-number">5</div>
-                                <div class="card-label">Membres</div>
+                            <div class="element element-2" style="position: absolute; bottom: 20%; right: 15%; opacity: 0.7;">
+                                <i class="fas fa-users fa-3x text-info"></i>
                             </div>
-                            <div class="card-glow"></div>
+                            <div class="element element-3" style="position: absolute; top: 40%; right: 20%; opacity: 0.7;">
+                                <i class="fas fa-chart-line fa-3x text-success"></i>
+                            </div>
                         </div>
                         
-                        <div class="floating-card progress-card animate-zoom-in" style="animation-delay: 0.8s;">
-                            <div class="card-icon">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-number">75%</div>
-                                <div class="card-label">Terminé</div>
-                            </div>
-                            <div class="card-glow"></div>
-                        </div>
-                        
-                        <div class="floating-card amount-card animate-zoom-in" style="animation-delay: 1s;">
-                            <div class="card-icon">
-                                <i class="fas fa-coins"></i>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-number">15K</div>
-                                <div class="card-label">MAD Épargné</div>
-                            </div>
-                            <div class="card-glow"></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Main Visual -->
-                    <div class="main-visual">
-                        <div class="savings-dashboard">
-                            <div class="dashboard-header">
-                                <h4 class="dashboard-title">Fonds Mariage</h4>
-                                <div class="dashboard-status">Actif</div>
-                            </div>
-                            
-                            <div class="progress-visual">
-                                <div class="progress-ring-container">
-                                    <svg class="progress-ring" width="280" height="280">
-                                        <circle class="progress-ring-bg" stroke="#ffffff20" stroke-width="6" fill="transparent" r="130" cx="140" cy="140"/>
-                                        <circle class="progress-ring-fill" stroke="url(#gradient)" stroke-width="6" fill="transparent" r="130" cx="140" cy="140" style="stroke-dasharray: 816.8; stroke-dashoffset: 204.2;"/>
-                                        <defs>
-                                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                                <stop offset="0%" style="stop-color:#10B981"/>
-                                                <stop offset="100%" style="stop-color:#34D399"/>
-                                            </linearGradient>
-                                        </defs>
-                                    </svg>
-                                    <div class="progress-content">
-                                        <div class="progress-percentage">75%</div>
-                                        <div class="progress-amount">15,000 MAD</div>
-                                        <div class="progress-target">sur 20,000 MAD</div>
+                        <!-- Content -->
+                        <div class="illustration-content d-flex flex-column align-items-center justify-content-center h-100 position-relative" style="z-index: 2; padding: 2rem;">
+                            <div class="text-center">
+                                <div class="mb-4">
+                                    <i class="fas fa-film fa-4x text-primary mb-3"></i>
+                                </div>
+                                <h3 class="display-6 fw-bold text-white mb-3">Découvrez SaveTogether</h3>
+                                <p class="lead text-white mb-4">Une plateforme innovante pour épargner collectivement avec vos proches.</p>
+                                
+                                <div class="video-info bg-dark bg-opacity-50 rounded-3 p-4 mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0 text-white"><i class="fas fa-info-circle me-2"></i>À Propos</h5>
+                                        <span class="badge bg-primary">2:45 min</span>
                                     </div>
+                                    <ul class="text-start text-white list-unstyled mb-0">
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Création de groupes d'épargne</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Suivi des contributions</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Analyse des progrès</li>
+                                        <li><i class="fas fa-check-circle text-success me-2"></i>Épargne collaborative</li>
+                                    </ul>
                                 </div>
-                            </div>
-                            
-                            <div class="dashboard-stats">
-                                <div class="stat-item">
-                                    <div class="stat-value">5</div>
-                                    <div class="stat-label">Membres</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">42</div>
-                                    <div class="stat-label">Jours Restants</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-value">1.2K</div>
-                                    <div class="stat-label">Moy/Mois</div>
-                                </div>
+                                
+                                <button class="btn btn-primary btn-lg px-4" onclick="showMoreInfo()">
+                                    <i class="fas fa-play-circle me-2"></i>En Savoir Plus
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -330,8 +293,8 @@
                 <div class="card h-100 border-2 shadow-sm">
                     <div class="card-header text-center bg-light py-4">
                         <h3 class="mb-2">Freemium</h3>
-                        <div class="display-4 fw-bold text-primary mb-2">0 MAD</div>
-                        <p class="text-muted mb-0">par mois</p>
+                        <div class="display-4 fw-bold text-danger mb-2" style="opacity: 1; color: #dc3545 !important;">0 MAD</div>
+                        <p class="text-dark mb-0">par mois</p>
                     </div>
                     <div class="card-body p-4">
                         <ul class="list-unstyled mb-4">
@@ -519,9 +482,12 @@
                 <h2 class="display-5 fw-bold mb-4">Prêt à Commencer à Épargner Ensemble ?</h2>
                 <p class="lead mb-4">Rejoignez des milliers d'utilisateurs qui atteignent déjà leurs objectifs financiers avec SaveTogether.</p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg px-5">
+                    <button type="button" class="btn btn-primary btn-lg px-5" data-bs-toggle="modal" data-bs-target="#registerModal">
                         <i class="fas fa-user-plus me-2"></i>S'inscrire Gratuitement
-                    </a>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-lg px-5" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                    </button>
                     <a href="{{ url_for('pricing') }}" class="btn btn-outline-primary btn-lg px-5">
                         <i class="fas fa-crown me-2"></i>Voir les Tarifs
                     </a>
@@ -530,4 +496,199 @@
         </div>
     </div>
 </section>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="modal_username" class="form-label">Nom d'utilisateur</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" class="form-control" id="modal_username" name="username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modal_password" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" id="modal_password" name="password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Se Connecter
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-0">Vous n'avez pas de compte ?</p>
+                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-2"></i>Créer un Compte
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-plus me-2"></i>Créer un Compte
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label for="modal_reg_username" class="form-label">Nom d'utilisateur</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" class="form-control" id="modal_reg_username" name="username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modal_reg_email" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                            <input type="email" class="form-control" id="modal_reg_email" name="email" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="modal_reg_password" class="form-label">Mot de passe</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control" id="modal_reg_password" name="password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Créer le Compte
+                        </button>
+                    </div>
+                </form>
+                
+                <hr class="my-4">
+                
+                <div class="text-center">
+                    <p class="mb-0">Vous avez déjà un compte ?</p>
+                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Handle login form submission
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        username: document.getElementById('modal_username').value,
+        password: document.getElementById('modal_password').value
+    };
+    
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            // Close modal
+            const modalElement = document.getElementById('loginModal');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+            }
+            
+            // Redirect to dashboard
+            window.location.href = '/dashboard';
+        } else {
+            alert('Erreur: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Erreur lors de la connexion: ' + error.message);
+    }
+});
+
+// Handle registration form submission
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        username: document.getElementById('modal_reg_username').value,
+        email: document.getElementById('modal_reg_email').value,
+        password: document.getElementById('modal_reg_password').value
+    };
+    
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            // Close modal
+            const modalElement = document.getElementById('registerModal');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            if (modal) {
+                modal.hide();
+            }
+            
+            // Redirect to dashboard
+            window.location.href = '/dashboard';
+        } else {
+            alert('Erreur: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Erreur lors de l\'inscription: ' + error.message);
+    }
+});
+</script>
 {% endblock %}

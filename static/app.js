@@ -565,6 +565,741 @@ function createToastContainer() {
     return container;
 }
 
+// Three.js animation for savings visualization
+function initSavingsAnimation() {
+    // Check if we're on the homepage and the container exists
+    const container = document.getElementById('savings-animation');
+    if (!container) return;
+
+    // Set up Three.js scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x0a192f, 1);
+    container.appendChild(renderer.domElement);
+
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+
+    // Create coins (representing savings)
+    const coins = [];
+    const coinGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.1, 32);
+    const coinMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xf1c40f,
+        shininess: 100,
+        emissive: 0xd35400,
+        emissiveIntensity: 0.2
+    });
+
+    // Create a stack of coins that grows over time
+    for (let i = 0; i < 15; i++) {
+        const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+        coin.rotation.x = Math.PI / 2;
+        coin.position.y = i * 0.15;
+        coin.position.x = Math.sin(i * 0.5) * 0.5;
+        coin.position.z = Math.cos(i * 0.5) * 0.5;
+        coin.scale.set(0.01, 0.01, 0.01); // Start small
+        scene.add(coin);
+        coins.push({
+            mesh: coin,
+            targetScale: 1,
+            speed: 0.02 + Math.random() * 0.03,
+            delay: i * 30 // Stagger the animation
+        });
+    }
+
+    // Create a piggy bank
+    const piggyBankGroup = new THREE.Group();
+    
+    // Body
+    const bodyGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    piggyBankGroup.add(body);
+    
+    // Head
+    const headGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+    const headMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.set(0, 0, 1);
+    piggyBankGroup.add(head);
+    
+    // Legs
+    const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.5, 16);
+    const legMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    
+    for (let i = 0; i < 4; i++) {
+        const leg = new THREE.Mesh(legGeometry, legMaterial);
+        const x = i % 2 === 0 ? -0.4 : 0.4;
+        const z = i < 2 ? -0.4 : 0.4;
+        leg.position.set(x, -0.7, z);
+        leg.rotation.x = Math.PI / 2;
+        piggyBankGroup.add(leg);
+    }
+    
+    // Slot
+    const slotGeometry = new THREE.BoxGeometry(0.4, 0.05, 0.05);
+    const slotMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+    const slot = new THREE.Mesh(slotGeometry, slotMaterial);
+    slot.position.set(0, 0.2, 0.9);
+    piggyBankGroup.add(slot);
+    
+    piggyBankGroup.position.set(3, -1, 0);
+    piggyBankGroup.scale.set(0.8, 0.8, 0.8);
+    scene.add(piggyBankGroup);
+
+    // Position camera
+    camera.position.z = 5;
+    camera.position.y = 1;
+
+    // Animation variables
+    let frameCount = 0;
+    const clock = new THREE.Clock();
+
+    // Handle window resize
+    function onWindowResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+    window.addEventListener('resize', onWindowResize);
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        const delta = clock.getDelta();
+        frameCount++;
+        
+        // Animate coins growing
+        coins.forEach((coinObj, index) => {
+            if (frameCount > coinObj.delay) {
+                const currentScale = coinObj.mesh.scale.x;
+                if (currentScale < coinObj.targetScale) {
+                    const newScale = Math.min(currentScale + coinObj.speed * delta, coinObj.targetScale);
+                    coinObj.mesh.scale.set(newScale, newScale, newScale);
+                }
+            }
+        });
+        
+        // Rotate piggy bank gently
+        piggyBankGroup.rotation.y += 0.005;
+        
+        // Move coins toward piggy bank occasionally
+        if (frameCount % 200 === 0) {
+            coins.forEach((coinObj, index) => {
+                // Animate a few coins moving toward the piggy bank
+                if (index > coins.length - 4 && index < coins.length - 1) {
+                    coinObj.mesh.position.x += (piggyBankGroup.position.x - coinObj.mesh.position.x) * 0.01;
+                    coinObj.mesh.position.z += (piggyBankGroup.position.z - coinObj.mesh.position.z) * 0.01;
+                }
+            });
+        }
+        
+        renderer.render(scene, camera);
+    }
+    
+    // Start animation
+    animate();
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+        window.removeEventListener('resize', onWindowResize);
+    });
+}
+
+// Initialize Three.js animation when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the savings animation
+    initSavingsAnimation();
+});
+
+// Function to simulate playing a savings video
+function playSavingsVideo() {
+    // In a real implementation, this would play an actual video
+    // For now, we'll show an alert explaining the concept
+    
+    // Create a modal-like overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = '10000';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = 'white';
+    content.style.padding = '30px';
+    content.style.borderRadius = '10px';
+    content.style.maxWidth = '500px';
+    content.style.textAlign = 'center';
+    content.innerHTML = `
+        <h3><i class="fas fa-piggy-bank me-2"></i>Smart Savings with SaveTogether</h3>
+        <p class="mt-3">In this video, you would learn:</p>
+        <ul class="text-start">
+            <li>How group savings multiply your motivation</li>
+            <li>Ways to track progress with friends and family</li>
+            <li>Tips for reaching financial goals faster</li>
+            <li>How SaveTogether makes saving effortless</li>
+        </ul>
+        <p><strong>Imagine achieving your dreams together!</strong></p>
+        <button class="btn btn-primary mt-3" onclick="closeVideoOverlay()">Close</button>
+    `;
+    
+    overlay.appendChild(content);
+    document.body.appendChild(overlay);
+    
+    // Add close function to window object so it can be called from the button
+    window.closeVideoOverlay = function() {
+        document.body.removeChild(overlay);
+        delete window.closeVideoOverlay;
+    };
+    
+    // Close if clicked outside
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeVideoOverlay();
+        }
+    });
+}
+
+// Function to show information about the savings video
+function showSavingsVideoInfo() {
+    // Create a modal-like overlay with savings video information
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = '10000';
+    overlay.style.backdropFilter = 'blur(5px)';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = '#fff';
+    content.style.padding = '40px';
+    content.style.borderRadius = '20px';
+    content.style.maxWidth = '600px';
+    content.style.width = '90%';
+    content.style.textAlign = 'center';
+    content.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+    content.style.position = 'relative';
+    
+    content.innerHTML = `
+        <button class="btn-close position-absolute" style="top: 15px; right: 15px;" onclick="closeSavingsVideoInfo()"></button>
+        <div class="mb-4">
+            <i class="fas fa-piggy-bank fa-3x text-primary mb-3"></i>
+            <h3 class="mb-3">L'Importance de l'Épargne</h3>
+        </div>
+        <div class="text-start">
+            <p>Dans cette vidéo, vous découvrirez :</p>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Pourquoi épargner est essentiel</strong> - La sécurité financière et les opportunités futures
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Les bienfaits de l'épargne collective</strong> - Multiplier la motivation avec vos proches
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Comment atteindre vos objectifs plus rapidement</strong> - Les stratégies éprouvées
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Les erreurs à éviter</strong> - Pièges courants dans la gestion financière
+                </li>
+            </ul>
+        </div>
+        <div class="mt-4">
+            <p class="lead"><i class="fas fa-lightbulb text-warning me-2"></i><strong>Imaginez</strong> atteindre vos rêves ensemble !</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+                <a href="/register" class="btn btn-primary btn-lg px-4">
+                    <i class="fas fa-rocket me-2"></i>Commencer à Épargner
+                </a>
+                <button class="btn btn-outline-secondary btn-lg px-4" onclick="closeSavingsVideoInfo()">
+                    <i class="fas fa-times me-2"></i>Fermer
+                </button>
+            </div>
+        </div>
+    `;
+    
+    overlay.appendChild(content);
+    document.body.appendChild(overlay);
+    
+    // Add close function to window object so it can be called from the button
+    window.closeSavingsVideoInfo = function() {
+        document.body.removeChild(overlay);
+        delete window.closeSavingsVideoInfo;
+    };
+    
+    // Close if clicked outside
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeSavingsVideoInfo();
+        }
+    });
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+// Function to show application walkthrough information
+function showAppWalkthrough() {
+    // Create a modal with app walkthrough details
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
+    overlay.style.zIndex = '10000';
+    overlay.style.backdropFilter = 'blur(5px)';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = '#fff';
+    content.style.padding = '30px';
+    content.style.borderRadius = '15px';
+    content.style.maxWidth = '700px';
+    content.style.width = '90%';
+    content.style.maxHeight = '90vh';
+    content.style.overflowY = 'auto';
+    content.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+    content.style.position = 'relative';
+    
+    content.innerHTML = `
+        <button class="btn-close position-absolute" style="top: 15px; right: 15px;" onclick="closeAppWalkthrough()"></button>
+        <div class="text-center mb-4">
+            <i class="fas fa-route fa-3x text-primary mb-3"></i>
+            <h3 class="mb-3">Navigation dans l'Application SaveTogether</h3>
+            <p class="lead">Découvrez toutes les fonctionnalités étape par étape</p>
+        </div>
+        
+        <div class="walkthrough-steps">
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">1</div>
+                    <div>
+                        <h5 class="mb-1">Inscription & Connexion</h5>
+                        <p class="mb-0 text-muted">Créez votre compte ou connectez-vous pour accéder à votre tableau de bord.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">2</div>
+                    <div>
+                        <h5 class="mb-1">Tableau de Bord</h5>
+                        <p class="mb-0 text-muted">Visualisez vos groupes d'épargne, contributions récentes et notifications.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">3</div>
+                    <div>
+                        <h5 class="mb-1">Création de Groupe</h5>
+                        <p class="mb-0 text-muted">Créez un nouveau groupe d'épargne avec un objectif, une cible et une date limite.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">4</div>
+                    <div>
+                        <h5 class="mb-1">Invitation des Membres</h5>
+                        <p class="mb-0 text-muted">Partagez le code d'invitation avec vos amis et votre famille pour les rejoindre.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">5</div>
+                    <div>
+                        <h5 class="mb-1">Ajout de Contributions</h5>
+                        <p class="mb-0 text-muted">Ajoutez vos contributions avec des descriptions et des preuves optionnelles.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">6</div>
+                    <div>
+                        <h5 class="mb-1">Suivi des Progrès</h5>
+                        <p class="mb-0 text-muted">Visualisez les graphiques et statistiques pour suivre vos progrès d'épargne.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-card border rounded-3 p-3 mb-3">
+                <div class="d-flex">
+                    <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="min-width: 36px; height: 36px;">7</div>
+                    <div>
+                        <h5 class="mb-1">Analyses Avancées</h5>
+                        <p class="mb-0 text-muted">Accédez aux analyses détaillées et prédictionnelles (fonctionnalité Premium).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <div class="alert alert-info">
+                <i class="fas fa-video me-2"></i>
+                <strong>Une vidéo complète de démonstration sera bientôt disponible !</strong>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+                <a href="/register" class="btn btn-primary btn-lg px-4">
+                    <i class="fas fa-rocket me-2"></i>Commencer Maintenant
+                </a>
+                <button class="btn btn-outline-secondary btn-lg px-4" onclick="closeAppWalkthrough()">
+                    <i class="fas fa-times me-2"></i>Fermer
+                </button>
+            </div>
+        </div>
+    `;
+    
+    overlay.appendChild(content);
+    document.body.appendChild(overlay);
+    
+    // Add close function to window object so it can be called from the button
+    window.closeAppWalkthrough = function() {
+        document.body.removeChild(overlay);
+        delete window.closeAppWalkthrough;
+        // Restore body scroll
+        document.body.style.overflow = '';
+    };
+    
+    // Close if clicked outside
+    overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+            closeAppWalkthrough();
+        }
+    });
+    
+    // Prevent body scroll when modal is open
+    document.body.style.overflow = 'hidden';
+}
+
+// Initialize Three.js scene for hero section
+function initHeroThreeJs() {
+    const container = document.getElementById('hero-threejs-container');
+    if (!container) return;
+
+    // Set up scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x0a192f, 0);
+    container.appendChild(renderer.domElement);
+
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(1, 1, 1);
+    scene.add(directionalLight);
+
+    // Create floating coins
+    const coins = [];
+    const coinGeometry = new THREE.CylinderGeometry(0.5, 0.5, 0.1, 32);
+    const coinMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xf1c40f,
+        shininess: 100,
+        emissive: 0xd35400,
+        emissiveIntensity: 0.2
+    });
+
+    // Create a stack of coins that grows over time
+    for (let i = 0; i < 8; i++) {
+        const coin = new THREE.Mesh(coinGeometry, coinMaterial);
+        coin.rotation.x = Math.PI / 2;
+        coin.position.y = i * 0.2;
+        coin.position.x = Math.sin(i * 0.5) * 0.5;
+        coin.position.z = Math.cos(i * 0.5) * 0.5;
+        scene.add(coin);
+        coins.push({
+            mesh: coin,
+            speed: 0.01 + Math.random() * 0.02,
+            amplitude: 0.1 + Math.random() * 0.2,
+            frequency: 0.5 + Math.random() * 1.0,
+            phase: Math.random() * Math.PI * 2
+        });
+    }
+
+    // Create piggy bank
+    const piggyBankGroup = new THREE.Group();
+    
+    // Body
+    const bodyGeometry = new THREE.SphereGeometry(1, 32, 32);
+    const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+    piggyBankGroup.add(body);
+    
+    // Head
+    const headGeometry = new THREE.SphereGeometry(0.7, 32, 32);
+    const headMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    const head = new THREE.Mesh(headGeometry, headMaterial);
+    head.position.set(0, 0, 1);
+    piggyBankGroup.add(head);
+    
+    // Legs
+    const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.5, 16);
+    const legMaterial = new THREE.MeshPhongMaterial({ color: 0xff9ff3 });
+    
+    for (let i = 0; i < 4; i++) {
+        const leg = new THREE.Mesh(legGeometry, legMaterial);
+        const x = i % 2 === 0 ? -0.4 : 0.4;
+        const z = i < 2 ? -0.4 : 0.4;
+        leg.position.set(x, -0.7, z);
+        leg.rotation.x = Math.PI / 2;
+        piggyBankGroup.add(leg);
+    }
+    
+    // Slot
+    const slotGeometry = new THREE.BoxGeometry(0.4, 0.05, 0.05);
+    const slotMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+    const slot = new THREE.Mesh(slotGeometry, slotMaterial);
+    slot.position.set(0, 0.2, 0.9);
+    piggyBankGroup.add(slot);
+    
+    piggyBankGroup.position.set(2, -1, 0);
+    piggyBankGroup.scale.set(0.7, 0.7, 0.7);
+    scene.add(piggyBankGroup);
+
+    // Position camera
+    camera.position.z = 5;
+    camera.position.y = 0;
+
+    // Handle window resize
+    function onWindowResize() {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+    window.addEventListener('resize', onWindowResize);
+
+    // Animation loop
+    let time = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+        
+        // Animate coins
+        coins.forEach((coinObj, index) => {
+            coinObj.mesh.position.y = index * 0.2 + Math.sin(time * coinObj.frequency + coinObj.phase) * coinObj.amplitude;
+            coinObj.mesh.rotation.z += coinObj.speed;
+        });
+        
+        // Rotate piggy bank gently
+        piggyBankGroup.rotation.y = Math.sin(time * 0.5) * 0.2;
+        
+        renderer.render(scene, camera);
+    }
+    
+    // Start animation
+    animate();
+}
+
+// Function to show video information modal
+function showVideoModal() {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '10000';
+    modal.style.backdropFilter = 'blur(5px)';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = '#fff';
+    content.style.padding = '30px';
+    content.style.borderRadius = '15px';
+    content.style.maxWidth = '600px';
+    content.style.width = '90%';
+    content.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+    content.style.position = 'relative';
+    
+    content.innerHTML = `
+        <button class="btn-close position-absolute" style="top: 15px; right: 15px;" onclick="closeVideoModal()"></button>
+        <div class="text-center mb-4">
+            <i class="fas fa-film fa-3x text-primary mb-3"></i>
+            <h3 class="mb-3">Découvrez SaveTogether</h3>
+            <p class="lead">Une plateforme innovante pour épargner collectivement</p>
+        </div>
+        
+        <div class="video-info">
+            <h5 class="mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>À propos de cette vidéo</h5>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Découvrez comment créer et rejoindre des groupes d'épargne
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Apprenez à ajouter des contributions et suivre les progrès
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Comprenez les fonctionnalités de suivi et d'analyse
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Découvrez les avantages de l'épargne collective
+                </li>
+            </ul>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-video me-2"></i>
+                <strong>Prochainement :</strong> Une vidéo détaillée expliquant toutes les fonctionnalités de SaveTogether sera bientôt disponible !
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/register" class="btn btn-primary btn-lg px-4 me-2">
+                <i class="fas fa-rocket me-2"></i>Commencer maintenant
+            </a>
+            <button class="btn btn-outline-secondary btn-lg px-4" onclick="closeVideoModal()">
+                <i class="fas fa-times me-2"></i>Fermer
+            </button>
+        </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    window.closeVideoModal = function() {
+        document.body.removeChild(modal);
+        delete window.closeVideoModal;
+    };
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeVideoModal();
+        }
+    });
+}
+
+// Function to show more information modal
+function showMoreInfo() {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '10000';
+    modal.style.backdropFilter = 'blur(5px)';
+    
+    const content = document.createElement('div');
+    content.style.backgroundColor = '#fff';
+    content.style.padding = '30px';
+    content.style.borderRadius = '15px';
+    content.style.maxWidth = '600px';
+    content.style.width = '90%';
+    content.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.3)';
+    content.style.position = 'relative';
+    
+    content.innerHTML = `
+        <button class="btn-close position-absolute" style="top: 15px; right: 15px;" onclick="closeInfoModal()"></button>
+        <div class="text-center mb-4">
+            <i class="fas fa-film fa-3x text-primary mb-3"></i>
+            <h3 class="mb-3">Découvrez SaveTogether</h3>
+            <p class="lead">Une plateforme innovante pour épargner collectivement</p>
+        </div>
+        
+        <div class="video-info">
+            <h5 class="mb-3"><i class="fas fa-info-circle me-2 text-primary"></i>À propos de cette démonstration</h5>
+            <ul class="list-group list-group-flush mb-4">
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Découvrez comment créer et rejoindre des groupes d'épargne
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Apprenez à ajouter des contributions et suivre les progrès
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Comprenez les fonctionnalités de suivi et d'analyse
+                </li>
+                <li class="list-group-item border-0 py-2">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    Découvrez les avantages de l'épargne collective
+                </li>
+            </ul>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-video me-2"></i>
+                <strong>Prochainement :</strong> Une vidéo détaillée expliquant toutes les fonctionnalités de SaveTogether sera bientôt disponible !
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/register" class="btn btn-primary btn-lg px-4 me-2">
+                <i class="fas fa-rocket me-2"></i>Commencer maintenant
+            </a>
+            <button class="btn btn-outline-secondary btn-lg px-4" onclick="closeInfoModal()">
+                <i class="fas fa-times me-2"></i>Fermer
+            </button>
+        </div>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    window.closeInfoModal = function() {
+        document.body.removeChild(modal);
+        delete window.closeInfoModal;
+    };
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeInfoModal();
+        }
+    });
+}
+
+// Initialize Three.js when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // initHeroThreeJs(); - Removed Three.js initialization
+});
+
 // Export utils for global use
 window.SaveTogetherUtils = utils;
 

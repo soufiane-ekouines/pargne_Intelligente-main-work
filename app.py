@@ -117,45 +117,84 @@ def health_check():
     
     return jsonify(status)
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    """User registration"""
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
-        
-        # Check if user already exists
-        if Database.get_user_by_username(username) or Database.get_user_by_email(email):
-            flash('Le nom d\'utilisateur ou l\'email existe déjà', 'error')
-            return render_template('register.html')
-        
-        # Create new user
-        password_hash = generate_password_hash(password)
-        Database.create_user(username, email, password_hash)
-        
-        flash('Inscription réussie ! Veuillez vous connecter.', 'success')
-        return redirect(url_for('login'))
-    
-    return render_template('register.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login"""
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+        # Handle JSON requests (from modal forms)
+        if request.is_json or request.content_type == 'application/json':
+            data = request.get_json()
+            username = data.get('username')
+            password = data.get('password')
+        else:
+            # Handle traditional form submissions
+            username = request.form['username']
+            password = request.form['password']
         
         user_data = Database.get_user_by_username(username)
         
         if user_data and check_password_hash(user_data['password_hash'], password):
             user = User(user_data['id'], user_data['username'], user_data['email'], user_data['is_premium'])
             login_user(user)
+            
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'success', 'message': 'Connexion réussie !'})
+            
             return redirect(url_for('dashboard'))
         else:
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': 'Nom d\'utilisateur ou mot de passe invalide'}), 400
+            
             flash('Nom d\'utilisateur ou mot de passe invalide', 'error')
     
     return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    """User registration"""
+    if request.method == 'POST':
+        # Handle JSON requests (from modal forms)
+        if request.is_json or request.content_type == 'application/json':
+            data = request.get_json()
+            username = data.get('username')
+            email = data.get('email')
+            password = data.get('password')
+        else:
+            # Handle traditional form submissions
+            username = request.form['username']
+            email = request.form['email']
+            password = request.form['password']
+        
+        # Check if user already exists
+        if Database.get_user_by_username(username) or Database.get_user_by_email(email):
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': 'Le nom d\'utilisateur ou l\'email existe déjà'}), 400
+            
+            flash('Le nom d\'utilisateur ou l\'email existe déjà', 'error')
+            return render_template('register.html')
+        
+        # Create new user
+        password_hash = generate_password_hash(password)
+        user_data = Database.create_user(username, email, password_hash)
+        
+        if user_data:
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'success', 'message': 'Inscription réussie !'})
+            
+            flash('Inscription réussie ! Veuillez vous connecter.', 'success')
+            return redirect(url_for('login'))
+        else:
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': 'Erreur lors de l\'inscription'}), 400
+            
+            flash('Erreur lors de l\'inscription', 'error')
+    
+    return render_template('register.html')
 
 @app.route('/logout')
 @login_required
@@ -519,33 +558,46 @@ def group_detail(group_id):
 def contribute(group_id):
     """Add a contribution to a group"""
     if request.method == 'POST':
-        amount = float(request.form['amount'])
-        description = request.form.get('description', '')
+        # Handle JSON requests (from modal forms)
+        if request.is_json or request.content_type == 'application/json':
+            data = request.get_json()
+            amount = float(data.get('amount', 0))
+            description = data.get('description', '')
+            # For simplicity, we won't handle file uploads in JSON requests
+            proof_image = None
+        else:
+            # Handle traditional form submissions
+            amount = float(request.form['amount'])
+            description = request.form.get('description', '')
+            
+            # Handle proof image upload (optional)
+            proof_image = None
+            if 'proof_image' in request.files:
+                file = request.files['proof_image']
+                if file and file.filename and file.filename != '':
+                    # Secure the filename
+                    import os
+                    from werkzeug.utils import secure_filename
+                    filename = secure_filename(file.filename)
+                    # Add timestamp to make unique
+                    import time
+                    unique_filename = f"{int(time.time())}_{filename}"
+                    # Save to uploads folder
+                    upload_folder = os.path.join('static', 'uploads', 'proofs')
+                    os.makedirs(upload_folder, exist_ok=True)
+                    file_path = os.path.join(upload_folder, unique_filename)
+                    file.save(file_path)
+                    proof_image = f"uploads/proofs/{unique_filename}"
         
         # Check if user is active member of this group
         membership = Database.get_group_membership(group_id, current_user.id)
         if not membership or membership['status'] != 'active':
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'error', 'message': 'Vous n\'êtes pas membre actif de ce groupe'}), 400
+            
             flash('Vous n\'êtes pas membre actif de ce groupe', 'error')
             return redirect(url_for('dashboard'))
-        
-        # Handle proof image upload (optional)
-        proof_image = None
-        if 'proof_image' in request.files:
-            file = request.files['proof_image']
-            if file and file.filename and file.filename != '':
-                # Secure the filename
-                import os
-                from werkzeug.utils import secure_filename
-                filename = secure_filename(file.filename)
-                # Add timestamp to make unique
-                import time
-                unique_filename = f"{int(time.time())}_{filename}"
-                # Save to uploads folder
-                upload_folder = os.path.join('static', 'uploads', 'proofs')
-                os.makedirs(upload_folder, exist_ok=True)
-                file_path = os.path.join(upload_folder, unique_filename)
-                file.save(file_path)
-                proof_image = f"uploads/proofs/{unique_filename}"
         
         # Determine initial status based on proof image
         status = 'pending' if proof_image else 'approved'
@@ -562,6 +614,11 @@ def contribute(group_id):
             # Notify admin to review the contribution
             Database.create_notification(admin_id, group_id, 
                 f'{current_user.username} submitted a contribution of {amount} MAD with proof image for review in "{group_name}"')
+            
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'success', 'message': f'Contribution de {amount} MAD soumise ! En attente de l\'approbation de l\'admin.'})
+            
             flash(f'Contribution de {amount} MAD soumise ! En attente de l\'approbation de l\'admin.', 'info')
         else:
             # Auto-approved, create notifications for other members
@@ -572,7 +629,15 @@ def contribute(group_id):
                     Database.create_notification(member['user_id'], group_id, 
                         f'{current_user.username} contributed {amount} MAD to "{group_name}"')
             
+            # Return JSON for AJAX requests
+            if request.is_json or request.content_type == 'application/json':
+                return jsonify({'status': 'success', 'message': f'Contribution de {amount} MAD ajoutée avec succès !'})
+            
             flash(f'Contribution de {amount} MAD ajoutée avec succès !', 'success')
+        
+        # Return JSON for AJAX requests
+        if request.is_json or request.content_type == 'application/json':
+            return jsonify({'status': 'success', 'redirect': url_for('group_detail', group_id=group_id)})
         
         return redirect(url_for('group_detail', group_id=group_id))
     
