@@ -10,22 +10,22 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <i class="fas fa-cog me-2"></i>Settings
+                        <i class="fas fa-cog me-2"></i>{{ _('Paramètres') }}
                     </h5>
                 </div>
                 <div class="card-body p-0">
                     <nav class="nav flex-column">
                         <a class="nav-link active" href="#profile" data-bs-toggle="pill">
-                            <i class="fas fa-user me-2"></i>Profile
+                            <i class="fas fa-user me-2"></i>{{ _('Profil') }}
                         </a>
                         <a class="nav-link" href="#notifications" data-bs-toggle="pill">
-                            <i class="fas fa-bell me-2"></i>Notifications
+                            <i class="fas fa-bell me-2"></i>{{ _('Notifications') }}
                         </a>
                         <a class="nav-link" href="#security" data-bs-toggle="pill">
-                            <i class="fas fa-shield-alt me-2"></i>Security
+                            <i class="fas fa-shield-alt me-2"></i>{{ _('Sécurité') }}
                         </a>
                         <a class="nav-link" href="#subscription" data-bs-toggle="pill">
-                            <i class="fas fa-crown me-2"></i>Subscription
+                            <i class="fas fa-crown me-2"></i>{{ _('Abonnement') }}
                         </a>
                     </nav>
                 </div>
@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">
-                                <i class="fas fa-user me-2"></i>Profile Information
+                                <i class="fas fa-user me-2"></i>{{ _('Informations du Profil') }}
                             </h5>
                         </div>
                         <div class="card-body">
@@ -47,55 +47,61 @@
                             <div class="text-center mb-4">
                                 <div class="mb-3">
                                     {% if current_user.profile_picture %}
-                                    <img src="{{ url_for('static', filename=current_user.profile_picture) }}" 
-                                         class="rounded-circle border border-3" 
-                                         style="width: 150px; height: 150px; object-fit: cover;"
-                                         id="profilePicPreview"
-                                         alt="Profile Picture">
+                                    <img src="{{ url_for('static', filename=current_user.profile_picture) }}"
+                                        class="rounded-circle border border-3"
+                                        style="width: 150px; height: 150px; object-fit: cover;" id="profilePicPreview"
+                                        alt="Profile Picture">
                                     {% else %}
                                     <div class="rounded-circle border border-3 bg-primary text-white d-inline-flex align-items-center justify-content-center"
-                                         style="width: 150px; height: 150px; font-size: 4rem;"
-                                         id="profilePicPlaceholder">
+                                        style="width: 150px; height: 150px; font-size: 4rem;"
+                                        id="profilePicPlaceholder">
                                         <i class="fas fa-user"></i>
                                     </div>
                                     {% endif %}
                                 </div>
-                                <form action="{{ url_for('upload_profile_picture') }}" method="POST" enctype="multipart/form-data" id="profilePicForm">
+                                <form action="{{ url_for('upload_profile_picture') }}" method="POST"
+                                    enctype="multipart/form-data" id="profilePicForm">
                                     <div class="mb-3">
-                                        <input type="file" class="form-control" id="profilePicture" name="profile_picture" 
-                                               accept="image/*" onchange="previewProfilePic(event)" style="display: none;">
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('profilePicture').click()">
-                                            <i class="fas fa-camera me-2"></i>Change Profile Picture
+                                        <input type="file" class="form-control" id="profilePicture"
+                                            name="profile_picture" accept="image/*" onchange="previewProfilePic(event)"
+                                            style="display: none;">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="document.getElementById('profilePicture').click()">
+                                            <i class="fas fa-camera me-2"></i>{{ _('Changer la Photo de Profil') }}
                                         </button>
                                     </div>
-                                    <button type="submit" class="btn btn-success btn-sm" id="uploadBtn" style="display: none;">
-                                        <i class="fas fa-upload me-2"></i>Upload Picture
+                                    <button type="submit" class="btn btn-success btn-sm" id="uploadBtn"
+                                        style="display: none;">
+                                        <i class="fas fa-upload me-2"></i>{{ _('Télécharger la Photo') }}
                                     </button>
                                 </form>
                             </div>
-                            
+
                             <hr class="mb-4">
-                            
+
                             <form action="{{ url_for('update_profile') }}" method="POST">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="username" class="form-label">Username</label>
-                                            <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" required>
-                                            <div class="form-text">Your unique username</div>
+                                            <label for="username" class="form-label">{{ _('Nom d\'utilisateur')
+                                                }}</label>
+                                            <input type="text" class="form-control" id="username" name="username"
+                                                value="{{ current_user.username }}" required>
+                                            <div class="form-text">{{ _('Votre nom d\'utilisateur unique') }}</div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required>
-                                            <div class="form-text">Your email address</div>
+                                            <label for="email" class="form-label">{{ _('Email') }}</label>
+                                            <input type="email" class="form-control" id="email" name="email"
+                                                value="{{ current_user.email }}" required>
+                                            <div class="form-text">{{ _('Votre adresse email') }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Save Changes
+                                    <i class="fas fa-save me-2"></i>{{ _('Enregistrer les Modifications') }}
                                 </button>
                             </form>
                         </div>
@@ -107,69 +113,69 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">
-                                <i class="fas fa-bell me-2"></i>Notification Preferences
+                                <i class="fas fa-bell me-2"></i>{{ _('Préférences de Notification') }}
                             </h5>
                         </div>
                         <div class="card-body">
                             <form>
                                 <div class="mb-4">
-                                    <h6 class="fw-bold mb-3">Group Notifications</h6>
+                                    <h6 class="fw-bold mb-3">{{ _('Notifications de Groupe') }}</h6>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="newContributions" checked>
                                         <label class="form-check-label" for="newContributions">
-                                            New contributions to my groups
+                                            {{ _('Nouvelles contributions à mes groupes') }}
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="milestones" checked>
                                         <label class="form-check-label" for="milestones">
-                                            Milestone achievements (25%, 50%, 75%, 100%)
+                                            {{ _('Réalisations d\'étape (25%, 50%, 75%, 100%)') }}
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="newMembers">
                                         <label class="form-check-label" for="newMembers">
-                                            New members joining my groups
+                                            {{ _('Nouveaux membres rejoignant mes groupes') }}
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="mb-4">
-                                    <h6 class="fw-bold mb-3">Reminders</h6>
+                                    <h6 class="fw-bold mb-3">{{ _('Rappels') }}</h6>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="weeklyReminders">
                                         <label class="form-check-label" for="weeklyReminders">
-                                            Weekly contribution reminders
+                                            {{ _('Rappels de contribution hebdomadaires') }}
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="deadlineReminders" checked>
                                         <label class="form-check-label" for="deadlineReminders">
-                                            Deadline reminders (30 days, 7 days, 1 day before)
+                                            {{ _('Rappels de date limite (30 jours, 7 jours, 1 jour avant)') }}
                                         </label>
                                     </div>
                                 </div>
 
                                 {% if current_user.is_premium %}
                                 <div class="mb-4">
-                                    <h6 class="fw-bold mb-3">Premium Features</h6>
+                                    <h6 class="fw-bold mb-3">{{ _('Fonctionnalités Premium') }}</h6>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="automatedReminders" checked>
                                         <label class="form-check-label" for="automatedReminders">
-                                            Automated recurring contribution reminders
+                                            {{ _('Rappels de contribution récurrents automatisés') }}
                                         </label>
                                     </div>
                                     <div class="form-check mb-2">
                                         <input class="form-check-input" type="checkbox" id="advancedAnalytics">
                                         <label class="form-check-label" for="advancedAnalytics">
-                                            Advanced analytics notifications
+                                            {{ _('Notifications d\'analyses avancées') }}
                                         </label>
                                     </div>
                                 </div>
                                 {% endif %}
 
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save me-2"></i>Save Preferences
+                                    <i class="fas fa-save me-2"></i>{{ _('Enregistrer les Préférences') }}
                                 </button>
                             </form>
                         </div>
@@ -181,29 +187,33 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">
-                                <i class="fas fa-shield-alt me-2"></i>Security Settings
+                                <i class="fas fa-shield-alt me-2"></i>{{ _('Paramètres de Sécurité') }}
                             </h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <h6 class="fw-bold mb-3">Password</h6>
-                                        <p class="text-muted mb-3">Change your account password</p>
+                                        <h6 class="fw-bold mb-3">{{ _('Mot de Passe') }}</h6>
+                                        <p class="text-muted mb-3">{{ _('Changez le mot de passe de votre compte') }}
+                                        </p>
                                         <button class="btn btn-outline-primary" disabled>
-                                            <i class="fas fa-key me-2"></i>Change Password
+                                            <i class="fas fa-key me-2"></i>{{ _('Changer le Mot de Passe') }}
                                         </button>
-                                        <small class="text-muted d-block mt-2">Password changes are not implemented in demo version</small>
+                                        <small class="text-muted d-block mt-2">{{ _('Les changements de mot de passe ne
+                                            sont pas implémentés dans la version démo') }}</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-4">
-                                        <h6 class="fw-bold mb-3">Two-Factor Authentication</h6>
-                                        <p class="text-muted mb-3">Add an extra layer of security to your account</p>
+                                        <h6 class="fw-bold mb-3">{{ _('Authentification à Deux Facteurs') }}</h6>
+                                        <p class="text-muted mb-3">{{ _('Ajoutez une couche de sécurité supplémentaire à
+                                            votre compte') }}</p>
                                         <button class="btn btn-outline-primary" disabled>
-                                            <i class="fas fa-mobile-alt me-2"></i>Enable 2FA
+                                            <i class="fas fa-mobile-alt me-2"></i>{{ _('Activer 2FA') }}
                                         </button>
-                                        <small class="text-muted d-block mt-2">2FA is not implemented in demo version</small>
+                                        <small class="text-muted d-block mt-2">{{ _('2FA n\'est pas implémenté dans la
+                                            version démo') }}</small>
                                     </div>
                                 </div>
                             </div>
@@ -211,21 +221,21 @@
                             <hr>
 
                             <div class="mb-4">
-                                <h6 class="fw-bold mb-3">Login Activity</h6>
+                                <h6 class="fw-bold mb-3">{{ _('Activité de Connexion') }}</h6>
                                 <div class="table-responsive">
                                     <table class="table table-sm">
                                         <thead>
                                             <tr>
-                                                <th>Date</th>
-                                                <th>Time</th>
-                                                <th>Status</th>
+                                                <th>{{ _('Date') }}</th>
+                                                <th>{{ _('Heure') }}</th>
+                                                <th>{{ _('Statut') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>2024-10-18</td>
                                                 <td>18:24</td>
-                                                <td><span class="badge bg-success">Active</span></td>
+                                                <td><span class="badge bg-success">{{ _('Actif') }}</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -240,81 +250,84 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="mb-0">
-                                <i class="fas fa-crown me-2"></i>Subscription Management
+                                <i class="fas fa-crown me-2"></i>{{ _('Gestion de l\'Abonnement') }}
                             </h5>
                         </div>
                         <div class="card-body">
                             {% if current_user.is_premium %}
                             <div class="alert alert-success">
                                 <h6 class="alert-heading">
-                                    <i class="fas fa-crown me-2"></i>Premium Active
+                                    <i class="fas fa-crown me-2"></i>{{ _('Premium Actif') }}
                                 </h6>
-                                <p class="mb-2">You have an active Premium subscription.</p>
+                                <p class="mb-2">{{ _('Vous avez un abonnement Premium actif.') }}</p>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <strong>Plan:</strong> Premium<br>
-                                        <strong>Price:</strong> 19 MAD/month<br>
-                                        <strong>Status:</strong> Active
+                                        <strong>{{ _('Plan :') }}</strong> {{ _('Premium') }}<br>
+                                        <strong>{{ _('Prix :') }}</strong> 19 MAD/{{ _('mois') }}<br>
+                                        <strong>{{ _('Statut :') }}</strong> {{ _('Actif') }}
                                     </div>
                                     <div class="col-md-6">
-                                        <strong>Next Billing:</strong> November 18, 2024<br>
-                                        <strong>Payment Method:</strong> Credit Card ending in 1234
+                                        <strong>{{ _('Prochaine Facturation :') }}</strong> {{ _('18 Novembre 2024')
+                                        }}<br>
+                                        <strong>{{ _('Moyen de Paiement :') }}</strong> {{ _('Carte de Crédit finissant
+                                        par 1234') }}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="d-flex gap-2">
                                 <button class="btn btn-outline-primary" disabled>
-                                    <i class="fas fa-edit me-2"></i>Update Payment Method
+                                    <i class="fas fa-edit me-2"></i>{{ _('Mettre à jour le moyen de paiement') }}
                                 </button>
                                 <button class="btn btn-outline-danger" disabled>
-                                    <i class="fas fa-times me-2"></i>Cancel Subscription
+                                    <i class="fas fa-times me-2"></i>{{ _('Annuler l\'abonnement') }}
                                 </button>
                             </div>
                             {% else %}
                             <div class="alert alert-info">
                                 <h6 class="alert-heading">
-                                    <i class="fas fa-info-circle me-2"></i>Free Plan
+                                    <i class="fas fa-info-circle me-2"></i>{{ _('Plan Gratuit') }}
                                 </h6>
-                                <p class="mb-3">You're currently on the Free plan. Upgrade to Premium to unlock advanced features.</p>
+                                <p class="mb-3">{{ _('Vous êtes actuellement sur le plan Gratuit. Passez à Premium pour
+                                    débloquer des fonctionnalités avancées.') }}</p>
                                 <a href="{{ url_for('pricing') }}" class="btn btn-primary">
-                                    <i class="fas fa-crown me-2"></i>Upgrade to Premium
+                                    <i class="fas fa-crown me-2"></i>{{ _('Passer à Premium') }}
                                 </a>
                             </div>
 
                             <div class="row mt-4">
                                 <div class="col-md-6">
-                                    <h6 class="fw-bold mb-3">Premium Benefits</h6>
+                                    <h6 class="fw-bold mb-3">{{ _('Avantages Premium') }}</h6>
                                     <ul class="list-unstyled">
                                         <li class="mb-2">
                                             <i class="fas fa-check text-success me-2"></i>
-                                            Export data to CSV
+                                            {{ _('Exporter les données en CSV') }}
                                         </li>
                                         <li class="mb-2">
                                             <i class="fas fa-check text-success me-2"></i>
-                                            Automated reminders
+                                            {{ _('Rappels automatisés') }}
                                         </li>
                                         <li class="mb-2">
                                             <i class="fas fa-check text-success me-2"></i>
-                                            Advanced analytics
+                                            {{ _('Analyses avancées') }}
                                         </li>
                                         <li class="mb-2">
                                             <i class="fas fa-check text-success me-2"></i>
-                                            Priority support
+                                            {{ _('Support prioritaire') }}
                                         </li>
                                         <li class="mb-0">
                                             <i class="fas fa-check text-success me-2"></i>
-                                            Recurring contributions
+                                            {{ _('Contributions récurrentes') }}
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="col-md-6">
-                                    <h6 class="fw-bold mb-3">Pricing</h6>
+                                    <h6 class="fw-bold mb-3">{{ _('Prix') }}</h6>
                                     <div class="text-center">
                                         <div class="display-4 fw-bold text-primary">19 MAD</div>
-                                        <p class="text-muted">per month</p>
-                                        <p class="small text-muted">Cancel anytime</p>
+                                        <p class="text-muted">{{ _('par mois') }}</p>
+                                        <p class="small text-muted">{{ _('Annulez à tout moment') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -330,60 +343,60 @@
 
 {% block scripts %}
 <script>
-// Preview profile picture before upload
-function previewProfilePic(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            // Remove placeholder if exists
-            const placeholder = document.getElementById('profilePicPlaceholder');
-            if (placeholder) {
-                placeholder.remove();
+    // Preview profile picture before upload
+    function previewProfilePic(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                // Remove placeholder if exists
+                const placeholder = document.getElementById('profilePicPlaceholder');
+                if (placeholder) {
+                    placeholder.remove();
+                }
+
+                // Update or create preview image
+                let preview = document.getElementById('profilePicPreview');
+                if (!preview) {
+                    preview = document.createElement('img');
+                    preview.id = 'profilePicPreview';
+                    preview.className = 'rounded-circle border border-3';
+                    preview.style.cssText = 'width: 150px; height: 150px; object-fit: cover;';
+                    document.querySelector('.text-center .mb-3').appendChild(preview);
+                }
+                preview.src = e.target.result;
+
+                // Show upload button
+                document.getElementById('uploadBtn').style.display = 'inline-block';
             }
-            
-            // Update or create preview image
-            let preview = document.getElementById('profilePicPreview');
-            if (!preview) {
-                preview = document.createElement('img');
-                preview.id = 'profilePicPreview';
-                preview.className = 'rounded-circle border border-3';
-                preview.style.cssText = 'width: 150px; height: 150px; object-fit: cover;';
-                document.querySelector('.text-center .mb-3').appendChild(preview);
-            }
-            preview.src = e.target.result;
-            
-            // Show upload button
-            document.getElementById('uploadBtn').style.display = 'inline-block';
+            reader.readAsDataURL(file);
         }
-        reader.readAsDataURL(file);
     }
-}
 
-// Initialize tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl)
-});
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
 
-// Only prevent default for notification settings forms (not profile update)
-const notificationForms = document.querySelectorAll('#notifications form, #security form');
-notificationForms.forEach(form => {
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Show success message
-        const alert = document.createElement('div');
-        alert.className = 'alert alert-success alert-dismissible fade show';
-        alert.innerHTML = `
-            <i class="fas fa-check-circle me-2"></i>Settings saved successfully!
+    // Only prevent default for notification settings forms (not profile update)
+    const notificationForms = document.querySelectorAll('#notifications form, #security form');
+    notificationForms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Show success message
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success alert-dismissible fade show';
+            alert.innerHTML = `
+            <i class="fas fa-check-circle me-2"></i>${"{{ _('Paramètres enregistrés avec succès !') }}"}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-        this.appendChild(alert);
-        
-        setTimeout(() => {
-            alert.remove();
-        }, 3000);
+            this.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        });
     });
-});
 </script>
 {% endblock %}

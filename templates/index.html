@@ -18,7 +18,7 @@
             <div class="particle"></div>
         </div>
     </div>
-    
+
     <div class="container position-relative">
         <div class="row align-items-center min-vh-100">
             <div class="col-lg-6">
@@ -27,110 +27,122 @@
                     <div class="hero-badge mb-4 animate-fade-in-up">
                         <div class="badge-content">
                             <span class="badge-icon">🚀</span>
-                            <span class="badge-text">Plateforme d'Épargne Intelligente</span>
+                            <span class="badge-text">{{ _("Plateforme d'Épargne Intelligente") }}</span>
                             <div class="badge-glow"></div>
                         </div>
                     </div>
-                    
+
                     <!-- Dynamic Typography -->
                     <h1 class="hero-title mb-4 animate-fade-in-up" style="animation-delay: 0.2s;">
-                        <span class="title-line-1">Épargnez Ensemble,</span>
-                        <span class="title-line-2 gradient-text">Réussissez Ensemble</span>
+                        <span class="title-line-1">{{ _('Épargnez Ensemble,') }}</span>
+                        <span class="title-line-2 gradient-text">{{ _('Réussissez Ensemble') }}</span>
                         <span class="title-accent">💰</span>
                     </h1>
-                    
+
                     <!-- Interactive Description -->
                     <div class="hero-description mb-5 animate-fade-in-up" style="animation-delay: 0.4s;">
-                        <p class="lead text-white fs-5 mb-3" style="opacity: 0.95;">Unissez vos forces avec vos amis et votre famille pour atteindre vos objectifs financiers.</p>
+                        <p class="lead text-white fs-5 mb-3" style="opacity: 0.95;">{{ _('Unissez vos forces avec vos
+                            amis et votre famille pour atteindre vos objectifs financiers.') }}</p>
                         <div class="feature-tags">
-                            <span class="feature-tag">Vacances de Rêve</span>
-                            <span class="feature-tag">Fonds Mariage</span>
-                            <span class="feature-tag">Éducation</span>
-                            <span class="feature-tag">Fonds d'Urgence</span>
+                            <span class="feature-tag">{{ _('Vacances de Rêve') }}</span>
+                            <span class="feature-tag">{{ _('Fonds Mariage') }}</span>
+                            <span class="feature-tag">{{ _('Éducation') }}</span>
+                            <span class="feature-tag">{{ _("Fonds d'Urgence") }}</span>
                         </div>
                     </div>
-                    
+
                     <!-- Enhanced CTA Buttons -->
                     <div class="hero-actions mb-4 animate-fade-in-up" style="animation-delay: 0.6s;">
                         <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg hero-btn-primary">
                             <span class="btn-content">
                                 <i class="fas fa-rocket me-2"></i>
-                                <span>Commencer Gratuitement</span>
+                                <span>{{ _('Commencer Gratuitement') }}</span>
                             </span>
                             <div class="btn-shine"></div>
                         </a>
                         <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg hero-btn-secondary">
                             <i class="fas fa-sign-in-alt me-2"></i>
-                            Connexion
+                            {{ _('Connexion') }}
                         </a>
                     </div>
-                    
+
                     <!-- Trust Indicators -->
                     <div class="trust-indicators animate-fade-in-up" style="animation-delay: 0.8s;">
                         <div class="trust-item">
                             <div class="trust-icon">
                                 <i class="fas fa-shield-check"></i>
                             </div>
-                            <span>Sécurité Bancaire</span>
+                            <span>{{ _('Sécurité Bancaire') }}</span>
                         </div>
                         <div class="trust-item">
                             <div class="trust-icon">
                                 <i class="fas fa-mobile-alt"></i>
                             </div>
-                            <span>Mobile First</span>
+                            <span>{{ _('Mobile First') }}</span>
                         </div>
                         <div class="trust-item">
                             <div class="trust-icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <span>10K+ Utilisateurs</span>
+                            <span>{{ _('10K+ Utilisateurs') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Simplified Illustration Section -->
             <div class="col-lg-6 text-center">
                 <div class="hero-visual position-relative animate-slide-in-right">
                     <!-- Illustration Container -->
-                    <div class="illustration-container rounded-4 shadow-lg" style="height: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
+                    <div class="illustration-container rounded-4 shadow-lg"
+                        style="height: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); position: relative; overflow: hidden;">
                         <!-- Decorative Elements -->
                         <div class="illustration-elements">
-                            <div class="element element-1" style="position: absolute; top: 15%; left: 10%; opacity: 0.7;">
+                            <div class="element element-1"
+                                style="position: absolute; top: 15%; left: 10%; opacity: 0.7;">
                                 <i class="fas fa-piggy-bank fa-3x text-warning"></i>
                             </div>
-                            <div class="element element-2" style="position: absolute; bottom: 20%; right: 15%; opacity: 0.7;">
+                            <div class="element element-2"
+                                style="position: absolute; bottom: 20%; right: 15%; opacity: 0.7;">
                                 <i class="fas fa-users fa-3x text-info"></i>
                             </div>
-                            <div class="element element-3" style="position: absolute; top: 40%; right: 20%; opacity: 0.7;">
+                            <div class="element element-3"
+                                style="position: absolute; top: 40%; right: 20%; opacity: 0.7;">
                                 <i class="fas fa-chart-line fa-3x text-success"></i>
                             </div>
                         </div>
-                        
+
                         <!-- Content -->
-                        <div class="illustration-content d-flex flex-column align-items-center justify-content-center h-100 position-relative" style="z-index: 2; padding: 2rem;">
+                        <div class="illustration-content d-flex flex-column align-items-center justify-content-center h-100 position-relative"
+                            style="z-index: 2; padding: 2rem;">
                             <div class="text-center">
                                 <div class="mb-4">
                                     <i class="fas fa-film fa-4x text-primary mb-3"></i>
                                 </div>
-                                <h3 class="display-6 fw-bold text-white mb-3">Découvrez SaveTogether</h3>
-                                <p class="lead text-white mb-4">Une plateforme innovante pour épargner collectivement avec vos proches.</p>
-                                
+                                <h3 class="display-6 fw-bold text-white mb-3">{{ _('Découvrez SaveTogether') }}</h3>
+                                <p class="lead text-white mb-4">{{ _('Une plateforme innovante pour épargner
+                                    collectivement avec vos proches.') }}</p>
+
                                 <div class="video-info bg-dark bg-opacity-50 rounded-3 p-4 mb-4">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5 class="mb-0 text-white"><i class="fas fa-info-circle me-2"></i>À Propos</h5>
+                                        <h5 class="mb-0 text-white"><i class="fas fa-info-circle me-2"></i>{{ _('À
+                                            Propos') }}</h5>
                                         <span class="badge bg-primary">2:45 min</span>
                                     </div>
                                     <ul class="text-start text-white list-unstyled mb-0">
-                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Création de groupes d'épargne</li>
-                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Suivi des contributions</li>
-                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Analyse des progrès</li>
-                                        <li><i class="fas fa-check-circle text-success me-2"></i>Épargne collaborative</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>{{
+                                            _("Création de groupes d'épargne") }}</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>{{
+                                            _('Suivi des contributions') }}</li>
+                                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>{{
+                                            _('Analyse des progrès') }}</li>
+                                        <li><i class="fas fa-check-circle text-success me-2"></i>{{ _('Épargne
+                                            collaborative') }}</li>
                                     </ul>
                                 </div>
-                                
+
                                 <button class="btn btn-primary btn-lg px-4" onclick="showMoreInfo()">
-                                    <i class="fas fa-play-circle me-2"></i>En Savoir Plus
+                                    <i class="fas fa-play-circle me-2"></i>{{ _('En Savoir Plus') }}
                                 </button>
                             </div>
                         </div>
@@ -147,88 +159,100 @@
         <div class="row text-center mb-5">
             <div class="col-12">
                 <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
-                    <i class="fas fa-star me-2"></i>Fonctionnalités
+                    <i class="fas fa-star me-2"></i>{{ _('Fonctionnalités') }}
                 </div>
-                <h2 class="display-4 fw-bold mb-3">Pourquoi Choisir SaveTogether ?</h2>
-                <p class="lead text-muted fs-5">Des fonctionnalités puissantes conçues pour rendre l'épargne de groupe facile et transparente</p>
+                <h2 class="display-4 fw-bold mb-3">{{ _('Pourquoi Choisir SaveTogether ?') }}</h2>
+                <p class="lead text-muted fs-5">{{ _("Des fonctionnalités puissantes conçues pour rendre l'épargne de
+                    groupe facile et transparente") }}</p>
             </div>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up">
                     <div class="feature-icon">
                         <i class="fas fa-users"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Épargne de Groupe</h4>
-                    <p class="text-muted mb-4">Créez ou rejoignez des groupes d'épargne avec vos amis et votre famille. Définissez des objectifs collectifs et suivez les progrès ensemble.</p>
+                    <h4 class="fw-bold mb-3">{{ _("Épargne de Groupe") }}</h4>
+                    <p class="text-muted mb-4">{{ _("Créez ou rejoignez des groupes d'épargne avec vos amis et votre
+                        famille. Définissez des objectifs collectifs et suivez les progrès ensemble.") }}</p>
                     <div class="feature-highlight bg-primary bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-primary fw-semibold">Collaboratif</small>
+                        <small class="text-primary fw-semibold">{{ _('Collaboratif') }}</small>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
-                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.1s;">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up"
+                    style="animation-delay: 0.1s;">
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Suivi des Progrès</h4>
-                    <p class="text-muted mb-4">Des tableaux de bord visuels et des graphiques montrent vos progrès d'épargne en temps réel. Restez motivé avec des jalons clairs.</p>
+                    <h4 class="fw-bold mb-3">{{ _('Suivi des Progrès') }}</h4>
+                    <p class="text-muted mb-4">{{ _('Des tableaux de bord visuels et des graphiques montrent vos progrès
+                        d\'épargne en temps réel. Restez motivé avec des jalons clairs.') }}</p>
                     <div class="feature-highlight bg-success bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-success fw-semibold">Temps réel</small>
+                        <small class="text-success fw-semibold">{{ _('Temps réel') }}</small>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
-                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up"
+                    style="animation-delay: 0.2s;">
                     <div class="feature-icon">
                         <i class="fas fa-bell"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Notifications Intelligentes</h4>
-                    <p class="text-muted mb-4">Recevez des rappels pour les contributions et célébrez les étapes ensemble. Ne manquez jamais une mise à jour importante.</p>
+                    <h4 class="fw-bold mb-3">{{ _('Notifications Intelligentes') }}</h4>
+                    <p class="text-muted mb-4">{{ _('Recevez des rappels pour les contributions et célébrez les étapes
+                        ensemble. Ne manquez jamais une mise à jour importante.') }}</p>
                     <div class="feature-highlight bg-warning bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-warning fw-semibold">Intelligent</small>
+                        <small class="text-warning fw-semibold">{{ _('Intelligent') }}</small>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
-                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.3s;">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up"
+                    style="animation-delay: 0.3s;">
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Sécurisé et Privé</h4>
-                    <p class="text-muted mb-4">Vos données financières sont protégées par une sécurité de niveau bancaire. Seuls les membres du groupe peuvent voir vos contributions.</p>
+                    <h4 class="fw-bold mb-3">{{ _('Sécurisé et Privé') }}</h4>
+                    <p class="text-muted mb-4">{{ _('Vos données financières sont protégées par une sécurité de niveau
+                        bancaire. Seuls les membres du groupe peuvent voir vos contributions.') }}</p>
                     <div class="feature-highlight bg-info bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-info fw-semibold">Sécurisé</small>
+                        <small class="text-info fw-semibold">{{ _('Sécurisé') }}</small>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
-                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up"
+                    style="animation-delay: 0.4s;">
                     <div class="feature-icon">
                         <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Compatible Mobile</h4>
-                    <p class="text-muted mb-4">Accédez à vos groupes d'épargne partout, à tout moment. Un design responsive fonctionne parfaitement sur tous les appareils.</p>
+                    <h4 class="fw-bold mb-3">{{ _('Compatible Mobile') }}</h4>
+                    <p class="text-muted mb-4">{{ _('Accédez à vos groupes d\'épargne partout, à tout moment. Un design
+                        responsive fonctionne parfaitement sur tous les appareils.') }}</p>
                     <div class="feature-highlight bg-secondary bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-secondary fw-semibold">Responsive</small>
+                        <small class="text-secondary fw-semibold">{{ _('Responsive') }}</small>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-lg-4 col-md-6">
-                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up" style="animation-delay: 0.5s;">
+                <div class="card feature-card h-100 text-center p-5 border-0 hover-lift animate-fade-in-up"
+                    style="animation-delay: 0.5s;">
                     <div class="feature-icon">
                         <i class="fas fa-crown"></i>
                     </div>
-                    <h4 class="fw-bold mb-3">Fonctionnalités Premium</h4>
-                    <p class="text-muted mb-4">Exportation de données, rappels automatisés et analyses avancées. Passez à Premium pour seulement 19 MAD/mois.</p>
+                    <h4 class="fw-bold mb-3">{{ _('Fonctionnalités Premium') }}</h4>
+                    <p class="text-muted mb-4">{{ _('Exportation de données, rappels automatisés et analyses avancées.
+                        Passez à Premium pour seulement 19 MAD/mois.') }}</p>
                     <div class="feature-highlight bg-danger bg-opacity-10 rounded-pill px-3 py-1 d-inline-block">
-                        <small class="text-danger fw-semibold">Premium</small>
+                        <small class="text-danger fw-semibold">{{ _('Premium') }}</small>
                     </div>
                 </div>
             </div>
@@ -241,34 +265,37 @@
     <div class="container">
         <div class="row text-center mb-5">
             <div class="col-12">
-                <h2 class="display-5 fw-bold mb-3">Comment ça Marche</h2>
-                <p class="lead text-muted">Commencez en trois étapes simples</p>
+                <h2 class="display-5 fw-bold mb-3">{{ _('Comment ça Marche') }}</h2>
+                <p class="lead text-muted">{{ _('Commencez en trois étapes simples') }}</p>
             </div>
         </div>
-        
+
         <div class="row g-4">
             <div class="col-md-4 text-center">
                 <div class="step-number mb-3">
                     <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">1</span>
                 </div>
-                <h4 class="fw-bold mb-3">Créer ou Rejoindre un Groupe</h4>
-                <p class="text-muted">Créez un nouveau groupe d'épargne ou rejoignez-en un existant avec un code d'invitation. Définissez votre objectif financier partagé.</p>
+                <h4 class="fw-bold mb-3">{{ _('Créer ou Rejoindre un Groupe') }}</h4>
+                <p class="text-muted">{{ _("Créez un nouveau groupe d'épargne ou rejoignez-en un existant avec un code
+                    d'invitation. Définissez votre objectif financier partagé.") }}</p>
             </div>
-            
+
             <div class="col-md-4 text-center">
                 <div class="step-number mb-3">
                     <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">2</span>
                 </div>
-                <h4 class="fw-bold mb-3">Suivre les Contributions</h4>
-                <p class="text-muted">Ajoutez vos contributions et regardez les progrès de votre groupe grandir. Voyez les mises à jour en temps réel de tous les membres.</p>
+                <h4 class="fw-bold mb-3">{{ _('Suivre les Contributions') }}</h4>
+                <p class="text-muted">{{ _('Ajoutez vos contributions et regardez les progrès de votre groupe grandir.
+                    Voyez les mises à jour en temps réel de tous les membres.') }}</p>
             </div>
-            
+
             <div class="col-md-4 text-center">
                 <div class="step-number mb-3">
                     <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">3</span>
                 </div>
-                <h4 class="fw-bold mb-3">Atteindre Votre Objectif</h4>
-                <p class="text-muted">Célébrez quand vous atteignez votre objectif ! Exportez les données et planifiez votre prochaine aventure d'épargne ensemble.</p>
+                <h4 class="fw-bold mb-3">{{ _('Atteindre Votre Objectif') }}</h4>
+                <p class="text-muted">{{ _('Célébrez quand vous atteignez votre objectif ! Exportez les données et
+                    planifiez votre prochaine aventure d\'épargne ensemble.') }}</p>
             </div>
         </div>
     </div>
@@ -280,106 +307,108 @@
         <div class="row text-center mb-5">
             <div class="col-12">
                 <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
-                    <i class="fas fa-tag me-2"></i>Tarifs
+                    <i class="fas fa-tag me-2"></i>{{ _('Tarifs') }}
                 </div>
-                <h2 class="display-4 fw-bold mb-3">Choisissez Votre Plan</h2>
-                <p class="lead text-muted fs-5">Commencez gratuitement et passez à Premium quand vous avez besoin de plus</p>
+                <h2 class="display-4 fw-bold mb-3">{{ _('Choisissez Votre Plan') }}</h2>
+                <p class="lead text-muted fs-5">{{ _('Commencez gratuitement et passez à Premium quand vous avez besoin
+                    de plus') }}</p>
             </div>
         </div>
-        
+
         <div class="row justify-content-center g-4">
             <!-- Free Plan -->
             <div class="col-md-6 col-lg-5">
                 <div class="card h-100 border-2 shadow-sm">
                     <div class="card-header text-center bg-light py-4">
-                        <h3 class="mb-2">Freemium</h3>
-                        <div class="display-4 fw-bold text-danger mb-2" style="opacity: 1; color: #dc3545 !important;">0 MAD</div>
-                        <p class="text-dark mb-0">par mois</p>
+                        <h3 class="mb-2">{{ _('Freemium') }}</h3>
+                        <div class="display-4 fw-bold text-danger mb-2" style="opacity: 1; color: #dc3545 !important;">0
+                            MAD</div>
+                        <p class="text-dark mb-0">{{ _('par mois') }}</p>
                     </div>
                     <div class="card-body p-4">
                         <ul class="list-unstyled mb-4">
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Créer des groupes d'épargne illimités
+                                {{ _("Créer des groupes d'épargne illimités") }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Suivre les progrès avec des graphiques
+                                {{ _('Suivre les progrès avec des graphiques') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Inviter des amis et la famille
+                                {{ _('Inviter des amis et la famille') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Notifications de base
+                                {{ _('Notifications de base') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Interface mobile-friendly
+                                {{ _('Interface mobile-friendly') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-times text-muted me-2"></i>
-                                <span class="text-muted">Export de données</span>
+                                <span class="text-muted">{{ _('Export de données') }}</span>
                             </li>
                             <li class="mb-0">
                                 <i class="fas fa-times text-muted me-2"></i>
-                                <span class="text-muted">Rappels automatisés</span>
+                                <span class="text-muted">{{ _('Rappels automatisés') }}</span>
                             </li>
                         </ul>
                     </div>
                     <div class="card-footer text-center bg-light py-3">
-                        <span class="text-muted">Parfait pour commencer</span>
+                        <span class="text-muted">{{ _('Parfait pour commencer') }}</span>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Premium Plan -->
             <div class="col-md-6 col-lg-5">
                 <div class="card h-100 border-primary border-3 position-relative shadow-lg">
                     <div class="position-absolute top-0 start-50 translate-middle">
-                        <span class="badge bg-primary fs-6 px-3 py-2">Le Plus Populaire</span>
+                        <span class="badge bg-primary fs-6 px-3 py-2">{{ _('Le Plus Populaire') }}</span>
                     </div>
                     <div class="card-header text-center bg-primary text-white py-4">
-                        <h3 class="mb-2">Premium</h3>
+                        <h3 class="mb-2">{{ _('Premium') }}</h3>
                         <div class="display-4 fw-bold mb-2">19 MAD</div>
-                        <p class="mb-0 opacity-75">par mois</p>
+                        <p class="mb-0 opacity-75">{{ _('par mois') }}</p>
                     </div>
                     <div class="card-body p-4">
                         <ul class="list-unstyled mb-4">
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                <strong>Tout dans Freemium</strong>
+                                <strong>{{ _('Tout dans Freemium') }}</strong>
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Export des données en CSV
+                                {{ _('Export des données en CSV') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Rappels automatisés
+                                {{ _('Rappels automatisés') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Analyses avancées
+                                {{ _('Analyses avancées') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Support prioritaire
+                                {{ _('Support prioritaire') }}
                             </li>
                             <li class="mb-3">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Notifications personnalisées
+                                {{ _('Notifications personnalisées') }}
                             </li>
                             <li class="mb-0">
                                 <i class="fas fa-check text-success me-2"></i>
-                                Contributions récurrentes
+                                {{ _('Contributions récurrentes') }}
                             </li>
                         </ul>
                     </div>
                     <div class="card-footer text-center bg-light py-3">
                         <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">
-                            <i class="fas fa-crown me-2"></i>Commencer Premium
+                            <i class="fas fa-crown me-2"></i>{{ _('Commencer Premium') }}
                         </a>
                     </div>
                 </div>
@@ -394,79 +423,85 @@
         <div class="row text-center mb-5">
             <div class="col-12">
                 <div class="badge bg-primary bg-opacity-10 text-primary mb-3 px-3 py-2 rounded-pill">
-                    <i class="fas fa-users me-2"></i>Our Team
+                    <i class="fas fa-users me-2"></i>{{ _('Notre Équipe') }}
                 </div>
-                <h2 class="display-4 fw-bold mb-3">Meet Our Team</h2>
-                <p class="lead text-muted fs-5">The passionate team behind SaveTogether</p>
+                <h2 class="display-4 fw-bold mb-3">{{ _('Rencontrez Notre Équipe') }}</h2>
+                <p class="lead text-muted fs-5">{{ _('L\'équipe passionnée derrière SaveTogether') }}</p>
             </div>
         </div>
-        
+
         <div class="row g-4 justify-content-center">
             <!-- Soufiane Ekouines -->
             <div class="col-lg-3 col-md-6">
                 <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
                     <div class="mb-3">
-                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 100px; height: 100px; font-size: 2.5rem;">
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <h5 class="fw-bold mb-2">Soufiane Ekouines</h5>
-                    <p class="text-muted small mb-3">Development Team</p>
+                    <p class="text-muted small mb-3">{{ _('Équipe de Développement') }}</p>
                     <div class="d-flex gap-2 justify-content-center mb-3">
-                        <a href="mailto:soufianeekouines@gmail.com" class="btn btn-sm btn-outline-primary" title="Email">
+                        <a href="mailto:soufianeekouines@gmail.com" class="btn btn-sm btn-outline-primary"
+                            title="Email">
                             <i class="fas fa-envelope"></i>
                         </a>
-                        <a href="https://soufianeekouines.vercel.app/" target="_blank" class="btn btn-sm btn-outline-primary" title="Portfolio">
+                        <a href="https://soufianeekouines.vercel.app/" target="_blank"
+                            class="btn btn-sm btn-outline-primary" title="Portfolio">
                             <i class="fas fa-globe"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Oussmane Bouzit -->
             <div class="col-lg-3 col-md-6">
                 <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
                     <div class="mb-3">
-                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 100px; height: 100px; font-size: 2.5rem;">
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <h5 class="fw-bold mb-2">Oussmane Bouzit</h5>
-                    <p class="text-muted small mb-3">Development Team</p>
+                    <p class="text-muted small mb-3">{{ _('Équipe de Développement') }}</p>
                     <div class="d-flex gap-2 justify-content-center mb-3">
-                        <span class="text-muted small">Team Member</span>
+                        <span class="text-muted small">{{ _('Membre de l\'équipe') }}</span>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Aya Bezgaoui -->
             <div class="col-lg-3 col-md-6">
                 <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
                     <div class="mb-3">
-                        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 100px; height: 100px; font-size: 2.5rem;">
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <h5 class="fw-bold mb-2">Aya Bezgaoui</h5>
-                    <p class="text-muted small mb-3">Development Team</p>
+                    <p class="text-muted small mb-3">{{ _('Équipe de Développement') }}</p>
                     <div class="d-flex gap-2 justify-content-center mb-3">
-                        <span class="text-muted small">Team Member</span>
+                        <span class="text-muted small">{{ _('Membre de l\'équipe') }}</span>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Walaa Allam -->
             <div class="col-lg-3 col-md-6">
                 <div class="card h-100 text-center p-4 border-0 shadow-sm hover-lift">
                     <div class="mb-3">
-                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center"
+                            style="width: 100px; height: 100px; font-size: 2.5rem;">
                             <i class="fas fa-user"></i>
                         </div>
                     </div>
                     <h5 class="fw-bold mb-2">Walaa Allam</h5>
-                    <p class="text-muted small mb-3">Development Team</p>
+                    <p class="text-muted small mb-3">{{ _('Équipe de Développement') }}</p>
                     <div class="d-flex gap-2 justify-content-center mb-3">
-                        <span class="text-muted small">Team Member</span>
+                        <span class="text-muted small">{{ _('Membre de l\'équipe') }}</span>
                     </div>
                 </div>
             </div>
@@ -479,17 +514,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4">Prêt à Commencer à Épargner Ensemble ?</h2>
-                <p class="lead mb-4">Rejoignez des milliers d'utilisateurs qui atteignent déjà leurs objectifs financiers avec SaveTogether.</p>
+                <h2 class="display-5 fw-bold mb-4">{{ _('Prêt à Commencer à Épargner Ensemble ?') }}</h2>
+                <p class="lead mb-4">{{ _("Rejoignez des milliers d'utilisateurs qui atteignent déjà leurs objectifs
+                    financiers avec SaveTogether.") }}</p>
                 <div class="d-flex gap-3 justify-content-center flex-wrap">
-                    <button type="button" class="btn btn-primary btn-lg px-5" data-bs-toggle="modal" data-bs-target="#registerModal">
-                        <i class="fas fa-user-plus me-2"></i>S'inscrire Gratuitement
+                    <button type="button" class="btn btn-primary btn-lg px-5" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-2"></i>{{ _('S\'inscrire Gratuitement') }}
                     </button>
-                    <button type="button" class="btn btn-outline-primary btn-lg px-5" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                    <button type="button" class="btn btn-outline-primary btn-lg px-5" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i>{{ _('Connexion') }}
                     </button>
                     <a href="{{ url_for('pricing') }}" class="btn btn-outline-primary btn-lg px-5">
-                        <i class="fas fa-crown me-2"></i>Voir les Tarifs
+                        <i class="fas fa-crown me-2"></i>{{ _('Voir les Tarifs') }}
                     </a>
                 </div>
             </div>
@@ -503,14 +541,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                    <i class="fas fa-sign-in-alt me-2"></i>{{ _('Connexion') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="loginForm">
                     <div class="mb-3">
-                        <label for="modal_username" class="form-label">Nom d'utilisateur</label>
+                        <label for="modal_username" class="form-label">{{ _("Nom d'utilisateur") }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-user"></i>
@@ -518,9 +556,9 @@
                             <input type="text" class="form-control" id="modal_username" name="username" required>
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="modal_password" class="form-label">Mot de passe</label>
+                        <label for="modal_password" class="form-label">{{ _('Mot de passe') }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-lock"></i>
@@ -528,20 +566,21 @@
                             <input type="password" class="form-control" id="modal_password" name="password" required>
                         </div>
                     </div>
-                    
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-sign-in-alt me-2"></i>Se Connecter
+                            <i class="fas fa-sign-in-alt me-2"></i>{{ _('Se Connecter') }}
                         </button>
                     </div>
                 </form>
-                
+
                 <hr class="my-4">
-                
+
                 <div class="text-center">
-                    <p class="mb-0">Vous n'avez pas de compte ?</p>
-                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#registerModal">
-                        <i class="fas fa-user-plus me-2"></i>Créer un Compte
+                    <p class="mb-0">{{ _('Vous n\'avez pas de compte ?') }}</p>
+                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal"
+                        data-bs-target="#registerModal">
+                        <i class="fas fa-user-plus me-2"></i>{{ _('Créer un Compte') }}
                     </button>
                 </div>
             </div>
@@ -555,14 +594,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-user-plus me-2"></i>Créer un Compte
+                    <i class="fas fa-user-plus me-2"></i>{{ _('Créer un Compte') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="registerForm">
                     <div class="mb-3">
-                        <label for="modal_reg_username" class="form-label">Nom d'utilisateur</label>
+                        <label for="modal_reg_username" class="form-label">{{ _('Nom d\'utilisateur') }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-user"></i>
@@ -570,9 +609,9 @@
                             <input type="text" class="form-control" id="modal_reg_username" name="username" required>
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="modal_reg_email" class="form-label">Email</label>
+                        <label for="modal_reg_email" class="form-label">{{ _('Email') }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-envelope"></i>
@@ -580,30 +619,32 @@
                             <input type="email" class="form-control" id="modal_reg_email" name="email" required>
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="modal_reg_password" class="form-label">Mot de passe</label>
+                        <label for="modal_reg_password" class="form-label">{{ _('Mot de passe') }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-lock"></i>
                             </span>
-                            <input type="password" class="form-control" id="modal_reg_password" name="password" required>
+                            <input type="password" class="form-control" id="modal_reg_password" name="password"
+                                required>
                         </div>
                     </div>
-                    
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-user-plus me-2"></i>Créer le Compte
+                            <i class="fas fa-user-plus me-2"></i>{{ _('Créer le Compte') }}
                         </button>
                     </div>
                 </form>
-                
+
                 <hr class="my-4">
-                
+
                 <div class="text-center">
-                    <p class="mb-0">Vous avez déjà un compte ?</p>
-                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">
-                        <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                    <p class="mb-0">{{ _('Vous avez déjà un compte ?') }}</p>
+                    <button type="button" class="btn btn-outline-primary mt-2" data-bs-toggle="modal"
+                        data-bs-target="#loginModal">
+                        <i class="fas fa-sign-in-alt me-2"></i>{{ _('Connexion') }}
                     </button>
                 </div>
             </div>
@@ -612,83 +653,83 @@
 </div>
 
 <script>
-// Handle login form submission
-document.getElementById('loginForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        username: document.getElementById('modal_username').value,
-        password: document.getElementById('modal_password').value
-    };
-    
-    try {
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            // Close modal
-            const modalElement = document.getElementById('loginModal');
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) {
-                modal.hide();
-            }
-            
-            // Redirect to dashboard
-            window.location.href = '/dashboard';
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Erreur lors de la connexion: ' + error.message);
-    }
-});
+    // Handle login form submission
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
 
-// Handle registration form submission
-document.getElementById('registerForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        username: document.getElementById('modal_reg_username').value,
-        email: document.getElementById('modal_reg_email').value,
-        password: document.getElementById('modal_reg_password').value
-    };
-    
-    try {
-        const response = await fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            // Close modal
-            const modalElement = document.getElementById('registerModal');
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) {
-                modal.hide();
+        const formData = {
+            username: document.getElementById('modal_username').value,
+            password: document.getElementById('modal_password').value
+        };
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                // Close modal
+                const modalElement = document.getElementById('loginModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+
+                // Redirect to dashboard
+                window.location.href = '/dashboard';
+            } else {
+                alert('Erreur: ' + data.message);
             }
-            
-            // Redirect to dashboard
-            window.location.href = '/dashboard';
-        } else {
-            alert('Erreur: ' + data.message);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Erreur lors de la connexion: ' + error.message);
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Erreur lors de l\'inscription: ' + error.message);
-    }
-});
+    });
+
+    // Handle registration form submission
+    document.getElementById('registerForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = {
+            username: document.getElementById('modal_reg_username').value,
+            email: document.getElementById('modal_reg_email').value,
+            password: document.getElementById('modal_reg_password').value
+        };
+
+        try {
+            const response = await fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                // Close modal
+                const modalElement = document.getElementById('registerModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+
+                // Redirect to dashboard
+                window.location.href = '/dashboard';
+            } else {
+                alert('Erreur: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Erreur lors de l\'inscription: ' + error.message);
+        }
+    });
 </script>
 {% endblock %}

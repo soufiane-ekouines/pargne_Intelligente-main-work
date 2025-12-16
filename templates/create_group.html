@@ -9,110 +9,114 @@
             <div class="card mt-5">
                 <div class="card-header text-center">
                     <h3 class="mb-0">
-                        <i class="fas fa-plus-circle me-2"></i>Create New Group
+                        <i class="fas fa-plus-circle me-2"></i>{{ _('Créer un Nouveau Groupe') }}
                     </h3>
-                    <p class="text-muted mb-0">Start a new savings journey with your friends and family</p>
+                    <p class="text-muted mb-0">{{ _('Commencez une nouvelle aventure d\'épargne avec vos amis et votre
+                        famille') }}</p>
                 </div>
                 <div class="card-body p-4">
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Group Name *</label>
+                            <label for="name" class="form-label">{{ _('Nom du Groupe *') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-users"></i>
                                 </span>
-                                <input type="text" class="form-control" id="name" name="name" 
-                                       placeholder="e.g., Wedding Fund, Vacation 2024" required>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="{{ _('ex: Fonds de Mariage, Vacances 2024') }}" required>
                             </div>
-                            <div class="form-text">Choose a descriptive name for your savings group</div>
+                            <div class="form-text">{{ _('Choisissez un nom descriptif pour votre groupe d\'épargne') }}
+                            </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="category" class="form-label">Catégorie *</label>
+                            <label for="category" class="form-label">{{ _('Catégorie *') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-tag"></i>
                                 </span>
                                 <select class="form-select" id="category" name="category" required>
-                                    <option value="">Sélectionner une catégorie</option>
-                                    <option value="Voyage">Voyage</option>
-                                    <option value="Mariage">Mariage</option>
-                                    <option value="Études">Études</option>
-                                    <option value="Projet Immobilier">Projet Immobilier</option>
-                                    <option value="Véhicule">Véhicule</option>
-                                    <option value="Autre">Autre</option>
+                                    <option value="">{{ _('Sélectionner une catégorie') }}</option>
+                                    <option value="Voyage">{{ _('Voyage') }}</option>
+                                    <option value="Mariage">{{ _('Mariage') }}</option>
+                                    <option value="Études">{{ _('Études') }}</option>
+                                    <option value="Projet Immobilier">{{ _('Projet Immobilier') }}</option>
+                                    <option value="Véhicule">{{ _('Véhicule') }}</option>
+                                    <option value="Autre">{{ _('Autre') }}</option>
                                 </select>
                             </div>
-                            <div class="form-text">Choisissez le type d'épargne</div>
+                            <div class="form-text">{{ _('Choisissez le type d\'épargne') }}</div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" 
-                                      placeholder="Describe your savings goal and how you plan to achieve it..."></textarea>
-                            <div class="form-text">Optional: Add details about your savings goal</div>
+                            <label for="description" class="form-label">{{ _('Description') }}</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"
+                                placeholder="{{ _('Décrivez votre objectif d\'épargne et comment vous comptez l\'atteindre...') }}"></textarea>
+                            <div class="form-text">{{ _('Optionnel : Ajoutez des détails sur votre objectif d\'épargne')
+                                }}</div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="target_amount" class="form-label">Target Amount (MAD) *</label>
+                            <label for="target_amount" class="form-label">{{ _('Montant Cible (MAD) *') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-money-bill-wave"></i>
                                 </span>
-                                <input type="number" class="form-control" id="target_amount" name="target_amount" 
-                                       placeholder="10000" min="1" step="0.01" required>
+                                <input type="number" class="form-control" id="target_amount" name="target_amount"
+                                    placeholder="10000" min="1" step="0.01" required>
                                 <span class="input-group-text">MAD</span>
                             </div>
-                            <div class="form-text">The total amount your group wants to save</div>
+                            <div class="form-text">{{ _('Le montant total que votre groupe souhaite épargner') }}</div>
                         </div>
-                        
+
                         <div class="mb-4">
-                            <label for="deadline" class="form-label">Deadline</label>
+                            <label for="deadline" class="form-label">{{ _('Date Limite') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-calendar-alt"></i>
                                 </span>
                                 <input type="date" class="form-control" id="deadline" name="deadline">
                             </div>
-                            <div class="form-text">Optional: Set a target date for reaching your goal</div>
+                            <div class="form-text">{{ _('Optionnel : Fixez une date cible pour atteindre votre
+                                objectif') }}</div>
                         </div>
-                        
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-plus-circle me-2"></i>Create Group
+                                <i class="fas fa-plus-circle me-2"></i>{{ _('Créer le Groupe') }}
                             </button>
                             <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
-                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                                <i class="fas fa-arrow-left me-2"></i>{{ _('Retour au Tableau de Bord') }}
                             </a>
                         </div>
                     </form>
                 </div>
             </div>
-            
+
             <!-- Tips Card -->
             <div class="card mt-4">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <i class="fas fa-lightbulb me-2"></i>Tips for Success
+                        <i class="fas fa-lightbulb me-2"></i>{{ _('Conseils pour réussir') }}
                     </h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-unstyled mb-0">
                         <li class="mb-2">
                             <i class="fas fa-check-circle text-success me-2"></i>
-                            Choose a realistic target amount that everyone can contribute to
+                            {{ _('Choisissez un montant cible réaliste auquel tout le monde peut contribuer') }}
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-check-circle text-success me-2"></i>
-                            Set regular contribution schedules (weekly, monthly)
+                            {{ _('Fixez des calendriers de contribution réguliers (hebdomadaires, mensuels)') }}
                         </li>
                         <li class="mb-2">
                             <i class="fas fa-check-circle text-success me-2"></i>
-                            Communicate openly about progress and challenges
+                            {{ _('Communiquez ouvertement sur les progrès et les défis') }}
                         </li>
                         <li class="mb-0">
                             <i class="fas fa-check-circle text-success me-2"></i>
-                            Celebrate milestones to keep everyone motivated
+                            {{ _('Célébrez les étapes importantes pour garder tout le monde motivé') }}
                         </li>
                     </ul>
                 </div>

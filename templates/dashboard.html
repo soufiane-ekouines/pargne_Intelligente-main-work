@@ -13,20 +13,20 @@
                 </h5>
                 <nav class="nav flex-column">
                     <a class="nav-link active" href="{{ url_for('dashboard') }}">
-                        <i class="fas fa-home me-2"></i>Overview
+                        <i class="fas fa-home me-2"></i>{{ _('Vue d\'ensemble') }}
                     </a>
                     <a class="nav-link" href="{{ url_for('create_group') }}">
-                        <i class="fas fa-plus me-2"></i>Create Group
+                        <i class="fas fa-plus me-2"></i>{{ _('Créer un Groupe') }}
                     </a>
                     <a class="nav-link" href="{{ url_for('join_group') }}">
-                        <i class="fas fa-user-plus me-2"></i>Join Group
+                        <i class="fas fa-user-plus me-2"></i>{{ _('Rejoindre un Groupe') }}
                     </a>
                     <a class="nav-link" href="{{ url_for('settings') }}">
-                        <i class="fas fa-cog me-2"></i>Settings
+                        <i class="fas fa-cog me-2"></i>{{ _('Paramètres') }}
                     </a>
                     {% if not current_user.is_premium %}
                     <a class="nav-link" href="{{ url_for('pricing') }}">
-                        <i class="fas fa-crown me-2"></i>Upgrade to Premium
+                        <i class="fas fa-crown me-2"></i>{{ _('Passer à Premium') }}
                     </a>
                     {% endif %}
                 </nav>
@@ -67,7 +67,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">{{ groups|length }}</div>
-                                <div class="stats-label">Active Groups</div>
+                                <div class="stats-label">{{ _('Groupes Actifs') }}</div>
                             </div>
                             <div class="stats-icon stats-icon-purple">
                                 <i class="fas fa-users"></i>
@@ -87,7 +87,7 @@
                                     {% endfor %}
                                     {{ "%.0f"|format(total_saved) }} MAD
                                 </div>
-                                <div class="stats-label">Total Saved</div>
+                                <div class="stats-label">{{ _('Total Épargné') }}</div>
                             </div>
                             <div class="stats-icon stats-icon-green">
                                 <i class="fas fa-coins"></i>
@@ -101,7 +101,7 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">{{ recent_contributions|length }}</div>
-                                <div class="stats-label">Recent Contributions</div>
+                                <div class="stats-label">{{ _('Contributions Récentes') }}</div>
                             </div>
                             <div class="stats-icon stats-icon-blue">
                                 <i class="fas fa-chart-line"></i>
@@ -118,10 +118,10 @@
                                     {% if current_user.is_premium %}
                                     <i class="fas fa-crown"></i> PRO
                                     {% else %}
-                                    <i class="fas fa-user"></i> FREE
+                                    <i class="fas fa-user"></i> {{ _('GRATUIT') }}
                                     {% endif %}
                                 </div>
-                                <div class="stats-label">Account Type</div>
+                                <div class="stats-label">{{ _('Type de Compte') }}</div>
                             </div>
                             <div class="stats-icon stats-icon-orange">
                                 {% if current_user.is_premium %}
@@ -142,7 +142,7 @@
                     <div class="progress-guide-box border"
                         style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border-color: #667eea !important; display: block !important; padding: 1rem; border-radius: 0.375rem;">
                         <h6 class="fw-bold mb-3" style="color: #667eea;">
-                            <i class="fas fa-palette me-2"></i>Progress Levels Guide
+                            <i class="fas fa-palette me-2"></i>{{ _('Guide des Niveaux de Progression') }}
                         </h6>
                         <div class="row g-2">
                             <div class="col-md-6 col-lg-2">
@@ -150,7 +150,7 @@
                                     <div class="rounded"
                                         style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
                                     </div>
-                                    <span class="ms-2 small"><strong>0-29%:</strong> Starting Out</span>
+                                    <span class="ms-2 small"><strong>0-29%:</strong> {{ _('Débutant') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-2">
@@ -158,7 +158,7 @@
                                     <div class="rounded"
                                         style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
                                     </div>
-                                    <span class="ms-2 small"><strong>30-49%:</strong> Making Progress</span>
+                                    <span class="ms-2 small"><strong>30-49%:</strong> {{ _('En Progression') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
@@ -166,7 +166,7 @@
                                     <div class="rounded"
                                         style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
                                     </div>
-                                    <span class="ms-2 small"><strong>50-74%:</strong> Halfway There</span>
+                                    <span class="ms-2 small"><strong>50-74%:</strong> {{ _('À Mi-chemin') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
@@ -174,7 +174,7 @@
                                     <div class="rounded"
                                         style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
                                     </div>
-                                    <span class="ms-2 small"><strong>75-99%:</strong> Almost Done</span>
+                                    <span class="ms-2 small"><strong>75-99%:</strong> {{ _('Presque Fini') }}</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-2">
@@ -182,7 +182,8 @@
                                     <div class="rounded"
                                         style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                                     </div>
-                                    <span class="ms-2 small"><strong>100%+:</strong> Goal Achieved! 🎉</span>
+                                    <span class="ms-2 small"><strong>100%+:</strong> {{ _('Objectif Atteint !') }}
+                                        🎉</span>
                                 </div>
                             </div>
                         </div>
@@ -196,11 +197,11 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">
-                                <i class="fas fa-users me-2"></i>Your Groups
+                                <i class="fas fa-users me-2"></i>{{ _('Vos Groupes') }}
                             </h5>
                             <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#createGroupModal">
-                                <i class="fas fa-plus me-1"></i>Create New Group
+                                <i class="fas fa-plus me-1"></i>{{ _('Créer un Nouveau Groupe') }}
                             </button>
                         </div>
                         <div class="card-body">
@@ -217,7 +218,7 @@
                                         </h6>
                                         <p class="text-muted mb-2">{{ group.description or 'No description' }}</p>
                                     </div>
-                                    <span class="badge bg-primary">{{ group.member_count }} members</span>
+                                    <span class="badge bg-primary">{{ group.member_count }} {{ _('membres') }}</span>
                                 </div>
 
                                 {% set progress_pct = (group.total_contributed / group.target_amount * 100) if
@@ -226,15 +227,15 @@
                                 {# Apply same color system as group detail page #}
                                 {% if progress_pct < 30 %} {% set
                                     progress_color='linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %} {% set
-                                    progress_label='Starting Out' %} {% elif progress_pct < 50 %} {% set
+                                    progress_label=_('Débutant') %} {% elif progress_pct < 50 %} {% set
                                     progress_color='linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %} {% set
-                                    progress_label='Making Progress' %} {% elif progress_pct < 75 %} {% set
+                                    progress_label=_('En Progression') %} {% elif progress_pct < 75 %} {% set
                                     progress_color='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %} {% set
-                                    progress_label='Halfway There' %} {% elif progress_pct < 100 %} {% set
+                                    progress_label=_('À Mi-chemin') %} {% elif progress_pct < 100 %} {% set
                                     progress_color='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %} {% set
-                                    progress_label='Almost Done' %} {% else %} {% set
+                                    progress_label=_('Presque Fini') %} {% else %} {% set
                                     progress_color='linear-gradient(135deg, #10b981 0%, #059669 100%)' %} {% set
-                                    progress_label='Goal Achieved!' %} {% endif %} <div class="progress mb-2"
+                                    progress_label=_('Objectif Atteint !') %} {% endif %} <div class="progress mb-2"
                                     style="height: 25px;">
                                     <div class="progress-bar" role="progressbar"
                                         style="width: {{ progress_pct }}%; background: {{ progress_color }} !important;"
@@ -249,9 +250,10 @@
                             </div>
 
                             <div class="d-flex justify-content-between text-muted small">
-                                <span>{{ group.total_contributed }} MAD of {{ group.target_amount }} MAD</span>
+                                <span>{{ group.total_contributed }} MAD {{ _('sur') }} {{ group.target_amount }}
+                                    MAD</span>
                                 {% if group.deadline %}
-                                <span>Due: {{ group.deadline }}</span>
+                                <span>{{ _('Échéance :') }} {{ group.deadline }}</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -259,17 +261,17 @@
                         {% else %}
                         <div class="text-center py-4">
                             <i class="fas fa-users text-muted" style="font-size: 3rem;"></i>
-                            <h5 class="mt-3 text-muted">No groups yet</h5>
-                            <p class="text-muted">Create your first savings group or join an existing one to get
-                                started!</p>
+                            <h5 class="mt-3 text-muted">{{ _('Pas encore de groupes') }}</h5>
+                            <p class="text-muted">{{ _('Créez votre premier groupe d\'épargne ou rejoignez-en un
+                                existant pour commencer !') }}</p>
                             <div class="d-flex gap-2 justify-content-center">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                     data-bs-target="#createGroupModal">
-                                    <i class="fas fa-plus me-1"></i>Create Group
+                                    <i class="fas fa-plus me-1"></i>{{ _('Créer un Groupe') }}
                                 </button>
                                 <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                                     data-bs-target="#joinGroupModal">
-                                    <i class="fas fa-user-plus me-1"></i>Join Group
+                                    <i class="fas fa-user-plus me-1"></i>{{ _('Rejoindre un Groupe') }}
                                 </button>
                             </div>
                         </div>
@@ -283,7 +285,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <i class="fas fa-history me-2"></i>Recent Activity
+                            <i class="fas fa-history me-2"></i>{{ _('Activité Récente') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -307,7 +309,7 @@
                         {% else %}
                         <div class="text-center py-3">
                             <i class="fas fa-history text-muted" style="font-size: 2rem;"></i>
-                            <p class="text-muted mt-2 mb-0">No recent activity</p>
+                            <p class="text-muted mt-2 mb-0">{{ _('Pas d\'activité récente') }}</p>
                         </div>
                         {% endif %}
                     </div>
@@ -317,22 +319,22 @@
                 <div class="card mt-3">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <i class="fas fa-bolt me-2"></i>Quick Actions
+                            <i class="fas fa-bolt me-2"></i>{{ _('Actions Rapides') }}
                         </h5>
                     </div>
                     <div class="card-body">
                         <div class="d-grid gap-2">
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#createGroupModal">
-                                <i class="fas fa-plus me-2"></i>Create New Group
+                                <i class="fas fa-plus me-2"></i>{{ _('Créer un Nouveau Groupe') }}
                             </button>
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#joinGroupModal">
-                                <i class="fas fa-user-plus me-2"></i>Join with Code
+                                <i class="fas fa-user-plus me-2"></i>{{ _('Rejoindre avec un Code') }}
                             </button>
                             {% if not current_user.is_premium %}
                             <a href="{{ url_for('pricing') }}" class="btn btn-outline-warning">
-                                <i class="fas fa-crown me-2"></i>Upgrade to Premium
+                                <i class="fas fa-crown me-2"></i>{{ _('Passer à Premium') }}
                             </a>
                             {% endif %}
                         </div>
@@ -459,50 +461,51 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-plus-circle me-2"></i>Créer un Nouveau Groupe
+                    <i class="fas fa-plus-circle me-2"></i>{{ _('Créer un Nouveau Groupe') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="createGroupForm">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="modal_group_name" class="form-label">Nom du Groupe *</label>
+                        <label for="modal_group_name" class="form-label">{{ _('Nom du Groupe *') }}</label>
                         <input type="text" class="form-control" id="modal_group_name" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal_group_category" class="form-label">Catégorie *</label>
+                        <label for="modal_group_category" class="form-label">{{ _('Catégorie *') }}</label>
                         <select class="form-select" id="modal_group_category" required>
-                            <option value="">Sélectionner une catégorie</option>
-                            <option value="Voyage">Voyage</option>
-                            <option value="Mariage">Mariage</option>
-                            <option value="Études">Études</option>
-                            <option value="Projet Immobilier">Projet Immobilier</option>
-                            <option value="Véhicule">Véhicule</option>
-                            <option value="Autre">Autre</option>
+                            <option value="">{{ _('Sélectionner une catégorie') }}</option>
+                            <option value="Voyage">{{ _('Voyage') }}</option>
+                            <option value="Mariage">{{ _('Mariage') }}</option>
+                            <option value="Études">{{ _('Études') }}</option>
+                            <option value="Projet Immobilier">{{ _('Projet Immobilier') }}</option>
+                            <option value="Véhicule">{{ _('Véhicule') }}</option>
+                            <option value="Autre">{{ _('Autre') }}</option>
                         </select>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal_group_description" class="form-label">Description</label>
+                        <label for="modal_group_description" class="form-label">{{ _('Description') }}</label>
                         <textarea class="form-control" id="modal_group_description" rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal_group_target_amount" class="form-label">Montant Cible (MAD) *</label>
+                        <label for="modal_group_target_amount" class="form-label">{{ _('Montant Cible (MAD) *')
+                            }}</label>
                         <input type="number" class="form-control" id="modal_group_target_amount" min="1" step="0.01"
                             required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal_group_deadline" class="form-label">Date Limite</label>
+                        <label for="modal_group_deadline" class="form-label">{{ _('Date Limite') }}</label>
                         <input type="date" class="form-control" id="modal_group_deadline">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Annuler') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-plus-circle me-2"></i>Créer le Groupe
+                        <i class="fas fa-plus-circle me-2"></i>{{ _('Créer le Groupe') }}
                     </button>
                 </div>
             </form>
@@ -516,27 +519,27 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-user-plus me-2"></i>Rejoindre un Groupe
+                    <i class="fas fa-user-plus me-2"></i>{{ _('Rejoindre un Groupe') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="joinGroupForm">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="modal_invite_code" class="form-label">Code d'Invitation *</label>
+                        <label for="modal_invite_code" class="form-label">{{ _('Code d\'Invitation *') }}</label>
                         <input type="text" class="form-control" id="modal_invite_code"
-                            placeholder="Entrez le code à 8 caractères" required>
-                        <div class="form-text">Demandez le code d'invitation au créateur du groupe</div>
+                            placeholder="{{ _('Entrez le code à 8 caractères') }}" required>
+                        <div class="form-text">{{ _('Demandez le code d\'invitation au créateur du groupe') }}</div>
                     </div>
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
-                        Votre demande sera envoyée pour approbation par l'admin du groupe.
+                        {{ _('Votre demande sera envoyée pour approbation par l\'admin du groupe.') }}
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Annuler') }}</button>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-user-plus me-2"></i>Demander à Rejoindre
+                        <i class="fas fa-user-plus me-2"></i>{{ _('Demander à Rejoindre') }}
                     </button>
                 </div>
             </form>

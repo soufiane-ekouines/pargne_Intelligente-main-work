@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ current_language }}" dir="{% if current_language == 'ar' %}rtl{% else %}ltr{% endif %}">
 
 <head>
     <meta charset="UTF-8">
@@ -1277,20 +1277,38 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    <!-- Language Switcher -->
+                    <li class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe me-1"></i> {{ current_language|upper }}
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                            {% for code, name in supported_languages.items() %}
+                            <li>
+                                <a class="dropdown-item {% if current_language == code %}active{% endif %}"
+                                    href="{{ url_for('set_language', language=code) }}">
+                                    {{ name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('dashboard') }}">
-                            <i class="fas fa-tachometer-alt me-1"></i>Tableau de Bord
+                            <i class="fas fa-tachometer-alt me-1"></i>{{ _('Tableau de Bord') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('create_group') }}">
-                            <i class="fas fa-plus me-1"></i>Créer un Groupe
+                            <i class="fas fa-plus me-1"></i>{{ _('Créer un Groupe') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('join_group') }}">
-                            <i class="fas fa-user-plus me-1"></i>Rejoindre un Groupe
+                            <i class="fas fa-user-plus me-1"></i>{{ _('Rejoindre un Groupe') }}
                         </a>
                     </li>
                     {% if not current_user.is_premium %}
@@ -1314,7 +1332,7 @@
                             aria-labelledby="notificationDropdown">
                             <div
                                 class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom header-gradient">
-                                <h6 class="mb-0 fw-bold text-white">Notifications</h6>
+                                <h6 class="mb-0 fw-bold text-white">{{ _('Notifications') }}</h6>
                                 <span class="badge bg-white text-primary rounded-pill">{{ notifications|length }}</span>
                             </div>
                             <div class="notification-list custom-scrollbar"
@@ -1332,7 +1350,8 @@
                                         <div class="flex-grow-1 ms-3">
                                             <p class="mb-1 small text-dark fw-medium line-clamp-2">{{
                                                 notification.message }}</p>
-                                            <small class="text-muted" style="font-size: 0.75rem;">Just now</small>
+                                            <small class="text-muted" style="font-size: 0.75rem;">{{ _('À l\'instant')
+                                                }}</small>
                                         </div>
                                         <button type="button" class="btn-close btn-close-sm ms-2"
                                             onclick="markNotificationRead({{ notification.id }}); event.stopPropagation();"
@@ -1345,13 +1364,13 @@
                                     <div class="mb-2">
                                         <i class="fas fa-bell-slash fa-2x text-light-gray"></i>
                                     </div>
-                                    <p class="mb-0 small">No new notifications</p>
+                                    <p class="mb-0 small">{{ _('Pas de nouvelles notifications') }}</p>
                                 </div>
                                 {% endif %}
                             </div>
                             <div class="p-2 text-center border-top bg-light rounded-bottom">
                                 <a href="#" class="small text-decoration-none text-primary fw-bold"
-                                    onclick="location.reload(); return false;">Refresh</a>
+                                    onclick="location.reload(); return false;">{{ _('Actualiser') }}</a>
                             </div>
                         </div>
                     </li>
@@ -1365,25 +1384,25 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ url_for('settings') }}">
-                                    <i class="fas fa-cog me-2"></i>Paramètres
+                                    <i class="fas fa-cog me-2"></i>{{ _('Paramètres') }}
                                 </a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <li><a class="dropdown-item" href="{{ url_for('logout') }}">
-                                    <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                                    <i class="fas fa-sign-out-alt me-2"></i>{{ _('Déconnexion') }}
                                 </a></li>
                         </ul>
                     </li>
                     {% else %}
                     <li class="nav-item" style="margin-top: 7px;">
                         <a class="nav-link btn btn-primary btn-sm" href="{{ url_for('login') }}">
-                            <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                            <i class="fas fa-sign-in-alt me-1"></i>{{ _('Connexion') }}
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('register') }}">
-                            <i class="btn btn-primary btn-sm">S'inscrire</i>
+                            <i class="btn btn-primary btn-sm">{{ _("S'inscrire") }}</i>
                         </a>
                     </li>
                     {% endif %}
@@ -1403,10 +1422,11 @@
             <div class="row">
                 <div class="col-md-6">
                     <h5><i class="fas fa-piggy-bank me-2"></i>SaveTogether</h5>
-                    <p class="mb-0">Smart community savings platform for achieving your goals together.</p>
+                    <p class="mb-0">{{ _('Plateforme d\'épargne communautaire intelligente pour atteindre vos objectifs
+                        ensemble.') }}</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="mb-0">&copy; 2024 SaveTogether. All rights reserved.</p>
+                    <p class="mb-0">&copy; 2024 SaveTogether. {{ _('Tous droits réservés.') }}</p>
                 </div>
             </div>
         </div>

@@ -9,14 +9,14 @@
             <div class="card mt-5">
                 <div class="card-header text-center">
                     <h3 class="mb-0">
-                        <i class="fas fa-user-plus me-2"></i>Créer un Compte
+                        <i class="fas fa-user-plus me-2"></i>{{ _('Créer un Compte') }}
                     </h3>
-                    <p class="text-muted mb-0">Rejoignez SaveTogether aujourd'hui</p>
+                    <p class="text-muted mb-0">{{ _('Rejoignez SaveTogether aujourd\'hui') }}</p>
                 </div>
                 <div class="card-body p-4">
                     <form method="POST">
                         <div class="mb-3">
-                            <label for="username" class="form-label">Nom d'utilisateur</label>
+                            <label for="username" class="form-label">{{ _('Nom d\'utilisateur') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-user"></i>
@@ -24,9 +24,9 @@
                                 <input type="text" class="form-control" id="username" name="username" required>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">{{ _('Email') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-envelope"></i>
@@ -34,9 +34,9 @@
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                         </div>
-                        
+
                         <div class="mb-3">
-                            <label for="password" class="form-label">Mot de passe</label>
+                            <label for="password" class="form-label">{{ _('Mot de passe') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
                                     <i class="fas fa-lock"></i>
@@ -44,31 +44,31 @@
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                         </div>
-                        
+
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-user-plus me-2"></i>Créer le Compte
+                                <i class="fas fa-user-plus me-2"></i>{{ _('Créer le Compte') }}
                             </button>
                         </div>
                     </form>
-                    
+
                     {% if google_oauth_enabled %}
                     <hr class="my-4">
-                    
+
                     <div class="text-center mb-3">
-                        <p class="text-muted mb-2">Ou</p>
+                        <p class="text-muted mb-2">{{ _('Ou') }}</p>
                         <a href="{{ url_for('google.login') }}" class="btn btn-outline-danger btn-lg w-100">
-                            <i class="fab fa-google me-2"></i>S'inscrire avec Google
+                            <i class="fab fa-google me-2"></i>{{ _('S\'inscrire avec Google') }}
                         </a>
                     </div>
                     {% endif %}
-                    
+
                     <hr class="my-4">
-                    
+
                     <div class="text-center">
-                        <p class="mb-0">Vous avez déjà un compte ?</p>
+                        <p class="mb-0">{{ _('Vous avez déjà un compte ?') }}</p>
                         <a href="{{ url_for('login') }}" class="btn btn-outline-primary mt-2">
-                            <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            <i class="fas fa-sign-in-alt me-2"></i>{{ _('Connexion') }}
                         </a>
                     </div>
                 </div>

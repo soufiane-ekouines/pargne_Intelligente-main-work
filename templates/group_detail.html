@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ group.name }} - SaveTogether{% endblock %}
+{% block title %}{{ group.name }} - {{ _('SaveTogether') }}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -10,13 +10,13 @@
             <div class="d-flex justify-content-between align-items-start">
                 <div>
                     <h2 class="mb-1">{{ group.name }}</h2>
-                    <p class="text-muted mb-0">{{ group.description or 'No description provided' }}</p>
+                    <p class="text-muted mb-0">{{ group.description or _('Pas de description fournie') }}</p>
                 </div>
                 <div class="text-end">
-                    <span class="badge bg-primary fs-6">{{ members|length }} members</span>
+                    <span class="badge bg-primary fs-6">{{ members|length }} {{ _('membres') }}</span>
                     {% if group.deadline %}
                     <div class="text-muted small mt-1">
-                        Deadline: {{ group.deadline }}
+                        {{ _('Échéance :') }} {{ group.deadline }}
                     </div>
                     {% endif %}
                 </div>
@@ -30,24 +30,24 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">
-                        <i class="fas fa-chart-line me-2"></i>Progress Overview
+                        <i class="fas fa-chart-line me-2"></i>{{ _('Aperçu de la Progression') }}
                     </h5>
                 </div>
                 <div class="card-body">
                     <!-- Progress Bar -->
                     {% if progress_percentage < 30 %} {% set
                         progress_color='linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %} {% set
-                        progress_label='Starting Out' %} {% elif progress_percentage < 50 %} {% set
+                        progress_label=_('Début') %} {% elif progress_percentage < 50 %} {% set
                         progress_color='linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %} {% set
-                        progress_label='Making Progress' %} {% elif progress_percentage < 75 %} {% set
-                        progress_color='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %} {% set
-                        progress_label='Halfway There' %} {% elif progress_percentage < 100 %} {% set
+                        progress_label=_('En Progrès') %} {% elif progress_percentage < 75 %} {% set
+                        progress_color='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %} {% set progress_label=_('À
+                        Mi-chemin') %} {% elif progress_percentage < 100 %} {% set
                         progress_color='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %} {% set
-                        progress_label='Almost Done' %} {% else %} {% set
+                        progress_label=_('Presque Fini') %} {% else %} {% set
                         progress_color='linear-gradient(135deg, #10b981 0%, #059669 100%)' %} {% set
-                        progress_label='Goal Achieved!' %} {% endif %} <div class="mb-3">
+                        progress_label=_('Objectif Atteint !') %} {% endif %} <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-muted">Progress Status:</span>
+                            <span class="fw-bold text-muted">{{ _('Statut de Progression :') }}</span>
                             <span class="badge"
                                 style="background: {{ progress_color }} !important; font-size: 0.9rem; padding: 0.5rem 1rem;">
                                 {{ progress_label }}
@@ -66,7 +66,7 @@
                 <div class="progress-guide-box border mb-4" id="progress-legend"
                     style="display: block !important; visibility: visible !important; padding: 1rem; border-radius: 0.375rem; background-color: #f8f9fa;">
                     <h6 class="fw-bold mb-3">
-                        <i class="fas fa-info-circle me-2"></i>Progress Levels
+                        <i class="fas fa-info-circle me-2"></i>{{ _('Niveaux de Progression') }}
                     </h6>
                     <div class="row g-2">
                         <div class="col-md-6 col-lg-3">
@@ -74,7 +74,7 @@
                                 <div class="rounded"
                                     style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
                                 </div>
-                                <span class="ms-2 small"><strong>0-29%:</strong> Starting Out</span>
+                                <span class="ms-2 small"><strong>0-29%:</strong> {{ _('Début') }}</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-3">
@@ -82,7 +82,7 @@
                                 <div class="rounded"
                                     style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
                                 </div>
-                                <span class="ms-2 small"><strong>30-49%:</strong> Making Progress</span>
+                                <span class="ms-2 small"><strong>30-49%:</strong> {{ _('En Progrès') }}</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-3">
@@ -90,7 +90,7 @@
                                 <div class="rounded"
                                     style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
                                 </div>
-                                <span class="ms-2 small"><strong>50-74%:</strong> Halfway There</span>
+                                <span class="ms-2 small"><strong>50-74%:</strong> {{ _('À Mi-chemin') }}</span>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-3">
@@ -98,7 +98,7 @@
                                 <div class="rounded"
                                     style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
                                 </div>
-                                <span class="ms-2 small"><strong>75-99%:</strong> Almost Done</span>
+                                <span class="ms-2 small"><strong>75-99%:</strong> {{ _('Presque Fini') }}</span>
                             </div>
                         </div>
                         <div class="col-12 mt-2">
@@ -106,7 +106,7 @@
                                 <div class="rounded"
                                     style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
                                 </div>
-                                <span class="ms-2 small"><strong>100%+:</strong> Goal Achieved! 🎉</span>
+                                <span class="ms-2 small"><strong>100%+:</strong> {{ _('Objectif Atteint !') }} 🎉</span>
                             </div>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     <div class="stats-number">{{ "%.0f"|format(total_contributed) }}</div>
-                                    <div class="stats-label">MAD Saved</div>
+                                    <div class="stats-label">{{ _('MAD Épargné') }}</div>
                                 </div>
                                 <div class="stats-icon">
                                     <i class="fas fa-coins"></i>
@@ -132,7 +132,7 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div>
                                     <div class="stats-number">{{ group.target_amount }}</div>
-                                    <div class="stats-label">Target (MAD)</div>
+                                    <div class="stats-label">{{ _('Cible (MAD)') }}</div>
                                 </div>
                                 <div class="stats-icon">
                                     <i class="fas fa-bullseye"></i>
@@ -146,7 +146,7 @@
                                 <div>
                                     <div class="stats-number">{{ "%.0f"|format(group.target_amount - total_contributed)
                                         }}</div>
-                                    <div class="stats-label">Remaining (MAD)</div>
+                                    <div class="stats-label">{{ _('Restant (MAD)') }}</div>
                                 </div>
                                 <div class="stats-icon">
                                     <i class="fas fa-clock"></i>
@@ -169,17 +169,17 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="fas fa-bolt me-2"></i>Quick Actions
+                    <i class="fas fa-bolt me-2"></i>{{ _('Actions Rapides') }}
                 </h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
                     <a href="{{ url_for('group_analytics', group_id=group.id) }}" class="btn btn-success">
-                        <i class="fas fa-chart-line me-2"></i>View Analytics
+                        <i class="fas fa-chart-line me-2"></i>{{ _('Voir Analyses') }}
                     </a>
                     {% if is_admin %}
                     <a href="{{ url_for('manage_requests', group_id=group.id) }}" class="btn btn-warning">
-                        <i class="fas fa-user-cog me-2"></i>Manage Requests
+                        <i class="fas fa-user-cog me-2"></i>{{ _('Gérer Demandes') }}
                         {% if (pending_members|length > 0 or rejected_members|length > 0) %}
                         <span class="badge bg-danger ms-1">{{ pending_members|length + rejected_members|length }}</span>
                         {% endif %}
@@ -187,18 +187,18 @@
                     {% endif %}
                     <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary"
                         data-bs-toggle="modal" data-bs-target="#contributeModal">
-                        <i class="fas fa-plus me-2"></i>Add Contribution
+                        <i class="fas fa-plus me-2"></i>{{ _('Ajouter Contribution') }}
                     </a>
                     <button class="btn btn-outline-primary" onclick="shareInviteCode()">
-                        <i class="fas fa-share me-2"></i>Share Invite Code
+                        <i class="fas fa-share me-2"></i>{{ _('Partager Code') }}
                     </button>
                     {% if current_user.is_premium %}
                     <a href="{{ url_for('export_group_data', group_id=group.id) }}" class="btn btn-outline-success">
-                        <i class="fas fa-download me-2"></i>Export Data
+                        <i class="fas fa-download me-2"></i>{{ _('Exporter Données') }}
                     </a>
                     {% endif %}
                     <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        <i class="fas fa-arrow-left me-2"></i>{{ _('Retour Tableau de Bord') }}
                     </a>
                 </div>
             </div>
@@ -208,7 +208,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h5 class="mb-0">
-                    <i class="fas fa-users me-2"></i>Group Members
+                    <i class="fas fa-users me-2"></i>{{ _('Membres du Groupe') }}
                 </h5>
             </div>
             <div class="card-body">
@@ -228,7 +228,7 @@
                     </div>
                     <div class="flex-grow-1 ms-3">
                         <div class="fw-bold">{{ member.username }}</div>
-                        <div class="text-muted small">Joined {{ member.joined_at[:10] }}</div>
+                        <div class="text-muted small">{{ _('Rejoint le') }} {{ member.joined_at[:10] }}</div>
                     </div>
                 </div>
                 {% endfor %}
@@ -240,14 +240,15 @@
         <div class="card mb-3">
             <div class="card-header bg-warning">
                 <h5 class="mb-0">
-                    <i class="fas fa-clock me-2"></i>Join Requests
+                    <i class="fas fa-clock me-2"></i>{{ _('Demandes d\'Adhésion') }}
                     <span class="badge bg-danger ms-2">{{ pending_members|length + rejected_members|length }}</span>
                 </h5>
             </div>
             <div class="card-body">
                 <!-- Pending Requests -->
                 {% if pending_members %}
-                <h6 class="text-warning mb-3"><i class="fas fa-hourglass-half me-2"></i>Pending Approval ({{
+                <h6 class="text-warning mb-3"><i class="fas fa-hourglass-half me-2"></i>{{ _('En Attente
+                    d\'Approbation') }} ({{
                     pending_members|length }})</h6>
                 {% for pending in pending_members %}
                 <div class="d-flex align-items-center justify-content-between mb-3 p-3 border border-warning rounded">
@@ -267,17 +268,17 @@
                         <div class="flex-grow-1 ms-3">
                             <div class="fw-bold">{{ pending.username }}</div>
                             <div class="text-muted small">{{ pending.email }}</div>
-                            <div class="text-muted small">Requested: {{ pending.joined_at[:10] }}</div>
+                            <div class="text-muted small">{{ _('Demandé le :') }} {{ pending.joined_at[:10] }}</div>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-success btn-sm"
                             onclick="approveMember({{ group.id }}, {{ pending.user_id }})">
-                            <i class="fas fa-check me-1"></i>Approve
+                            <i class="fas fa-check me-1"></i>{{ _('Approuver') }}
                         </button>
                         <button class="btn btn-danger btn-sm"
                             onclick="rejectMember({{ group.id }}, {{ pending.user_id }})">
-                            <i class="fas fa-times me-1"></i>Reject
+                            <i class="fas fa-times me-1"></i>{{ _('Rejeter') }}
                         </button>
                     </div>
                 </div>
@@ -286,7 +287,8 @@
 
                 <!-- Rejected Requests -->
                 {% if rejected_members %}
-                <h6 class="text-danger mb-3 mt-4"><i class="fas fa-ban me-2"></i>Rejected ({{ rejected_members|length
+                <h6 class="text-danger mb-3 mt-4"><i class="fas fa-ban me-2"></i>{{ _('Rejeté') }} ({{
+                    rejected_members|length
                     }})</h6>
                 {% for rejected in rejected_members %}
                 <div
@@ -307,14 +309,14 @@
                         <div class="flex-grow-1 ms-3">
                             <div class="fw-bold">{{ rejected.username }}</div>
                             <div class="text-muted small">{{ rejected.email }}</div>
-                            <div class="text-muted small">Requested: {{ rejected.joined_at[:10] }}</div>
-                            <span class="badge bg-danger">Rejected</span>
+                            <div class="text-muted small">{{ _('Demandé le :') }} {{ rejected.joined_at[:10] }}</div>
+                            <span class="badge bg-danger">{{ _('Rejeté') }}</span>
                         </div>
                     </div>
                     <div class="d-flex gap-2">
                         <button class="btn btn-success btn-sm"
                             onclick="approveMember({{ group.id }}, {{ rejected.user_id }})">
-                            <i class="fas fa-check me-1"></i>Approve Now
+                            <i class="fas fa-check me-1"></i>{{ _('Approuver maintenant') }}
                         </button>
                     </div>
                 </div>
@@ -333,7 +335,7 @@
         <div class="card border-warning">
             <div class="card-header bg-warning text-dark">
                 <h5 class="mb-0">
-                    <i class="fas fa-clock me-2"></i>Pending Contributions - Requires Your Approval
+                    <i class="fas fa-clock me-2"></i>{{ _('Contributions En Attente - Nécessite Votre Approbation') }}
                     <span class="badge bg-dark ms-2">{{ pending_contributions|length }}</span>
                 </h5>
             </div>
@@ -357,7 +359,8 @@
                                 <div>
                                     <h6 class="mb-1 fw-bold">{{ contribution.username }}</h6>
                                     <p class="mb-1 text-success fw-bold fs-5">{{ contribution.amount }} MAD</p>
-                                    <p class="mb-1 text-muted small">{{ contribution.description or 'No description' }}
+                                    <p class="mb-1 text-muted small">{{ contribution.description or _('Pas de
+                                        description') }}
                                     </p>
                                     <p class="mb-0 text-muted small">
                                         <i class="fas fa-calendar me-1"></i>{{ contribution.contribution_date[:16] }}
@@ -369,25 +372,26 @@
                             {% if contribution.proof_image %}
                             <a href="{{ url_for('static', filename=contribution.proof_image) }}" target="_blank"
                                 class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-image me-1"></i>View Proof Image
+                                <i class="fas fa-image me-1"></i>{{ _('Voir Image Preuve') }}
                             </a>
                             <br>
                             <img src="{{ url_for('static', filename=contribution.proof_image) }}"
                                 class="img-thumbnail mt-2" style="max-height: 100px; cursor: pointer;"
                                 onclick="window.open(this.src, '_blank')">
                             {% else %}
-                            <span class="text-muted small"><i class="fas fa-times-circle"></i> No proof image</span>
+                            <span class="text-muted small"><i class="fas fa-times-circle"></i> {{ _('Pas d\'image de
+                                preuve') }}</span>
                             {% endif %}
                         </div>
                         <div class="col-md-3">
                             <div class="d-grid gap-2">
                                 <button class="btn btn-success"
                                     onclick="approveContribution({{ group.id }}, {{ contribution.id }})">
-                                    <i class="fas fa-check me-1"></i>Approve
+                                    <i class="fas fa-check me-1"></i>{{ _('Approuver') }}
                                 </button>
                                 <button class="btn btn-danger"
                                     onclick="rejectContribution({{ group.id }}, {{ contribution.id }})">
-                                    <i class="fas fa-times me-1"></i>Reject
+                                    <i class="fas fa-times me-1"></i>{{ _('Rejeter') }}
                                 </button>
                             </div>
                         </div>
@@ -406,9 +410,9 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">
-                    <i class="fas fa-history me-2"></i>Contributions History
+                    <i class="fas fa-history me-2"></i>{{ _('Historique des Contributions') }}
                 </h5>
-                <span class="badge bg-secondary">{{ contributions|length }} contributions</span>
+                <span class="badge bg-secondary">{{ contributions|length }} {{ _('contributions') }}</span>
             </div>
             <div class="card-body">
                 {% if contributions %}
@@ -416,10 +420,10 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>Date</th>
-                                <th>Member</th>
-                                <th>Amount</th>
-                                <th>Description</th>
+                                <th>{{ _('Date') }}</th>
+                                <th>{{ _('Membre') }}</th>
+                                <th>{{ _('Montant') }}</th>
+                                <th>{{ _('Description') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -443,7 +447,7 @@
                                     </div>
                                 </td>
                                 <td class="fw-bold text-success">{{ contribution.amount }} MAD</td>
-                                <td>{{ contribution.description or 'No description' }}</td>
+                                <td>{{ contribution.description or _('Pas de description') }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -452,10 +456,10 @@
                 {% else %}
                 <div class="text-center py-4">
                     <i class="fas fa-piggy-bank text-muted" style="font-size: 3rem;"></i>
-                    <h5 class="mt-3 text-muted">No contributions yet</h5>
-                    <p class="text-muted">Be the first to contribute to this savings goal!</p>
+                    <h5 class="mt-3 text-muted">{{ _('Pas encore de contributions') }}</h5>
+                    <p class="text-muted">{{ _('Soyez le premier à contribuer à cet objectif d\'épargne !') }}</p>
                     <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary">
-                        <i class="fas fa-plus me-2"></i>Add First Contribution
+                        <i class="fas fa-plus me-2"></i>{{ _('Ajouter Première Contribution') }}
                     </a>
                 </div>
                 {% endif %}
@@ -471,12 +475,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-share me-2"></i>Share Group Invite
+                    <i class="fas fa-share me-2"></i>{{ _('Partager l\'Invitation au Groupe') }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>Share this invite code with friends and family to let them join your savings group:</p>
+                <p>{{ _('Partagez ce code d\'invitation avec vos amis et votre famille pour les laisser rejoindre votre
+                    groupe d\'épargne :') }}</p>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control text-center fw-bold fs-5" value="{{ group.invite_code }}"
                         id="inviteCodeInput" readonly>
@@ -486,11 +491,12 @@
                 </div>
                 <div class="alert alert-info">
                     <i class="fas fa-info-circle me-2"></i>
-                    Anyone with this code can join your group. Share it only with trusted people.
+                    {{ _('Toute personne disposant de ce code peut rejoindre votre groupe. Partagez-le uniquement avec
+                    des personnes de confiance.') }}
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ _('Fermer') }}</button>
             </div>
         </div>
     </div>
@@ -502,14 +508,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fas fa-plus-circle me-2"></i>Add Contribution to {{ group.name }}
+                    <i class="fas fa-plus-circle me-2"></i>{{ _('Ajouter une Contribution à') }} {{ group.name }}
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="contributeForm">
                     <div class="mb-3">
-                        <label for="modal_amount" class="form-label">Amount (MAD) *</label>
+                        <label for="modal_amount" class="form-label">{{ _('Montant (MAD) *') }}</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="fas fa-money-bill-wave"></i>
@@ -518,19 +524,19 @@
                                 min="0.01" step="0.01" required>
                             <span class="input-group-text">MAD</span>
                         </div>
-                        <div class="form-text">Enter the amount you want to contribute</div>
+                        <div class="form-text">{{ _('Entrez le montant que vous souhaitez contribuer') }}</div>
                     </div>
 
                     <div class="mb-3">
-                        <label for="modal_description" class="form-label">Description</label>
+                        <label for="modal_description" class="form-label">{{ _('Description') }}</label>
                         <textarea class="form-control" id="modal_description" name="description" rows="3"
-                            placeholder="Optional: Add a note about this contribution..."></textarea>
-                        <div class="form-text">Optional: Describe what this contribution is for</div>
+                            placeholder="{{ _('Optionnel : Ajoutez une note à propos de cette contribution...') }}"></textarea>
+                        <div class="form-text">{{ _('Optionnel : Décrivez à quoi sert cette contribution') }}</div>
                     </div>
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-plus-circle me-2"></i>Add Contribution
+                            <i class="fas fa-plus-circle me-2"></i>{{ _('Ajouter la Contribution') }}
                         </button>
                     </div>
                 </form>
@@ -732,17 +738,18 @@
     <div class="chat-header">
         <div class="d-flex align-items-center">
             <i class="fas fa-robot me-2"></i>
-            <span class="fw-bold">AI Assistant</span>
+            <span class="fw-bold">{{ _('Assistant IA') }}</span>
         </div>
         <i class="fas fa-times" style="cursor: pointer;" onclick="toggleChat()"></i>
     </div>
     <div class="chat-messages" id="chatMessages">
         <div class="chat-message assistant">
-            Hi! I'm your savings assistant. How can I help you with the "{{ group.name }}" project today?
+            {{ _('Bonjour ! Je suis votre assistant d\'épargne. Comment puis-je vous aider avec le projet') }} "{{
+            group.name }}" {{ _('aujourd\'hui ?') }}
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" class="chat-input" id="chatInput" placeholder="Ask for advice..."
+        <input type="text" class="chat-input" id="chatInput" placeholder="{{ _('Demandez conseil...') }}"
             onkeypress="handleEnter(event)">
         <button class="chat-send-btn" onclick="sendMessage()">
             <i class="fas fa-paper-plane" style="font-size: 14px;"></i>
@@ -785,11 +792,11 @@
                 // Reload page to show new contribution
                 location.reload();
             } else {
-                alert('Erreur: ' + data.message);
+                alert('{{ _("Erreur :") }} ' + data.message);
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Erreur lors de l\'ajout de la contribution: ' + error.message);
+            alert('{{ _("Erreur lors de l'\''ajout de la contribution : ") }} ' + error.message);
         }
     });
 
@@ -798,11 +805,11 @@
     const progressChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Saved', 'Remaining'],
-            datasets: [{
-                data: [{{ total_contributed }}, {{ group.target_amount - total_contributed }}],
+            labels: [{{ _('Épargné')|tojson }}, {{ _('Restant')|tojson }}],
+    datasets: [{
+        data: [{{ total_contributed }}, {{ group.target_amount - total_contributed }}],
         backgroundColor: ['#4CAF50', '#e9ecef'],
-        borderWidth: 0
+            borderWidth: 0
     }]
     },
     options: {
@@ -841,7 +848,7 @@
     }
 
     function approveMember(groupId, userId) {
-        if (!confirm('Êtes-vous sûr de vouloir accepter cette demande ?')) {
+        if (!confirm('{{ _("Êtes-vous sûr de vouloir accepter cette demande ?") }}')) {
             return;
         }
 
@@ -857,16 +864,16 @@
                     alert(data.message);
                     location.reload();
                 } else {
-                    alert('Erreur: ' + data.message);
+                    alert("{{ _('Erreur :') }} " + data.message);
                 }
             })
             .catch(error => {
-                alert('Erreur lors de l\'approbation: ' + error.message);
+                alert("{{ _('Erreur lors de l\'approbation :') }} " + error.message);
             });
     }
 
     function rejectMember(groupId, userId) {
-        if (!confirm('Êtes-vous sûr de vouloir refuser cette demande ?')) {
+        if (!confirm('{{ _("Êtes-vous sûr de vouloir refuser cette demande ?") }}')) {
             return;
         }
 
@@ -882,16 +889,16 @@
                     alert(data.message);
                     location.reload();
                 } else {
-                    alert('Erreur: ' + data.message);
+                    alert("{{ _('Erreur :') }} " + data.message);
                 }
             })
             .catch(error => {
-                alert('Erreur lors du refus: ' + error.message);
+                alert("{{ _('Erreur lors du refus :') }} " + error.message);
             });
     }
 
     function approveContribution(groupId, contributionId) {
-        if (!confirm('Êtes-vous sûr de vouloir approuver cette contribution ?')) {
+        if (!confirm('{{ _("Êtes-vous sûr de vouloir approuver cette contribution ?") }}')) {
             return;
         }
 
@@ -907,16 +914,16 @@
                     alert(data.message);
                     location.reload();
                 } else {
-                    alert('Erreur: ' + data.message);
+                    alert("{{ _('Erreur :') }} " + data.message);
                 }
             })
             .catch(error => {
-                alert('Erreur lors de l\'approbation: ' + error.message);
+                alert("{{ _('Erreur lors de l\'approbation :') }} " + error.message);
             });
     }
 
     function rejectContribution(groupId, contributionId) {
-        if (!confirm('Êtes-vous sûr de vouloir rejeter cette contribution ?')) {
+        if (!confirm('{{ _("Êtes-vous sûr de vouloir rejeter cette contribution ?") }}')) {
             return;
         }
 
@@ -932,11 +939,11 @@
                     alert(data.message);
                     location.reload();
                 } else {
-                    alert('Erreur: ' + data.message);
+                    alert("{{ _('Erreur :') }} " + data.message);
                 }
             })
             .catch(error => {
-                alert('Erreur lors du rejet: ' + error.message);
+                alert("{{ _('Erreur lors du rejet :') }} " + error.message);
             });
     }
     // Chat Widget Logic
@@ -1005,14 +1012,14 @@
     if (data.response) {
         appendMessage(data.response, 'assistant');
     } else {
-        appendMessage('Sorry, I encountered an error.', 'assistant');
+        appendMessage({{ _("Désolé, j'ai rencontré une erreur.")| tojson }}, 'assistant');
     }
         
     } catch (error) {
         console.error('Chat Error:', error);
         const typingEl = document.getElementById(typingId);
         if (typingEl) typingEl.remove();
-        appendMessage('Sorry, I could not connect to the server.', 'assistant');
+        appendMessage({{ _("Désolé, je n'ai pas pu me connecter au serveur.")| tojson }}, 'assistant');
     }
 }
 

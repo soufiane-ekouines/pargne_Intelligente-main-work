@@ -65,11 +65,50 @@ def inject_global_vars():
         vars['notifications'] = Database.get_user_notifications(current_user.id, is_read=False)
     else:
         vars['notifications'] = []
+    
+    # Add current language
+    vars['current_language'] = get_locale()
+    
+    # Add supported languages
+    vars['supported_languages'] = {
+        'fr': 'Français',
+        'en': 'English',
+        'es': 'Español',
+        'ar': 'العربية'
+    }
         
     return vars
 
 # Database configuration (Supabase)
 # All database operations now handled by database.py module
+
+# Initialize Babel
+# Localization configuration
+from flask_babel import Babel, _, get_locale
+
+app.config['BABEL_DEFAULT_LOCALE'] = 'fr'
+app.config['BABEL_SUPPORTED_LOCALES'] = ['fr', 'en', 'es', 'ar']
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'
+
+def get_locale():
+    # Check if language is manually set in session
+    if 'language' in session:
+        print(f"DEBUG: Language found in session: {session['language']}")
+        return session['language']
+    # Best match from request headers
+    best_match = request.accept_languages.best_match(app.config['BABEL_SUPPORTED_LOCALES'])
+    print(f"DEBUG: No session language, best match: {best_match}")
+    return best_match
+
+babel = Babel(app, locale_selector=get_locale)
+
+@app.route('/set_language/<language>')
+def set_language(language=None):
+    print(f"DEBUG: Setting language to: {language}")
+    if language in app.config['BABEL_SUPPORTED_LOCALES']:
+        session['language'] = language
+        print(f"DEBUG: Session updated: {session['language']}")
+    return redirect(request.referrer or url_for('index'))
 
 class User(UserMixin):
     def __init__(self, id, username, email, is_premium=False, profile_picture=None):

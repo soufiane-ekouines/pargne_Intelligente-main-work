@@ -1,0 +1,1473 @@
+# English translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-12-16 18:54+0100\n"
+"PO-Revision-Date: 2025-12-16 16:54+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/base.html:1301
+msgid "Tableau de Bord"
+msgstr "Dashboard"
+
+#: templates/base.html:1306 templates/dashboard.html:19
+#: templates/dashboard.html:270
+msgid "Créer un Groupe"
+msgstr "Create a Group"
+
+#: templates/base.html:1311 templates/dashboard.html:22
+#: templates/dashboard.html:274 templates/dashboard.html:522
+#: templates/join_group.html:12
+msgid "Rejoindre un Groupe"
+msgstr "Join a Group"
+
+#: templates/base.html:1335 templates/settings.html:22
+msgid "Notifications"
+msgstr "Notifications"
+
+#: templates/base.html:1353
+msgid "À l'instant"
+msgstr "Just now"
+
+#: templates/base.html:1367
+#, fuzzy
+msgid "Pas de nouvelles notifications"
+msgstr "No new notifications"
+
+#: templates/base.html:1373
+msgid "Actualiser"
+msgstr "Refresh"
+
+#: templates/base.html:1387 templates/dashboard.html:25
+#: templates/settings.html:13
+msgid "Paramètres"
+msgstr "Settings"
+
+#: templates/base.html:1393
+msgid "Déconnexion"
+msgstr "Logout"
+
+#: templates/base.html:1400 templates/index.html:65 templates/index.html:527
+#: templates/index.html:544 templates/index.html:647 templates/login.html:12
+#: templates/pricing.html:311 templates/register.html:71
+msgid "Connexion"
+msgstr "Login"
+
+#: templates/base.html:1405
+msgid "S'inscrire"
+msgstr "Register"
+
+#: templates/base.html:1425
+msgid ""
+"Plateforme d'épargne communautaire intelligente pour atteindre vos "
+"objectifs\n"
+"                        ensemble."
+msgstr "Smart community savings platform to reach your goals together."
+
+#: templates/base.html:1429
+msgid "Tous droits réservés."
+msgstr "All rights reserved."
+
+#: templates/create_group.html:12 templates/dashboard.html:204
+#: templates/dashboard.html:329 templates/dashboard.html:464
+msgid "Créer un Nouveau Groupe"
+msgstr "Create New Group"
+
+#: templates/create_group.html:14
+msgid ""
+"Commencez une nouvelle aventure d'épargne avec vos amis et votre\n"
+"                        famille"
+msgstr "Start a new savings adventure with your friends and family"
+
+#: templates/create_group.html:20 templates/dashboard.html:471
+msgid "Nom du Groupe *"
+msgstr "Group Name *"
+
+#: templates/create_group.html:26
+msgid "ex: Fonds de Mariage, Vacances 2024"
+msgstr "e.g., Wedding Fund, Vacation 2024"
+
+#: templates/create_group.html:28
+msgid "Choisissez un nom descriptif pour votre groupe d'épargne"
+msgstr "Choose a descriptive name for your savings group"
+
+#: templates/create_group.html:33 templates/dashboard.html:476
+msgid "Catégorie *"
+msgstr "Category *"
+
+#: templates/create_group.html:39 templates/dashboard.html:478
+msgid "Sélectionner une catégorie"
+msgstr "Select a category"
+
+#: templates/create_group.html:40 templates/dashboard.html:479
+msgid "Voyage"
+msgstr "Travel"
+
+#: templates/create_group.html:41 templates/dashboard.html:480
+msgid "Mariage"
+msgstr "Wedding"
+
+#: templates/create_group.html:42 templates/dashboard.html:481
+msgid "Études"
+msgstr "Education"
+
+#: templates/create_group.html:43 templates/dashboard.html:482
+msgid "Projet Immobilier"
+msgstr "Real Estate Project"
+
+#: templates/create_group.html:44 templates/dashboard.html:483
+msgid "Véhicule"
+msgstr "Vehicle"
+
+#: templates/create_group.html:45 templates/dashboard.html:484
+msgid "Autre"
+msgstr "Other"
+
+#: templates/create_group.html:48
+msgid "Choisissez le type d'épargne"
+msgstr "Choose the savings type"
+
+#: templates/create_group.html:52 templates/dashboard.html:489
+#: templates/group_detail.html:426 templates/group_detail.html:531
+msgid "Description"
+msgstr "Description"
+
+#: templates/create_group.html:54
+msgid "Décrivez votre objectif d'épargne et comment vous comptez l'atteindre..."
+msgstr "Describe your savings goal and how you plan to achieve it..."
+
+#: templates/create_group.html:55
+msgid "Optionnel : Ajoutez des détails sur votre objectif d'épargne"
+msgstr "Optional: Add details about your savings goal"
+
+#: templates/create_group.html:60 templates/dashboard.html:494
+msgid "Montant Cible (MAD) *"
+msgstr "Target Amount (MAD) *"
+
+#: templates/create_group.html:69
+msgid "Le montant total que votre groupe souhaite épargner"
+msgstr "The total amount your group wishes to save"
+
+#: templates/create_group.html:73 templates/dashboard.html:501
+msgid "Date Limite"
+msgstr "Deadline"
+
+#: templates/create_group.html:80
+msgid ""
+"Optionnel : Fixez une date cible pour atteindre votre\n"
+"                                objectif"
+msgstr "Optional: Set a target date to reach your goal"
+
+#: templates/create_group.html:86 templates/dashboard.html:508
+msgid "Créer le Groupe"
+msgstr "Create Group"
+
+#: templates/create_group.html:89 templates/join_group.html:36
+msgid "Retour au Tableau de Bord"
+msgstr "Back to Dashboard"
+
+#: templates/create_group.html:100
+msgid "Conseils pour réussir"
+msgstr "Tips for Success"
+
+#: templates/create_group.html:107
+msgid "Choisissez un montant cible réaliste auquel tout le monde peut contribuer"
+msgstr "Choose a realistic target amount that everyone can contribute to"
+
+#: templates/create_group.html:111
+msgid "Fixez des calendriers de contribution réguliers (hebdomadaires, mensuels)"
+msgstr "Set regular contribution schedules (weekly, monthly)"
+
+#: templates/create_group.html:115
+msgid "Communiquez ouvertement sur les progrès et les défis"
+msgstr "Communicate openly about progress and challenges"
+
+#: templates/create_group.html:119
+msgid "Célébrez les étapes importantes pour garder tout le monde motivé"
+msgstr "Celebrate milestones to keep everyone motivated"
+
+#: templates/dashboard.html:16
+msgid "Vue d'ensemble"
+msgstr "Overview"
+
+#: templates/dashboard.html:29 templates/dashboard.html:337
+#: templates/pricing.html:117 templates/pricing.html:300
+#: templates/settings.html:295
+msgid "Passer à Premium"
+msgstr "Upgrade to Premium"
+
+#: templates/dashboard.html:70
+msgid "Groupes Actifs"
+msgstr "Active Groups"
+
+#: templates/dashboard.html:90
+msgid "Total Épargné"
+msgstr "Total Saved"
+
+#: templates/dashboard.html:104
+msgid "Contributions Récentes"
+msgstr "Recent Contributions"
+
+#: templates/dashboard.html:121
+msgid "GRATUIT"
+msgstr "FREE"
+
+#: templates/dashboard.html:124
+msgid "Type de Compte"
+msgstr "Account Type"
+
+#: templates/dashboard.html:145
+msgid "Guide des Niveaux de Progression"
+msgstr "Progress Level Guide"
+
+#: templates/dashboard.html:153 templates/dashboard.html:230
+msgid "Débutant"
+msgstr "Beginner"
+
+#: templates/dashboard.html:161 templates/dashboard.html:232
+msgid "En Progression"
+msgstr "In Progress"
+
+#: templates/dashboard.html:169 templates/dashboard.html:234
+#: templates/group_detail.html:93
+msgid "À Mi-chemin"
+msgstr "Halfway There"
+
+#: templates/dashboard.html:177 templates/dashboard.html:236
+#: templates/group_detail.html:46 templates/group_detail.html:101
+msgid "Presque Fini"
+msgstr "Almost Done"
+
+#: templates/dashboard.html:185 templates/dashboard.html:238
+#: templates/group_detail.html:48 templates/group_detail.html:109
+msgid "Objectif Atteint !"
+msgstr "Goal Achieved!"
+
+#: templates/dashboard.html:200
+msgid "Vos Groupes"
+msgstr "Your Groups"
+
+#: templates/dashboard.html:221 templates/group_detail.html:16
+msgid "membres"
+msgstr ""
+
+#: templates/dashboard.html:253
+msgid "sur"
+msgstr ""
+
+#: templates/dashboard.html:256 templates/group_detail.html:19
+msgid "Échéance :"
+msgstr "Deadline:"
+
+#: templates/dashboard.html:264
+msgid "Pas encore de groupes"
+msgstr "No groups yet"
+
+#: templates/dashboard.html:265
+msgid ""
+"Créez votre premier groupe d'épargne ou rejoignez-en un\n"
+"                                existant pour commencer !"
+msgstr "Create your first savings group or join an existing one to get started!"
+
+#: templates/dashboard.html:288
+msgid "Activité Récente"
+msgstr "Recent Activity"
+
+#: templates/dashboard.html:312
+msgid "Pas d'activité récente"
+msgstr "No recent activity"
+
+#: templates/dashboard.html:322 templates/group_detail.html:172
+msgid "Actions Rapides"
+msgstr "Quick Actions"
+
+#: templates/dashboard.html:333
+msgid "Rejoindre avec un Code"
+msgstr "Join with a Code"
+
+#: templates/dashboard.html:506 templates/dashboard.html:540
+msgid "Annuler"
+msgstr "Cancel"
+
+#: templates/dashboard.html:529
+msgid "Code d'Invitation *"
+msgstr "Invite Code *"
+
+#: templates/dashboard.html:531 templates/join_group.html:26
+msgid "Entrez le code à 8 caractères"
+msgstr "Enter the 8-character code"
+
+#: templates/dashboard.html:532 templates/join_group.html:28
+msgid "Demandez le code d'invitation au créateur du groupe"
+msgstr "Ask the group creator for the invitation code"
+
+#: templates/dashboard.html:536
+msgid "Votre demande sera envoyée pour approbation par l'admin du groupe."
+msgstr "Your request will be sent for approval by the group admin."
+
+#: templates/dashboard.html:542
+msgid "Demander à Rejoindre"
+msgstr "Request to Join"
+
+#: templates/group_detail.html:3
+msgid "SaveTogether"
+msgstr ""
+
+#: templates/group_detail.html:13
+msgid "Pas de description fournie"
+msgstr ""
+
+#: templates/group_detail.html:33
+msgid "Aperçu de la Progression"
+msgstr "Progress Overview"
+
+#: templates/group_detail.html:40 templates/group_detail.html:77
+msgid "Début"
+msgstr "Start"
+
+#: templates/group_detail.html:42 templates/group_detail.html:85
+msgid "En Progrès"
+msgstr "In Progress"
+
+#: templates/group_detail.html:43
+msgid ""
+"À\n"
+"                        Mi-chemin"
+msgstr "Halfway There"
+
+#: templates/group_detail.html:50
+msgid "Statut de Progression :"
+msgstr "Progress Status:"
+
+#: templates/group_detail.html:69
+msgid "Niveaux de Progression"
+msgstr "Progress Levels"
+
+#: templates/group_detail.html:122
+msgid "MAD Épargné"
+msgstr "MAD Saved"
+
+#: templates/group_detail.html:135
+msgid "Cible (MAD)"
+msgstr "Target (MAD)"
+
+#: templates/group_detail.html:149
+msgid "Restant (MAD)"
+msgstr "Remaining (MAD)"
+
+#: templates/group_detail.html:178
+msgid "Voir Analyses"
+msgstr "View Analytics"
+
+#: templates/group_detail.html:182
+msgid "Gérer Demandes"
+msgstr "Manage Requests"
+
+#: templates/group_detail.html:190
+msgid "Ajouter Contribution"
+msgstr "Add Contribution"
+
+#: templates/group_detail.html:193
+msgid "Partager Code"
+msgstr "Share Code"
+
+#: templates/group_detail.html:197
+msgid "Exporter Données"
+msgstr "Export Data"
+
+#: templates/group_detail.html:201
+msgid "Retour Tableau de Bord"
+msgstr "Back to Dashboard"
+
+#: templates/group_detail.html:211
+msgid "Membres du Groupe"
+msgstr "Group Members"
+
+#: templates/group_detail.html:231
+msgid "Rejoint le"
+msgstr "Joined on"
+
+#: templates/group_detail.html:243
+msgid "Demandes d'Adhésion"
+msgstr "Membership Requests"
+
+#: templates/group_detail.html:250
+msgid ""
+"En Attente\n"
+"                    d'Approbation"
+msgstr "Pending Approval"
+
+#: templates/group_detail.html:271 templates/group_detail.html:312
+msgid "Demandé le :"
+msgstr "Requested on:"
+
+#: templates/group_detail.html:277 templates/group_detail.html:390
+msgid "Approuver"
+msgstr "Approve"
+
+#: templates/group_detail.html:281 templates/group_detail.html:394
+msgid "Rejeter"
+msgstr ""
+
+#: templates/group_detail.html:290 templates/group_detail.html:313
+msgid "Rejeté"
+msgstr ""
+
+#: templates/group_detail.html:319
+msgid "Approuver maintenant"
+msgstr "Approve Now"
+
+#: templates/group_detail.html:338
+msgid "Contributions En Attente - Nécessite Votre Approbation"
+msgstr "Contributions Pending Your Approval"
+
+#: templates/group_detail.html:362
+msgid ""
+"Pas de\n"
+"                                        description"
+msgstr "No description"
+
+#: templates/group_detail.html:375
+msgid "Voir Image Preuve"
+msgstr "View Proof Image"
+
+#: templates/group_detail.html:382
+msgid ""
+"Pas d'image de\n"
+"                                preuve"
+msgstr "No proof image"
+
+#: templates/group_detail.html:413
+msgid "Historique des Contributions"
+msgstr "Contribution History"
+
+#: templates/group_detail.html:415
+msgid "contributions"
+msgstr "contributions"
+
+#: templates/group_detail.html:423 templates/settings.html:229
+msgid "Date"
+msgstr "Date"
+
+#: templates/group_detail.html:424
+msgid "Membre"
+msgstr "Member"
+
+#: templates/group_detail.html:425
+msgid "Montant"
+msgstr "Amount"
+
+#: templates/group_detail.html:450
+msgid "Pas de description"
+msgstr "No description"
+
+#: templates/group_detail.html:459
+msgid "Pas encore de contributions"
+msgstr "No contributions yet"
+
+#: templates/group_detail.html:460
+msgid "Soyez le premier à contribuer à cet objectif d'épargne !"
+msgstr "Be the first to contribute to this savings goal!"
+
+#: templates/group_detail.html:462
+msgid "Ajouter Première Contribution"
+msgstr "Add First Contribution"
+
+#: templates/group_detail.html:478
+msgid "Partager l'Invitation au Groupe"
+msgstr "Share Group Invitation"
+
+#: templates/group_detail.html:483
+msgid ""
+"Partagez ce code d'invitation avec vos amis et votre famille pour les "
+"laisser rejoindre votre\n"
+"                    groupe d'épargne :"
+msgstr ""
+"Share this invite code with your friends and family to let them join your"
+" savings group:"
+
+#: templates/group_detail.html:494
+msgid ""
+"Toute personne disposant de ce code peut rejoindre votre groupe. "
+"Partagez-le uniquement avec\n"
+"                    des personnes de confiance."
+msgstr ""
+"Anyone with this code can join your group. Share it only with people you "
+"trust."
+
+#: templates/group_detail.html:499
+msgid "Fermer"
+msgstr "Close"
+
+#: templates/group_detail.html:511
+msgid "Ajouter une Contribution à"
+msgstr "Add a Contribution to"
+
+#: templates/group_detail.html:518
+msgid "Montant (MAD) *"
+msgstr "Amount (MAD) *"
+
+#: templates/group_detail.html:527
+msgid "Entrez le montant que vous souhaitez contribuer"
+msgstr "Enter the amount you wish to contribute"
+
+#: templates/group_detail.html:533
+msgid "Optionnel : Ajoutez une note à propos de cette contribution..."
+msgstr "Optional: Add a note about this contribution..."
+
+#: templates/group_detail.html:534
+msgid "Optionnel : Décrivez à quoi sert cette contribution"
+msgstr "Optional: Describe what this contribution is for"
+
+#: templates/group_detail.html:539
+msgid "Ajouter la Contribution"
+msgstr "Add Contribution"
+
+#: templates/group_detail.html:741
+msgid "Assistant IA"
+msgstr "AI Assistant"
+
+#: templates/group_detail.html:747
+msgid ""
+"Bonjour ! Je suis votre assistant d'épargne. Comment puis-je vous aider "
+"avec le projet"
+msgstr "Hello! I am your savings assistant. How can I help you with the project"
+
+#: templates/group_detail.html:748
+msgid "aujourd'hui ?"
+msgstr "today?"
+
+#: templates/group_detail.html:752
+msgid "Demandez conseil..."
+msgstr "Ask for advice..."
+
+#: templates/group_detail.html:795 templates/group_detail.html:867
+#: templates/group_detail.html:892 templates/group_detail.html:917
+#: templates/group_detail.html:942
+msgid "Erreur :"
+msgstr "Error:"
+
+#: templates/group_detail.html:799
+msgid "Erreur lors de l'''ajout de la contribution : "
+msgstr "Error adding contribution: "
+
+#: templates/group_detail.html:808
+msgid "Épargné"
+msgstr "Saved"
+
+#: templates/group_detail.html:808
+msgid "Restant"
+msgstr "Remaining"
+
+#: templates/group_detail.html:851
+msgid "Êtes-vous sûr de vouloir accepter cette demande ?"
+msgstr ""
+
+#: templates/group_detail.html:871 templates/group_detail.html:921
+msgid "Erreur lors de l'approbation :"
+msgstr "Error approving:"
+
+#: templates/group_detail.html:876
+msgid "Êtes-vous sûr de vouloir refuser cette demande ?"
+msgstr "Are you sure you want to reject this request?"
+
+#: templates/group_detail.html:896
+msgid "Erreur lors du refus :"
+msgstr "Error rejecting:"
+
+#: templates/group_detail.html:901
+msgid "Êtes-vous sûr de vouloir approuver cette contribution ?"
+msgstr "Are you sure you want to approve this contribution?"
+
+#: templates/group_detail.html:926
+msgid "Êtes-vous sûr de vouloir rejeter cette contribution ?"
+msgstr "Are you sure you want to reject this contribution?"
+
+#: templates/group_detail.html:946
+msgid "Erreur lors du rejet :"
+msgstr "Error rejecting:"
+
+#: templates/group_detail.html:1015
+msgid "Désolé, j'ai rencontré une erreur."
+msgstr "Sorry, I encountered an error."
+
+#: templates/group_detail.html:1022
+msgid "Désolé, je n'ai pas pu me connecter au serveur."
+msgstr "Sorry, I could not connect to the server."
+
+#: templates/index.html:30
+msgid "Plateforme d'Épargne Intelligente"
+msgstr "Intelligent Savings Platform"
+
+#: templates/index.html:37
+msgid "Épargnez Ensemble,"
+msgstr "Save Together,"
+
+#: templates/index.html:38
+msgid "Réussissez Ensemble"
+msgstr "Succeed Together"
+
+#: templates/index.html:44
+msgid ""
+"Unissez vos forces avec vos\n"
+"                            amis et votre famille pour atteindre vos "
+"objectifs financiers."
+msgstr "Join forces with your friends and family to reach your financial goals."
+
+#: templates/index.html:47
+msgid "Vacances de Rêve"
+msgstr "Dream Vacation"
+
+#: templates/index.html:48
+msgid "Fonds Mariage"
+msgstr "Wedding Fund"
+
+#: templates/index.html:49
+msgid "Éducation"
+msgstr "Education"
+
+#: templates/index.html:50
+msgid "Fonds d'Urgence"
+msgstr "Emergency Fund"
+
+#: templates/index.html:59 templates/pricing.html:308
+msgid "Commencer Gratuitement"
+msgstr "Start for Free"
+
+#: templates/index.html:75
+msgid "Sécurité Bancaire"
+msgstr "Bank-Grade Security"
+
+#: templates/index.html:81
+msgid "Mobile First"
+msgstr "Mobile First"
+
+#: templates/index.html:87
+msgid "10K+ Utilisateurs"
+msgstr "10K+ Users"
+
+#: templates/index.html:122
+msgid "Découvrez SaveTogether"
+msgstr "Discover SaveTogether"
+
+#: templates/index.html:123
+msgid ""
+"Une plateforme innovante pour épargner\n"
+"                                    collectivement avec vos proches."
+msgstr "An innovative platform to save collectively with your loved ones."
+
+#: templates/index.html:128
+msgid ""
+"À\n"
+"                                            Propos"
+msgstr "About"
+
+#: templates/index.html:134
+msgid "Création de groupes d'épargne"
+msgstr "Savings Group Creation"
+
+#: templates/index.html:136
+msgid "Suivi des contributions"
+msgstr "Contribution Tracking"
+
+#: templates/index.html:138
+msgid "Analyse des progrès"
+msgstr "Progress Analysis"
+
+#: templates/index.html:139
+msgid ""
+"Épargne\n"
+"                                            collaborative"
+msgstr "Collaborative Savings"
+
+#: templates/index.html:145
+msgid "En Savoir Plus"
+msgstr "Learn More"
+
+#: templates/index.html:162
+msgid "Fonctionnalités"
+msgstr "Features"
+
+#: templates/index.html:164
+msgid "Pourquoi Choisir SaveTogether ?"
+msgstr "Why Choose SaveTogether?"
+
+#: templates/index.html:165
+msgid ""
+"Des fonctionnalités puissantes conçues pour rendre l'épargne de\n"
+"                    groupe facile et transparente"
+msgstr "Powerful features designed to make group savings easy and transparent"
+
+#: templates/index.html:176
+msgid "Épargne de Groupe"
+msgstr "Group Savings"
+
+#: templates/index.html:177
+msgid ""
+"Créez ou rejoignez des groupes d'épargne avec vos amis et votre\n"
+"                        famille. Définissez des objectifs collectifs et "
+"suivez les progrès ensemble."
+msgstr ""
+"Create or join savings groups with your friends and family. Set "
+"collective goals and track progress together."
+
+#: templates/index.html:180
+msgid "Collaboratif"
+msgstr "Collaborative"
+
+#: templates/index.html:191
+msgid "Suivi des Progrès"
+msgstr "Progress Tracking"
+
+#: templates/index.html:192
+msgid ""
+"Des tableaux de bord visuels et des graphiques montrent vos progrès\n"
+"                        d'épargne en temps réel. Restez motivé avec des "
+"jalons clairs."
+msgstr ""
+"Visual dashboards and charts show your savings progress in real-time. "
+"Stay motivated with clear milestones."
+
+#: templates/index.html:195
+msgid "Temps réel"
+msgstr "Real-time"
+
+#: templates/index.html:206
+msgid "Notifications Intelligentes"
+msgstr "Smart Notifications"
+
+#: templates/index.html:207
+msgid ""
+"Recevez des rappels pour les contributions et célébrez les étapes\n"
+"                        ensemble. Ne manquez jamais une mise à jour "
+"importante."
+msgstr ""
+"Receive reminders for contributions and celebrate milestones together. "
+"Never miss an important update."
+
+#: templates/index.html:210
+msgid "Intelligent"
+msgstr "Smart"
+
+#: templates/index.html:221
+msgid "Sécurisé et Privé"
+msgstr "Secure and Private"
+
+#: templates/index.html:222
+msgid ""
+"Vos données financières sont protégées par une sécurité de niveau\n"
+"                        bancaire. Seuls les membres du groupe peuvent "
+"voir vos contributions."
+msgstr ""
+"Your financial data is protected by bank-level security. Only group "
+"members can see your contributions."
+
+#: templates/index.html:225
+msgid "Sécurisé"
+msgstr "Secure"
+
+#: templates/index.html:236
+msgid "Compatible Mobile"
+msgstr "Mobile Compatible"
+
+#: templates/index.html:237
+msgid ""
+"Accédez à vos groupes d'épargne partout, à tout moment. Un design\n"
+"                        responsive fonctionne parfaitement sur tous les "
+"appareils."
+msgstr ""
+"Access your savings groups anywhere, anytime. A responsive design works "
+"perfectly on all devices."
+
+#: templates/index.html:240
+msgid "Responsive"
+msgstr "Responsive"
+
+#: templates/index.html:251 templates/settings.html:161
+msgid "Fonctionnalités Premium"
+msgstr "Premium Features"
+
+#: templates/index.html:252
+msgid ""
+"Exportation de données, rappels automatisés et analyses avancées.\n"
+"                        Passez à Premium pour seulement 19 MAD/mois."
+msgstr ""
+"Data export, automated reminders, and advanced analytics. Upgrade to "
+"Premium for just 19 MAD/month."
+
+#: templates/index.html:255 templates/index.html:373 templates/pricing.html:75
+#: templates/pricing.html:146 templates/settings.html:266
+msgid "Premium"
+msgstr "Premium"
+
+#: templates/index.html:268
+msgid "Comment ça Marche"
+msgstr "How It Works"
+
+#: templates/index.html:269
+msgid "Commencez en trois étapes simples"
+msgstr "Get started in three simple steps"
+
+#: templates/index.html:278
+msgid "Créer ou Rejoindre un Groupe"
+msgstr "Create or Join a Group"
+
+#: templates/index.html:279
+msgid ""
+"Créez un nouveau groupe d'épargne ou rejoignez-en un existant avec un "
+"code\n"
+"                    d'invitation. Définissez votre objectif financier "
+"partagé."
+msgstr ""
+"Create a new savings group or join an existing one with an invite code. "
+"Define your shared financial goal."
+
+#: templates/index.html:287
+msgid "Suivre les Contributions"
+msgstr "Track Contributions"
+
+#: templates/index.html:288
+msgid ""
+"Ajoutez vos contributions et regardez les progrès de votre groupe "
+"grandir.\n"
+"                    Voyez les mises à jour en temps réel de tous les "
+"membres."
+msgstr ""
+"Add your contributions and watch your group's progress grow. See real-"
+"time updates from all members."
+
+#: templates/index.html:296
+msgid "Atteindre Votre Objectif"
+msgstr "Reach Your Goal"
+
+#: templates/index.html:297
+msgid ""
+"Célébrez quand vous atteignez votre objectif ! Exportez les données et\n"
+"                    planifiez votre prochaine aventure d'épargne ensemble."
+msgstr ""
+"Celebrate when you reach your goal! Export data and plan your next "
+"savings adventure together."
+
+#: templates/index.html:310
+msgid "Tarifs"
+msgstr "Pricing"
+
+#: templates/index.html:312 templates/pricing.html:10
+msgid "Choisissez Votre Plan"
+msgstr "Choose Your Plan"
+
+#: templates/index.html:313
+msgid ""
+"Commencez gratuitement et passez à Premium quand vous avez besoin\n"
+"                    de plus"
+msgstr "Start for free and upgrade when you need more"
+
+#: templates/index.html:323
+msgid "Freemium"
+msgstr "Freemium"
+
+#: templates/index.html:326 templates/index.html:375 templates/pricing.html:24
+#: templates/pricing.html:77 templates/settings.html:329
+msgid "par mois"
+msgstr "per month"
+
+#: templates/index.html:332
+msgid "Créer des groupes d'épargne illimités"
+msgstr "Create unlimited savings groups"
+
+#: templates/index.html:336 templates/pricing.html:156
+msgid "Suivre les progrès avec des graphiques"
+msgstr "Track progress with charts"
+
+#: templates/index.html:340
+msgid "Inviter des amis et la famille"
+msgstr "Invite friends and family"
+
+#: templates/index.html:344 templates/pricing.html:42
+#: templates/pricing.html:166
+msgid "Notifications de base"
+msgstr "Basic notifications"
+
+#: templates/index.html:348
+msgid "Interface mobile-friendly"
+msgstr "Mobile-friendly interface"
+
+#: templates/index.html:352
+msgid "Export de données"
+msgstr "Data export"
+
+#: templates/index.html:356 templates/index.html:389 templates/pricing.html:54
+#: templates/pricing.html:91 templates/pricing.html:181
+#: templates/settings.html:309
+msgid "Rappels automatisés"
+msgstr "Automated reminders"
+
+#: templates/index.html:361 templates/pricing.html:62
+msgid "Parfait pour commencer"
+msgstr "Perfect for starting"
+
+#: templates/index.html:370 templates/pricing.html:72
+msgid "Le Plus Populaire"
+msgstr "Most Popular"
+
+#: templates/index.html:381
+msgid "Tout dans Freemium"
+msgstr "Everything in Freemium"
+
+#: templates/index.html:385
+msgid "Export des données en CSV"
+msgstr "CSV data export"
+
+#: templates/index.html:393 templates/pricing.html:95
+#: templates/pricing.html:186 templates/settings.html:313
+msgid "Analyses avancées"
+msgstr "Advanced analytics"
+
+#: templates/index.html:397 templates/pricing.html:99
+#: templates/pricing.html:191 templates/settings.html:317
+msgid "Support prioritaire"
+msgstr "Priority support"
+
+#: templates/index.html:401 templates/pricing.html:103
+msgid "Notifications personnalisées"
+msgstr "Custom notifications"
+
+#: templates/index.html:405 templates/pricing.html:107
+#: templates/pricing.html:196 templates/settings.html:321
+msgid "Contributions récurrentes"
+msgstr "Recurring contributions"
+
+#: templates/index.html:411
+msgid "Commencer Premium"
+msgstr "Start Premium"
+
+#: templates/index.html:426
+msgid "Notre Équipe"
+msgstr "Our Team"
+
+#: templates/index.html:428
+msgid "Rencontrez Notre Équipe"
+msgstr "Meet Our Team"
+
+#: templates/index.html:429
+msgid "L'équipe passionnée derrière SaveTogether"
+msgstr "The passionate team behind SaveTogether"
+
+#: templates/index.html:444 templates/index.html:468 templates/index.html:485
+#: templates/index.html:502
+msgid "Équipe de Développement"
+msgstr "Development Team"
+
+#: templates/index.html:470 templates/index.html:487 templates/index.html:504
+msgid "Membre de l'équipe"
+msgstr "Team Member"
+
+#: templates/index.html:517
+#, fuzzy
+msgid "Prêt à Commencer à Épargner Ensemble ?"
+msgstr "Ready to Save Together?"
+
+#: templates/index.html:518
+#, fuzzy
+msgid ""
+"Rejoignez des milliers d'utilisateurs qui atteignent déjà leurs objectifs"
+"\n"
+"                    financiers avec SaveTogether."
+msgstr "Join thousands of users who are already achieving their financial goals"
+
+#: templates/index.html:523
+#, fuzzy
+msgid "S'inscrire Gratuitement"
+msgstr "Start for Free"
+
+#: templates/index.html:530
+msgid "Voir les Tarifs"
+msgstr ""
+
+#: templates/index.html:551 templates/index.html:604 templates/login.html:19
+#: templates/register.html:19 templates/settings.html:86
+msgid "Nom d'utilisateur"
+msgstr "Username"
+
+#: templates/index.html:561 templates/index.html:624 templates/login.html:29
+#: templates/register.html:39
+msgid "Mot de passe"
+msgstr "Password"
+
+#: templates/index.html:572 templates/login.html:40
+msgid "Se Connecter"
+msgstr "Login"
+
+#: templates/index.html:580 templates/login.html:59
+msgid "Vous n'avez pas de compte ?"
+msgstr "Don't have an account?"
+
+#: templates/index.html:583 templates/index.html:597 templates/login.html:61
+#: templates/register.html:12
+msgid "Créer un Compte"
+msgstr "Create an Account"
+
+#: templates/index.html:614 templates/register.html:29
+#: templates/settings.html:95
+msgid "Email"
+msgstr "Email"
+
+#: templates/index.html:636 templates/register.html:50
+msgid "Créer le Compte"
+msgstr "Create Account"
+
+#: templates/index.html:644 templates/register.html:69
+msgid "Vous avez déjà un compte ?"
+msgstr "Already have an account?"
+
+#: templates/join_group.html:14
+msgid "Entrez le code d'invitation pour rejoindre un groupe existant"
+msgstr "Enter the invitation code to join an existing group"
+
+#: templates/join_group.html:20
+msgid "Code d'Invitation"
+msgstr "Invitation Code"
+
+#: templates/join_group.html:33
+msgid "Rejoindre le Groupe"
+msgstr "Join Group"
+
+#: templates/join_group.html:47
+msgid "Comment Rejoindre"
+msgstr "How to Join"
+
+#: templates/join_group.html:52
+msgid ""
+"Demandez à un ami ou un membre de la famille le code d'invitation de son\n"
+"                            groupe"
+msgstr "Ask a friend or family member for their group's invitation code"
+
+#: templates/join_group.html:54
+msgid "Entrez le code à 8 caractères dans le champ ci-dessus"
+msgstr "Enter the 8-character code in the field above"
+
+#: templates/join_group.html:55
+msgid "Cliquez sur \"Rejoindre le Groupe\" pour devenir membre"
+msgstr "Click \"Join Group\" to become a member"
+
+#: templates/join_group.html:56
+msgid "Commencez à contribuer et à suivre les progrès ensemble !"
+msgstr "Start contributing and tracking progress together!"
+
+#: templates/login.html:14
+msgid "Bienvenue sur SaveTogether"
+msgstr "Welcome to SaveTogether"
+
+#: templates/login.html:49 templates/register.html:59
+msgid "Ou"
+msgstr "Or"
+
+#: templates/login.html:51
+msgid "Continuer avec Google"
+msgstr "Continue with Google"
+
+#: templates/pricing.html:11
+msgid ""
+"Commencez gratuitement et mettez à niveau lorsque vous avez besoin de "
+"plus\n"
+"                de fonctionnalités"
+msgstr "Start for free and upgrade when you need more features"
+
+#: templates/pricing.html:22 templates/pricing.html:145
+msgid "Gratuit"
+msgstr "Free"
+
+#: templates/pricing.html:30
+msgid "Créez un nombre illimité de groupes"
+msgstr "Create unlimited groups"
+
+#: templates/pricing.html:34
+msgid "Suivez les progrès avec des graphiques"
+msgstr "Track progress with charts"
+
+#: templates/pricing.html:38
+msgid "Invitez des amis et de la famille"
+msgstr "Invite friends and family"
+
+#: templates/pricing.html:46
+msgid "Interface mobile conviviale"
+msgstr "User-friendly mobile interface"
+
+#: templates/pricing.html:50
+msgid "Exportation de données"
+msgstr "Data export"
+
+#: templates/pricing.html:60 templates/pricing.html:114
+msgid "Plan Actuel"
+msgstr "Current Plan"
+
+#: templates/pricing.html:83
+msgid "Tout ce qui est inclus dans Gratuit"
+msgstr "Everything included in Free"
+
+#: templates/pricing.html:87 templates/settings.html:305
+msgid "Exporter les données en CSV"
+msgstr "Export data to CSV"
+
+#: templates/pricing.html:122
+msgid "Commencer"
+msgstr "Get Started"
+
+#: templates/pricing.html:136
+msgid "Comparaison des Fonctionnalités"
+msgstr "Feature Comparison"
+
+#: templates/pricing.html:144
+msgid "Fonctionnalité"
+msgstr "Feature"
+
+#: templates/pricing.html:151
+msgid "Créer des groupes d'épargne"
+msgstr "Create savings groups"
+
+#: templates/pricing.html:161
+msgid "Inviter amis et famille"
+msgstr "Invite friends and family"
+
+#: templates/pricing.html:171
+msgid "Interface mobile"
+msgstr "Mobile interface"
+
+#: templates/pricing.html:176
+msgid "Exporter données en CSV"
+msgstr "Export data to CSV"
+
+#: templates/pricing.html:214
+msgid "Questions Fréquemment Posées"
+msgstr "Frequently Asked Questions"
+
+#: templates/pricing.html:223
+msgid "Puis-je changer de plan à tout moment ?"
+msgstr "Can I change my plan at any time?"
+
+#: templates/pricing.html:228
+msgid ""
+"Oui ! Vous pouvez passer à Premium à tout moment. Si vous décidez que "
+"Premium\n"
+"                                    n'est pas pour vous, vous pouvez "
+"repasser au plan Gratuit, mais vous perdrez\n"
+"                                    l'accès aux fonctionnalités Premium."
+msgstr ""
+"Yes! You can upgrade to Premium at any time. If you decide Premium isn't "
+"for you, you can downgrade to Free, but you will lose access to Premium "
+"features."
+
+#: templates/pricing.html:239
+msgid "Quels moyens de paiement acceptez-vous ?"
+msgstr "What payment methods do you accept?"
+
+#: templates/pricing.html:244
+msgid ""
+"Nous acceptons toutes les principales cartes de crédit, PayPal et les\n"
+"                                    virements bancaires. Le paiement est "
+"traité en toute sécurité par nos partenaires de\n"
+"                                    paiement."
+msgstr ""
+"We accept all major credit cards, PayPal, and bank transfers. Payment is "
+"securely processed by our payment partners."
+
+#: templates/pricing.html:255
+msgid "Mes données sont-elles sécurisées ?"
+msgstr "Is my data secure?"
+
+#: templates/pricing.html:260
+msgid ""
+"Absolument ! Nous utilisons un cryptage de niveau bancaire pour protéger "
+"vos\n"
+"                                    données. Vos informations financières"
+" ne sont jamais partagées avec des tiers sans\n"
+"                                    votre consentement explicite."
+msgstr ""
+"Absolutely! We use bank-level encryption to protect your data. Your "
+"financial info is never shared with third parties without your explicit "
+"consent."
+
+#: templates/pricing.html:271
+msgid "Puis-je annuler mon abonnement ?"
+msgstr "Can I cancel my subscription?"
+
+#: templates/pricing.html:276
+msgid ""
+"Oui, vous pouvez annuler votre abonnement Premium à tout moment depuis "
+"les\n"
+"                                    paramètres de votre compte. Vous "
+"continuerez à avoir un accès Premium jusqu'à la\n"
+"                                    fin de votre période de facturation."
+msgstr ""
+"Yes, you can cancel your Premium subscription at any time from your "
+"account settings. You will continue to have Premium access until the end "
+"of your billing period."
+
+#: templates/pricing.html:293
+msgid "Prêt à Épargner Ensemble ?"
+msgstr "Ready to Save Together?"
+
+#: templates/pricing.html:294
+msgid ""
+"Rejoignez des milliers d'utilisateurs qui atteignent déjà\n"
+"                        leurs objectifs financiers"
+msgstr "Join thousands of users who are already achieving their financial goals"
+
+#: templates/pricing.html:304
+msgid "Aller au Tableau de Bord"
+msgstr "Go to Dashboard"
+
+#: templates/register.html:14
+msgid "Rejoignez SaveTogether aujourd'hui"
+msgstr "Join SaveTogether Today"
+
+#: templates/register.html:61
+msgid "S'inscrire avec Google"
+msgstr "Sign up with Google"
+
+#: templates/settings.html:19
+msgid "Profil"
+msgstr "Profile"
+
+#: templates/settings.html:25
+msgid "Sécurité"
+msgstr "Security"
+
+#: templates/settings.html:28
+msgid "Abonnement"
+msgstr "Subscription"
+
+#: templates/settings.html:42
+msgid "Informations du Profil"
+msgstr "Profile Information"
+
+#: templates/settings.html:70
+msgid "Changer la Photo de Profil"
+msgstr "Change Profile Picture"
+
+#: templates/settings.html:75
+msgid "Télécharger la Photo"
+msgstr "Upload Photo"
+
+#: templates/settings.html:90
+msgid "Votre nom d'utilisateur unique"
+msgstr "Your unique username"
+
+#: templates/settings.html:98
+msgid "Votre adresse email"
+msgstr "Your email address"
+
+#: templates/settings.html:104
+msgid "Enregistrer les Modifications"
+msgstr "Save Changes"
+
+#: templates/settings.html:116
+msgid "Préférences de Notification"
+msgstr "Notification Preferences"
+
+#: templates/settings.html:122
+msgid "Notifications de Groupe"
+msgstr "Group Notifications"
+
+#: templates/settings.html:126
+msgid "Nouvelles contributions à mes groupes"
+msgstr "New contributions to my groups"
+
+#: templates/settings.html:132
+msgid "Réalisations d'étape (25%, 50%, 75%, 100%)"
+msgstr "Milestone achievements (25%, 50%, 75%, 100%)"
+
+#: templates/settings.html:138
+msgid "Nouveaux membres rejoignant mes groupes"
+msgstr "New members joining my groups"
+
+#: templates/settings.html:144
+msgid "Rappels"
+msgstr "Reminders"
+
+#: templates/settings.html:148
+msgid "Rappels de contribution hebdomadaires"
+msgstr "Weekly contribution reminders"
+
+#: templates/settings.html:154
+msgid "Rappels de date limite (30 jours, 7 jours, 1 jour avant)"
+msgstr "Deadline reminders (30 days, 7 days, 1 day before)"
+
+#: templates/settings.html:165
+msgid "Rappels de contribution récurrents automatisés"
+msgstr "Automated recurring contribution reminders"
+
+#: templates/settings.html:171
+msgid "Notifications d'analyses avancées"
+msgstr "Advanced analytics notifications"
+
+#: templates/settings.html:178
+msgid "Enregistrer les Préférences"
+msgstr "Save Preferences"
+
+#: templates/settings.html:190
+msgid "Paramètres de Sécurité"
+msgstr "Security Settings"
+
+#: templates/settings.html:197
+msgid "Mot de Passe"
+msgstr "Password"
+
+#: templates/settings.html:198
+msgid "Changez le mot de passe de votre compte"
+msgstr "Change your account password"
+
+#: templates/settings.html:201
+msgid "Changer le Mot de Passe"
+msgstr "Change Password"
+
+#: templates/settings.html:203
+msgid ""
+"Les changements de mot de passe ne\n"
+"                                            sont pas implémentés dans la "
+"version démo"
+msgstr "Password changes are not implemented in the demo version"
+
+#: templates/settings.html:209
+msgid "Authentification à Deux Facteurs"
+msgstr "Two-Factor Authentication"
+
+#: templates/settings.html:210
+msgid ""
+"Ajoutez une couche de sécurité supplémentaire à\n"
+"                                            votre compte"
+msgstr "Add an extra layer of security to your account"
+
+#: templates/settings.html:213
+msgid "Activer 2FA"
+msgstr "Enable 2FA"
+
+#: templates/settings.html:215
+msgid ""
+"2FA n'est pas implémenté dans la\n"
+"                                            version démo"
+msgstr "2FA is not implemented in the demo version"
+
+#: templates/settings.html:224
+msgid "Activité de Connexion"
+msgstr "Login Activity"
+
+#: templates/settings.html:230
+msgid "Heure"
+msgstr "Time"
+
+#: templates/settings.html:231
+msgid "Statut"
+msgstr "Status"
+
+#: templates/settings.html:238 templates/settings.html:268
+msgid "Actif"
+msgstr "Active"
+
+#: templates/settings.html:253
+msgid "Gestion de l'Abonnement"
+msgstr "Subscription Management"
+
+#: templates/settings.html:260
+msgid "Premium Actif"
+msgstr "Premium Active"
+
+#: templates/settings.html:262
+msgid "Vous avez un abonnement Premium actif."
+msgstr "You have an active Premium subscription."
+
+#: templates/settings.html:266
+msgid "Plan :"
+msgstr "Plan:"
+
+#: templates/settings.html:267
+msgid "Prix :"
+msgstr "Price:"
+
+#: templates/settings.html:267
+msgid "mois"
+msgstr "month"
+
+#: templates/settings.html:268
+msgid "Statut :"
+msgstr "Status:"
+
+#: templates/settings.html:271
+msgid "Prochaine Facturation :"
+msgstr "Next Billing:"
+
+#: templates/settings.html:271
+msgid "18 Novembre 2024"
+msgstr "November 18, 2024"
+
+#: templates/settings.html:273
+msgid "Moyen de Paiement :"
+msgstr "Payment Method:"
+
+#: templates/settings.html:273
+msgid ""
+"Carte de Crédit finissant\n"
+"                                        par 1234"
+msgstr "Credit Card ending in 1234"
+
+#: templates/settings.html:281
+msgid "Mettre à jour le moyen de paiement"
+msgstr "Update payment method"
+
+#: templates/settings.html:284
+msgid "Annuler l'abonnement"
+msgstr "Cancel subscription"
+
+#: templates/settings.html:290
+msgid "Plan Gratuit"
+msgstr "Free Plan"
+
+#: templates/settings.html:292
+msgid ""
+"Vous êtes actuellement sur le plan Gratuit. Passez à Premium pour\n"
+"                                    débloquer des fonctionnalités "
+"avancées."
+msgstr ""
+"You are currently on the Free plan. Upgrade to Premium to unlock advanced"
+" features."
+
+#: templates/settings.html:301
+msgid "Avantages Premium"
+msgstr "Premium Benefits"
+
+#: templates/settings.html:326
+msgid "Prix"
+msgstr "Price"
+
+#: templates/settings.html:330
+msgid "Annulez à tout moment"
+msgstr "Cancel anytime"
+
+#: templates/settings.html:391
+msgid "Paramètres enregistrés avec succès !"
+msgstr "Settings saved successfully!"
+
+#~ msgid "SaveTogether"
+#~ msgstr ""
+
+#~ msgid "Pas de description fournie"
+#~ msgstr ""
+
+#~ msgid "Aperçu de la Progression"
+#~ msgstr "In Progress"
+
+#~ msgid "Hello World Dummy"
+#~ msgstr ""
+
