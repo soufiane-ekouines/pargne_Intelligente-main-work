@@ -12,6 +12,7 @@ import json
 from functools import wraps
 from flask_dance.contrib.google import make_google_blueprint, google
 import uuid
+import requests
 from dotenv import load_dotenv
 from database import db, Database
 
@@ -24,6 +25,10 @@ app.secret_key = os.getenv('FLASK_SECRET_KEY', 'savetogether-secret-key-2024')
 # Google OAuth Configuration
 GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', 'your-google-client-id')
 GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', 'your-google-client-secret')
+
+# Gemini Configuration
+GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
+
 
 # Track if Google OAuth is enabled
 google_oauth_enabled = False
@@ -50,10 +55,18 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'  # type: ignore
 
-# Context processor to make google_oauth_enabled available in templates
+# Context processor to make google_oauth_enabled and notifications available in templates
 @app.context_processor
-def inject_google_oauth_status():
-    return {'google_oauth_enabled': google_oauth_enabled}
+def inject_global_vars():
+    vars = {'google_oauth_enabled': google_oauth_enabled}
+    
+    # Add notifications for logged-in users
+    if current_user.is_authenticated:
+        vars['notifications'] = Database.get_user_notifications(current_user.id, is_read=False)
+    else:
+        vars['notifications'] = []
+        
+    return vars
 
 # Database configuration (Supabase)
 # All database operations now handled by database.py module
@@ -278,12 +291,8 @@ def dashboard():
             'username': contrib['users']['username']
         })
     
-    # Get unread notifications
-    notifications = Database.get_user_notifications(current_user.id, is_read=False)
-    
     return render_template('dashboard.html', groups=groups, 
-                         recent_contributions=formatted_contributions, 
-                         notifications=notifications)
+                         recent_contributions=formatted_contributions)
 
 @app.route('/groups/create', methods=['GET', 'POST'])
 @login_required
@@ -1166,6 +1175,143 @@ def reject_member(group_id, user_id):
         f'Votre demande pour rejoindre "{group_name}" a été refusée.')
     
     return jsonify({'status': 'success', 'message': f'La demande de {username} a été refusée'})
+
+# ==================== AI CHATBOT ====================
+
+def analyze_group_data_for_prompt(group_id):
+    """Gather group data to build the AI system prompt"""
+    group = Database.get_group_by_id(group_id)
+    if not group:
+        return None
+        
+    # Get stats
+    total_contributed = Database.get_total_contributions(group_id, 'approved')
+    member_count = Database.get_active_member_count(group_id)
+    target = group['target_amount']
+    progress = (total_contributed / target * 100) if target > 0 else 0
+    
+    # Calculate days remaining
+    days_remaining = "Unknown"
+    if group['deadline']:
+        try:
+            deadline_date = datetime.strptime(group['deadline'], '%Y-%m-%d')
+            days_remaining = (deadline_date - datetime.now()).days
+        except:
+            pass
+            
+    # Get top contributor
+    contribs = Database.get_group_contributions(group_id, 'approved')
+    top_contributor = "None"
+    if contribs:
+        # Simple count for now, could be more complex
+        counts = {}
+        for c in contribs:
+            uid = c['user_id']
+            counts[uid] = counts.get(uid, 0) + float(c['amount'])
+        
+        if counts:
+            top_uid = max(counts, key=counts.get)
+            top_user = Database.get_user_by_id(top_uid)
+            if top_user:
+                top_contributor = f"{top_user['username']} ({counts[top_uid]} MAD)"
+
+    context = f"""
+    You are an intelligent financial assistant for a savings group called "{group['name']}".
+    
+    Group Data:
+    - Description: {group['description']}
+    - Category: {group['category']}
+    - Target Amount: {target} MAD
+    - Currently Collected: {total_contributed} MAD
+    - Progress: {progress:.1f}%
+    - Active Members: {member_count}
+    - Top Contributor: {top_contributor}
+    - Days Remaining: {days_remaining}
+    
+    Your role is to encourage the members, analyze their progress, and provide helpful advice on how to reach their goal.
+    Be friendly, professional, and concise.
+    If the progress is slow, suggest ways to save more.
+    If they are doing well, congratulate them.
+    """
+    return context
+
+def call_gemini_api(system_prompt, messages):
+    """Call the Gemini API (REST)"""
+    if not GEMINI_API_KEY:
+        print("Warning: GEMINI_API_KEY not found in environment.")
+        return "I'm having trouble connecting to my brain right now (Missing API Key), but keep saving!"
+        
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+    headers = {
+        "Content-Type": "application/json"
+    }
+    
+    # Convert OpenAI-style messages to Gemini format
+    # System prompt is handled separately in Gemini
+    gemini_contents = []
+    
+    for msg in messages:
+        role = "user" if msg['role'] == 'user' else "model"
+        gemini_contents.append({
+            "role": role,
+            "parts": [{"text": msg['content']}]
+        })
+        
+    data = {
+        "system_instruction": {
+            "parts": [{"text": system_prompt}]
+        },
+        "contents": gemini_contents
+    }
+    
+    try:
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
+        result = response.json()
+        
+        # Extract text from response
+        if 'candidates' in result and result['candidates']:
+            return result['candidates'][0]['content']['parts'][0]['text']
+        else:
+            return "Thinking..."
+            
+    except Exception as e:
+        print(f"Gemini API Error: {str(e)}")
+        if response.status_code != 200:
+             print(f"Response: {response.text}")
+        return "I'm having trouble connecting to my brain right now, but keep saving!"
+
+@app.route('/api/chat', methods=['POST'])
+@login_required
+def chat_api():
+    """Handle chat requests"""
+    data = request.get_json()
+    group_id = data.get('group_id')
+    user_message = data.get('message')
+    history = data.get('history', [])
+    
+    if not group_id or not user_message:
+        return jsonify({'error': 'Missing data'}), 400
+        
+    # Build context
+    system_prompt = analyze_group_data_for_prompt(group_id)
+    if not system_prompt:
+        return jsonify({'error': 'Group not found'}), 404
+        
+    # Prepare messages for API (only active history, not system prompt yet)
+    messages = []
+    
+    # Add limited history
+    for msg in history[-4:]:
+        role = "user" if msg['sender'] == 'user' else "assistant"
+        messages.append({"role": role, "content": msg['text']})
+        
+    messages.append({"role": "user", "content": user_message})
+    
+    # Get response
+    ai_response = call_gemini_api(system_prompt, messages)
+        
+    return jsonify({'response': ai_response})
 
 if __name__ == '__main__':
     db.init_db()

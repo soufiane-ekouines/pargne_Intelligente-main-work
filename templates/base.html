@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         :root {
             --primary-green: #10B981;
             --dark-green: #059669;
@@ -51,13 +52,16 @@
         ::-webkit-scrollbar {
             width: 6px;
         }
+
         ::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
+
         ::-webkit-scrollbar-thumb {
             background: var(--primary-green);
             border-radius: 3px;
         }
+
         ::-webkit-scrollbar-thumb:hover {
             background: var(--dark-green);
         }
@@ -68,6 +72,8 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: var(--shadow-sm);
+            z-index: 1030;
+            position: relative;
         }
 
         .navbar-brand {
@@ -158,13 +164,18 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 2s infinite;
         }
 
         @keyframes shimmer {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         /* Enhanced Hero Section */
@@ -184,10 +195,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255,255,255,0.05) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
         }
 
         /* Animated Background Elements */
@@ -204,7 +215,7 @@
         .bg-shape {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             animation: floatShape 20s infinite linear;
         }
 
@@ -233,8 +244,13 @@
         }
 
         @keyframes floatShape {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-100px) rotate(360deg); }
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+            }
         }
 
         /* Floating Particles */
@@ -248,7 +264,7 @@
             position: absolute;
             width: 4px;
             height: 4px;
-            background: rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
             animation: floatParticle 15s infinite linear;
         }
@@ -257,18 +273,22 @@
             left: 10%;
             animation-delay: 0s;
         }
+
         .particle:nth-child(2) {
             left: 20%;
             animation-delay: -3s;
         }
+
         .particle:nth-child(3) {
             left: 60%;
             animation-delay: -6s;
         }
+
         .particle:nth-child(4) {
             left: 80%;
             animation-delay: -9s;
         }
+
         .particle:nth-child(5) {
             left: 90%;
             animation-delay: -12s;
@@ -279,12 +299,15 @@
                 transform: translateY(100vh) translateX(0px);
                 opacity: 0;
             }
+
             10% {
                 opacity: 1;
             }
+
             90% {
                 opacity: 1;
             }
+
             100% {
                 transform: translateY(-100px) translateX(100px);
                 opacity: 0;
@@ -298,9 +321,9 @@
 
         .badge-content {
             position: relative;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             padding: 12px 24px;
             display: flex;
@@ -322,19 +345,37 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: badgeShine 3s infinite;
         }
 
         @keyframes badgeShine {
-            0% { left: -100%; }
-            100% { left: 100%; }
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* Hero Title */
@@ -365,9 +406,19 @@
         }
 
         @keyframes wiggle {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(10deg); }
-            75% { transform: rotate(-10deg); }
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(10deg);
+            }
+
+            75% {
+                transform: rotate(-10deg);
+            }
         }
 
         /* Feature Tags */
@@ -379,8 +430,8 @@
         }
 
         .feature-tag {
-            background: rgba(255,255,255,0.15);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
             padding: 6px 12px;
             font-size: 0.85rem;
@@ -388,12 +439,12 @@
             color: white;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .feature-tag:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
             color: white;
         }
@@ -415,14 +466,14 @@
             background: linear-gradient(135deg, #ffffff, #f9fafb);
             color: var(--primary-green);
             border: none;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             text-shadow: none;
         }
 
         .hero-btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
             color: var(--dark-green);
             background: linear-gradient(135deg, #f9fafb, #f3f4f6);
         }
@@ -433,7 +484,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: left 0.5s;
         }
 
@@ -446,17 +497,17 @@
             font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
-            border: 2px solid rgba(255,255,255,0.4);
-            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             backdrop-filter: blur(20px);
             transition: all 0.3s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .hero-btn-secondary:hover {
-            background: rgba(255,255,255,0.25);
-            border-color: rgba(255,255,255,0.6);
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
             color: white;
             transform: translateY(-3px);
         }
@@ -473,16 +524,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: rgba(255,255,255,0.9);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.9rem;
             font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .trust-icon {
             width: 32px;
             height: 32px;
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -689,8 +740,15 @@
         }
 
         @keyframes floatUpDown {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         /* Feature Cards */
@@ -750,8 +808,15 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
 
         /* Modern Sidebar */
@@ -821,13 +886,20 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
         }
 
         .stats-number {
@@ -908,6 +980,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -919,6 +992,7 @@
                 opacity: 0;
                 transform: translateX(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -930,6 +1004,7 @@
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -941,6 +1016,7 @@
                 opacity: 0;
                 transform: scale(0.8);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -1034,8 +1110,13 @@
         }
 
         @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1043,42 +1124,42 @@
                 padding: 80px 0;
                 min-height: auto;
             }
-            
+
             .hero-title {
                 font-size: 2.5rem;
             }
-            
+
             .title-accent {
                 font-size: 3rem;
                 margin-left: 10px;
             }
-            
+
             .hero-actions {
                 flex-direction: column;
                 gap: 16px;
             }
-            
+
             .hero-btn-primary,
             .hero-btn-secondary {
                 width: 100%;
                 text-align: center;
             }
-            
+
             .trust-indicators {
                 justify-content: center;
                 gap: 16px;
             }
-            
+
             .trust-item {
                 flex-direction: column;
                 text-align: center;
                 gap: 4px;
             }
-            
+
             .feature-tags {
                 justify-content: center;
             }
-            
+
             .floating-card {
                 position: static !important;
                 margin-bottom: 1rem;
@@ -1087,31 +1168,31 @@
                 margin-left: auto;
                 margin-right: auto;
             }
-            
+
             .savings-dashboard {
                 padding: 24px;
                 margin: 20px;
             }
-            
+
             .dashboard-stats {
                 flex-direction: column;
                 gap: 16px;
             }
-            
+
             .progress-ring {
                 width: 240px !important;
                 height: 240px !important;
             }
-            
+
             .progress-percentage {
                 font-size: 2rem;
             }
-            
+
             .sidebar {
                 min-height: auto;
                 border-radius: 0;
             }
-            
+
             .main-content {
                 padding: 20px;
             }
@@ -1125,26 +1206,26 @@
             .hero-title {
                 font-size: 2rem;
             }
-            
+
             .title-accent {
                 font-size: 2.5rem;
             }
-            
+
             .hero-badge .badge-content {
                 padding: 8px 16px;
                 font-size: 0.85rem;
             }
-            
+
             .feature-tag {
                 font-size: 0.8rem;
                 padding: 4px 8px;
             }
-            
+
             .savings-dashboard {
                 padding: 20px;
                 margin: 10px;
             }
-            
+
             .progress-ring {
                 width: 200px !important;
                 height: 200px !important;
@@ -1162,22 +1243,24 @@
         .alert {
             border-radius: 10px;
             border: none;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
+
 <body>
     <!-- Flash Messages -->
     <div class="flash-messages">
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
         {% endwith %}
     </div>
 
@@ -1187,64 +1270,122 @@
             <a class="navbar-brand" href="{{ url_for('index') }}">
                 <i class="fas fa-piggy-bank me-2"></i>SaveTogether
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('dashboard') }}">
-                                <i class="fas fa-tachometer-alt me-1"></i>Tableau de Bord
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('create_group') }}">
-                                <i class="fas fa-plus me-1"></i>Créer un Groupe
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('join_group') }}">
-                                <i class="fas fa-user-plus me-1"></i>Rejoindre un Groupe
-                            </a>
-                        </li>
-                        {% if not current_user.is_premium %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('pricing') }}">
-                                <span class="premium-badge">Premium</span>
-                            </a>
-                        </li>
-                        {% endif %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>{{ current_user.username }}
-                                {% if current_user.is_premium %}
-                                    <span class="premium-badge ms-1">PRO</span>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-tachometer-alt me-1"></i>Tableau de Bord
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('create_group') }}">
+                            <i class="fas fa-plus me-1"></i>Créer un Groupe
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('join_group') }}">
+                            <i class="fas fa-user-plus me-1"></i>Rejoindre un Groupe
+                        </a>
+                    </li>
+                    {% if not current_user.is_premium %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('pricing') }}">
+                            <span class="premium-badge">Premium</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item dropdown me-3">
+                        <a class="nav-link notification-bell" href="#" id="notificationDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false"
+                            style="padding: 10px; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-bell fa-lg"></i>
+                            {% if notifications %}
+                            <span class="notification-badge-dot"></span>
+                            {% endif %}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end notification-popover shadow-lg border-0"
+                            aria-labelledby="notificationDropdown">
+                            <div
+                                class="d-flex justify-content-between align-items-center px-3 py-2 border-bottom header-gradient">
+                                <h6 class="mb-0 fw-bold text-white">Notifications</h6>
+                                <span class="badge bg-white text-primary rounded-pill">{{ notifications|length }}</span>
+                            </div>
+                            <div class="notification-list custom-scrollbar"
+                                style="max-height: 350px; overflow-y: auto;">
+                                {% if notifications %}
+                                {% for notification in notifications %}
+                                <div class="notification-item p-3 border-bottom position-relative"
+                                    id="notification-{{ notification.id }}">
+                                    <div class="d-flex align-items-start">
+                                        <div class="flex-shrink-0">
+                                            <div class="rounded-circle bg-light-primary p-2 text-primary icon-box">
+                                                <i class="fas fa-info"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1 ms-3">
+                                            <p class="mb-1 small text-dark fw-medium line-clamp-2">{{
+                                                notification.message }}</p>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Just now</small>
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-sm ms-2"
+                                            onclick="markNotificationRead({{ notification.id }}); event.stopPropagation();"
+                                            aria-label="Close"></button>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                {% else %}
+                                <div class="text-center p-4 text-muted">
+                                    <div class="mb-2">
+                                        <i class="fas fa-bell-slash fa-2x text-light-gray"></i>
+                                    </div>
+                                    <p class="mb-0 small">No new notifications</p>
+                                </div>
                                 {% endif %}
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ url_for('settings') }}">
+                            </div>
+                            <div class="p-2 text-center border-top bg-light rounded-bottom">
+                                <a href="#" class="small text-decoration-none text-primary fw-bold"
+                                    onclick="location.reload(); return false;">Refresh</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>{{ current_user.username }}
+                            {% if current_user.is_premium %}
+                            <span class="premium-badge ms-1">PRO</span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url_for('settings') }}">
                                     <i class="fas fa-cog me-2"></i>Paramètres
                                 </a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ url_for('logout') }}">
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">
                                     <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
                                 </a></li>
-                            </ul>
-                        </li>
+                        </ul>
+                    </li>
                     {% else %}
-                        <li class="nav-item" style="margin-top: 7px;">
-                            <a class="nav-link btn btn-primary btn-sm" href="{{ url_for('login') }}">
-                                <i class="fas fa-sign-in-alt me-1"></i>Connexion
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('register') }}">
-                                <i class="btn btn-primary btn-sm">S'inscrire</i>
-                            </a>
-                        </li>
+                    <li class="nav-item" style="margin-top: 7px;">
+                        <a class="nav-link btn btn-primary btn-sm" href="{{ url_for('login') }}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Connexion
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">
+                            <i class="btn btn-primary btn-sm">S'inscrire</i>
+                        </a>
+                    </li>
                     {% endif %}
                 </ul>
             </div>
@@ -1274,15 +1415,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Auto-hide flash messages
-        setTimeout(function() {
+        setTimeout(function () {
             var alerts = document.querySelectorAll('.alert');
-            alerts.forEach(function(alert) {
+            alerts.forEach(function (alert) {
                 var bsAlert = new bootstrap.Alert(alert);
                 bsAlert.close();
             });
         }, 5000);
     </script>
-    
+
     {% block scripts %}{% endblock %}
 </body>
+
 </html>

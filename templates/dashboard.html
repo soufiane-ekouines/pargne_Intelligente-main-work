@@ -41,63 +41,29 @@
                     <!-- Profile Picture -->
                     <div class="me-3">
                         {% if current_user.profile_picture %}
-                        <img src="{{ url_for('static', filename=current_user.profile_picture) }}" 
-                             class="rounded-circle border border-3 border-primary" 
-                             style="width: 80px; height: 80px; object-fit: cover;"
-                             alt="Profile Picture">
+                        <img src="{{ url_for('static', filename=current_user.profile_picture) }}"
+                            class="rounded-circle border border-3 border-primary"
+                            style="width: 80px; height: 80px; object-fit: cover;" alt="Profile Picture">
                         {% else %}
                         <div class="rounded-circle border border-3 border-primary bg-primary text-white d-flex align-items-center justify-content-center"
-                             style="width: 80px; height: 80px; font-size: 2rem;">
+                            style="width: 80px; height: 80px; font-size: 2rem;">
                             <i class="fas fa-user"></i>
                         </div>
                         {% endif %}
                     </div>
                     <!-- Welcome Text -->
-                    <div>
-                        <h2 class="mb-1">Welcome back, {{ current_user.username }}!</h2>
-                        <p class="text-muted mb-0">Track your savings progress and manage your groups</p>
-                    </div>
                 </div>
-                {% if current_user.is_premium %}
-                <span class="premium-badge">
-                    <i class="fas fa-crown me-1"></i>Premium
-                </span>
-                {% endif %}
             </div>
 
-            <!-- Notifications -->
-            {% if notifications %}
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-bell me-2"></i>Notifications
-                                <span class="badge bg-primary ms-2">{{ notifications|length }}</span>
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            {% for notification in notifications %}
-                            <div class="notification-box border-start border-info border-4 bg-light p-3 mb-3 position-relative" style="border-radius: 0.375rem;" data-notification-id="{{ notification.id }}">
-                                <div class="d-flex align-items-start">
-                                    <div class="flex-grow-1">
-                                        <i class="fas fa-info-circle text-info me-2"></i>
-                                        {{ notification.message }}
-                                    </div>
-                                    <button type="button" class="btn-close" onclick="markNotificationRead({{ notification.id }})" aria-label="Close"></button>
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
+
+
+            <!-- Notifications (Moved to Header) -->
 
             <!-- Stats Cards -->
             <div class="row mb-5">
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="stats-card stats-card-purple position-relative overflow-hidden" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;">
+                    <div class="stats-card stats-card-purple position-relative overflow-hidden"
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">{{ groups|length }}</div>
@@ -110,13 +76,14 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="stats-card stats-card-green position-relative overflow-hidden" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;">
+                    <div class="stats-card stats-card-green position-relative overflow-hidden"
+                        style="background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">
                                     {% set total_saved = 0 %}
                                     {% for group in groups %}
-                                        {% set total_saved = total_saved + group.total_contributed %}
+                                    {% set total_saved = total_saved + group.total_contributed %}
                                     {% endfor %}
                                     {{ "%.0f"|format(total_saved) }} MAD
                                 </div>
@@ -129,7 +96,8 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="stats-card stats-card-blue position-relative overflow-hidden" style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;">
+                    <div class="stats-card stats-card-blue position-relative overflow-hidden"
+                        style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">{{ recent_contributions|length }}</div>
@@ -142,23 +110,24 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="stats-card stats-card-orange position-relative overflow-hidden" style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;">
+                    <div class="stats-card stats-card-orange position-relative overflow-hidden"
+                        style="background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;">
                         <div class="d-flex align-items-center justify-content-between">
                             <div>
                                 <div class="stats-number">
                                     {% if current_user.is_premium %}
-                                        <i class="fas fa-crown"></i> PRO
+                                    <i class="fas fa-crown"></i> PRO
                                     {% else %}
-                                        <i class="fas fa-user"></i> FREE
+                                    <i class="fas fa-user"></i> FREE
                                     {% endif %}
                                 </div>
                                 <div class="stats-label">Account Type</div>
                             </div>
                             <div class="stats-icon stats-icon-orange">
                                 {% if current_user.is_premium %}
-                                    <i class="fas fa-crown"></i>
+                                <i class="fas fa-crown"></i>
                                 {% else %}
-                                    <i class="fas fa-user"></i>
+                                <i class="fas fa-user"></i>
                                 {% endif %}
                             </div>
                         </div>
@@ -167,40 +136,52 @@
             </div>
 
             <!-- Progress Levels Guide - Always Visible -->
-            <div class="row mb-4" id="progress-levels-guide" style="display: block !important; visibility: visible !important;">
+            <div class="row mb-4" id="progress-levels-guide"
+                style="display: block !important; visibility: visible !important;">
                 <div class="col-12">
-                    <div class="progress-guide-box border" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border-color: #667eea !important; display: block !important; padding: 1rem; border-radius: 0.375rem;">
+                    <div class="progress-guide-box border"
+                        style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%); border-color: #667eea !important; display: block !important; padding: 1rem; border-radius: 0.375rem;">
                         <h6 class="fw-bold mb-3" style="color: #667eea;">
                             <i class="fas fa-palette me-2"></i>Progress Levels Guide
                         </h6>
                         <div class="row g-2">
                             <div class="col-md-6 col-lg-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);"></div>
+                                    <div class="rounded"
+                                        style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                    </div>
                                     <span class="ms-2 small"><strong>0-29%:</strong> Starting Out</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);"></div>
+                                    <div class="rounded"
+                                        style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                                    </div>
                                     <span class="ms-2 small"><strong>30-49%:</strong> Making Progress</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);"></div>
+                                    <div class="rounded"
+                                        style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                                    </div>
                                     <span class="ms-2 small"><strong>50-74%:</strong> Halfway There</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-3">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);"></div>
+                                    <div class="rounded"
+                                        style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                                    </div>
                                     <span class="ms-2 small"><strong>75-99%:</strong> Almost Done</span>
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-2">
                                 <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);"></div>
+                                    <div class="rounded"
+                                        style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                    </div>
                                     <span class="ms-2 small"><strong>100%+:</strong> Goal Achieved! 🎉</span>
                                 </div>
                             </div>
@@ -217,143 +198,143 @@
                             <h5 class="mb-0">
                                 <i class="fas fa-users me-2"></i>Your Groups
                             </h5>
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createGroupModal">
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#createGroupModal">
                                 <i class="fas fa-plus me-1"></i>Create New Group
                             </button>
                         </div>
                         <div class="card-body">
                             {% if groups %}
-                                {% for group in groups %}
-                                <div class="contribution-item">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <div>
-                                            <h6 class="mb-1">
-                                                <a href="{{ url_for('group_detail', group_id=group.id) }}" class="text-decoration-none">
-                                                    {{ group.name }}
-                                                </a>
-                                            </h6>
-                                            <p class="text-muted mb-2">{{ group.description or 'No description' }}</p>
-                                        </div>
-                                        <span class="badge bg-primary">{{ group.member_count }} members</span>
+                            {% for group in groups %}
+                            <div class="contribution-item">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            <a href="{{ url_for('group_detail', group_id=group.id) }}"
+                                                class="text-decoration-none">
+                                                {{ group.name }}
+                                            </a>
+                                        </h6>
+                                        <p class="text-muted mb-2">{{ group.description or 'No description' }}</p>
                                     </div>
-                                    
-                                    {% set progress_pct = (group.total_contributed / group.target_amount * 100) if group.target_amount > 0 else 0 %}
-                                    
-                                    {# Apply same color system as group detail page #}
-                                    {% if progress_pct < 30 %}
-                                        {% set progress_color = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %}
-                                        {% set progress_label = 'Starting Out' %}
-                                    {% elif progress_pct < 50 %}
-                                        {% set progress_color = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %}
-                                        {% set progress_label = 'Making Progress' %}
-                                    {% elif progress_pct < 75 %}
-                                        {% set progress_color = 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %}
-                                        {% set progress_label = 'Halfway There' %}
-                                    {% elif progress_pct < 100 %}
-                                        {% set progress_color = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %}
-                                        {% set progress_label = 'Almost Done' %}
-                                    {% else %}
-                                        {% set progress_color = 'linear-gradient(135deg, #10b981 0%, #059669 100%)' %}
-                                        {% set progress_label = 'Goal Achieved!' %}
-                                    {% endif %}
-                                    
-                                    <div class="progress mb-2" style="height: 25px;">
-                                        <div class="progress-bar" 
-                                             role="progressbar" 
-                                             style="width: {{ progress_pct }}%; background: {{ progress_color }} !important;"
-                                             aria-valuenow="{{ progress_pct }}" 
-                                             aria-valuemin="0" 
-                                             aria-valuemax="100">
-                                            <strong>{{ "%.1f"|format(progress_pct) }}%</strong>
-                                        </div>
-                                    </div>
-                                    <div class="text-center mb-2">
-                                        <span class="badge" style="background: {{ progress_color }} !important;">
-                                            {{ progress_label }}
-                                        </span>
-                                    </div>
-                                    
-                                    <div class="d-flex justify-content-between text-muted small">
-                                        <span>{{ group.total_contributed }} MAD of {{ group.target_amount }} MAD</span>
-                                        {% if group.deadline %}
-                                        <span>Due: {{ group.deadline }}</span>
-                                        {% endif %}
-                                    </div>
+                                    <span class="badge bg-primary">{{ group.member_count }} members</span>
                                 </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="text-center py-4">
-                                    <i class="fas fa-users text-muted" style="font-size: 3rem;"></i>
-                                    <h5 class="mt-3 text-muted">No groups yet</h5>
-                                    <p class="text-muted">Create your first savings group or join an existing one to get started!</p>
-                                    <div class="d-flex gap-2 justify-content-center">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGroupModal">
-                                            <i class="fas fa-plus me-1"></i>Create Group
-                                        </button>
-                                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#joinGroupModal">
-                                            <i class="fas fa-user-plus me-1"></i>Join Group
-                                        </button>
+
+                                {% set progress_pct = (group.total_contributed / group.target_amount * 100) if
+                                group.target_amount > 0 else 0 %}
+
+                                {# Apply same color system as group detail page #}
+                                {% if progress_pct < 30 %} {% set
+                                    progress_color='linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %} {% set
+                                    progress_label='Starting Out' %} {% elif progress_pct < 50 %} {% set
+                                    progress_color='linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %} {% set
+                                    progress_label='Making Progress' %} {% elif progress_pct < 75 %} {% set
+                                    progress_color='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %} {% set
+                                    progress_label='Halfway There' %} {% elif progress_pct < 100 %} {% set
+                                    progress_color='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %} {% set
+                                    progress_label='Almost Done' %} {% else %} {% set
+                                    progress_color='linear-gradient(135deg, #10b981 0%, #059669 100%)' %} {% set
+                                    progress_label='Goal Achieved!' %} {% endif %} <div class="progress mb-2"
+                                    style="height: 25px;">
+                                    <div class="progress-bar" role="progressbar"
+                                        style="width: {{ progress_pct }}%; background: {{ progress_color }} !important;"
+                                        aria-valuenow="{{ progress_pct }}" aria-valuemin="0" aria-valuemax="100">
+                                        <strong>{{ "%.1f"|format(progress_pct) }}%</strong>
                                     </div>
-                                </div>
-                            {% endif %}
+                            </div>
+                            <div class="text-center mb-2">
+                                <span class="badge" style="background: {{ progress_color }} !important;">
+                                    {{ progress_label }}
+                                </span>
+                            </div>
+
+                            <div class="d-flex justify-content-between text-muted small">
+                                <span>{{ group.total_contributed }} MAD of {{ group.target_amount }} MAD</span>
+                                {% if group.deadline %}
+                                <span>Due: {{ group.deadline }}</span>
+                                {% endif %}
+                            </div>
                         </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-users text-muted" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3 text-muted">No groups yet</h5>
+                            <p class="text-muted">Create your first savings group or join an existing one to get
+                                started!</p>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#createGroupModal">
+                                    <i class="fas fa-plus me-1"></i>Create Group
+                                </button>
+                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#joinGroupModal">
+                                    <i class="fas fa-user-plus me-1"></i>Join Group
+                                </button>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-history me-2"></i>Recent Activity
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_contributions %}
+                        {% for contribution in recent_contributions %}
+                        <div class="d-flex align-items-center mb-3 activity-item">
+                            <div class="flex-shrink-0">
+                                <div class="activity-icon bg-gradient-{{ loop.cycle('purple', 'green', 'blue', 'pink') }} text-white rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 40px; height: 40px;">
+                                    <i class="fas fa-plus"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="fw-bold">{{ contribution.username }}</div>
+                                <div class="text-muted small">{{ contribution.amount }} MAD to {{
+                                    contribution.group_name }}</div>
+                                <div class="text-muted small">{{ contribution.contribution_date[:10] }}</div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <div class="text-center py-3">
+                            <i class="fas fa-history text-muted" style="font-size: 2rem;"></i>
+                            <p class="text-muted mt-2 mb-0">No recent activity</p>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
-                <!-- Recent Activity -->
-                <div class="col-lg-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-history me-2"></i>Recent Activity
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            {% if recent_contributions %}
-                                {% for contribution in recent_contributions %}
-                                <div class="d-flex align-items-center mb-3 activity-item">
-                                    <div class="flex-shrink-0">
-                                        <div class="activity-icon bg-gradient-{{ loop.cycle('purple', 'green', 'blue', 'pink') }} text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                            <i class="fas fa-plus"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <div class="fw-bold">{{ contribution.username }}</div>
-                                        <div class="text-muted small">{{ contribution.amount }} MAD to {{ contribution.group_name }}</div>
-                                        <div class="text-muted small">{{ contribution.contribution_date[:10] }}</div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="text-center py-3">
-                                    <i class="fas fa-history text-muted" style="font-size: 2rem;"></i>
-                                    <p class="text-muted mt-2 mb-0">No recent activity</p>
-                                </div>
-                            {% endif %}
-                        </div>
+                <!-- Quick Actions -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-bolt me-2"></i>Quick Actions
+                        </h5>
                     </div>
-
-                    <!-- Quick Actions -->
-                    <div class="card mt-3">
-                        <div class="card-header">
-                            <h5 class="mb-0">
-                                <i class="fas fa-bolt me-2"></i>Quick Actions
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createGroupModal">
-                                    <i class="fas fa-plus me-2"></i>Create New Group
-                                </button>
-                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#joinGroupModal">
-                                    <i class="fas fa-user-plus me-2"></i>Join with Code
-                                </button>
-                                {% if not current_user.is_premium %}
-                                <a href="{{ url_for('pricing') }}" class="btn btn-outline-warning">
-                                    <i class="fas fa-crown me-2"></i>Upgrade to Premium
-                                </a>
-                                {% endif %}
-                            </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#createGroupModal">
+                                <i class="fas fa-plus me-2"></i>Create New Group
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#joinGroupModal">
+                                <i class="fas fa-user-plus me-2"></i>Join with Code
+                            </button>
+                            {% if not current_user.is_premium %}
+                            <a href="{{ url_for('pricing') }}" class="btn btn-outline-warning">
+                                <i class="fas fa-crown me-2"></i>Upgrade to Premium
+                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -361,114 +342,115 @@
         </div>
     </div>
 </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-function markNotificationRead(notificationId) {
-    fetch(`/notifications/mark_read/${notificationId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                location.reload();
-            }
-        });
-}
-
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Create Group Modal Handler
-    const createGroupForm = document.getElementById('createGroupForm');
-    if (createGroupForm) {
-        createGroupForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('modal_group_name').value,
-                description: document.getElementById('modal_group_description').value,
-                category: document.getElementById('modal_group_category').value,
-                target_amount: parseFloat(document.getElementById('modal_group_target_amount').value),
-                deadline: document.getElementById('modal_group_deadline').value || null
-            };
-            
-            try {
-                const response = await fetch('/groups/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
+    function markNotificationRead(notificationId) {
+        fetch(`/notifications/mark_read/${notificationId}`)
+            .then(response => response.json())
+            .then(data => {
                 if (data.status === 'success') {
-                    // Close modal
-                    const modalElement = document.getElementById('createGroupModal');
-                    const modal = bootstrap.Modal.getInstance(modalElement);
-                    if (modal) {
-                        modal.hide();
-                    }
-                    
-                    // Show success message
-                    alert(data.message);
-                    
-                    // Reload page to show new group
                     location.reload();
-                } else {
-                    alert('Erreur: ' + data.message);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Erreur lors de la création du groupe: ' + error.message);
-            }
-        });
+            });
     }
 
-    // Join Group Modal Handler
-    const joinGroupForm = document.getElementById('joinGroupForm');
-    if (joinGroupForm) {
-        joinGroupForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = {
-                invite_code: document.getElementById('modal_invite_code').value
-            };
-            
-            try {
-                const response = await fetch('/groups/join', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData)
-                });
-                
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    // Close modal
-                    const modalElement = document.getElementById('joinGroupModal');
-                    const modal = bootstrap.Modal.getInstance(modalElement);
-                    if (modal) {
-                        modal.hide();
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        // Create Group Modal Handler
+        const createGroupForm = document.getElementById('createGroupForm');
+        if (createGroupForm) {
+            createGroupForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    name: document.getElementById('modal_group_name').value,
+                    description: document.getElementById('modal_group_description').value,
+                    category: document.getElementById('modal_group_category').value,
+                    target_amount: parseFloat(document.getElementById('modal_group_target_amount').value),
+                    deadline: document.getElementById('modal_group_deadline').value || null
+                };
+
+                try {
+                    const response = await fetch('/groups/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        // Close modal
+                        const modalElement = document.getElementById('createGroupModal');
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        // Show success message
+                        alert(data.message);
+
+                        // Reload page to show new group
+                        location.reload();
+                    } else {
+                        alert('Erreur: ' + data.message);
                     }
-                    
-                    // Show success message
-                    alert(data.message);
-                    
-                    // Reload page
-                    location.reload();
-                } else {
-                    alert('Erreur: ' + data.message);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Erreur lors de la création du groupe: ' + error.message);
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Erreur lors de la demande: ' + error.message);
-            }
-        });
-    }
-});
+            });
+        }
+
+        // Join Group Modal Handler
+        const joinGroupForm = document.getElementById('joinGroupForm');
+        if (joinGroupForm) {
+            joinGroupForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = {
+                    invite_code: document.getElementById('modal_invite_code').value
+                };
+
+                try {
+                    const response = await fetch('/groups/join', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (data.status === 'success') {
+                        // Close modal
+                        const modalElement = document.getElementById('joinGroupModal');
+                        const modal = bootstrap.Modal.getInstance(modalElement);
+                        if (modal) {
+                            modal.hide();
+                        }
+
+                        // Show success message
+                        alert(data.message);
+
+                        // Reload page
+                        location.reload();
+                    } else {
+                        alert('Erreur: ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Erreur lors de la demande: ' + error.message);
+                }
+            });
+        }
+    });
 </script>
 
 <!-- Create Group Modal -->
@@ -487,7 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <label for="modal_group_name" class="form-label">Nom du Groupe *</label>
                         <input type="text" class="form-control" id="modal_group_name" required>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="modal_group_category" class="form-label">Catégorie *</label>
                         <select class="form-select" id="modal_group_category" required>
@@ -500,17 +482,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             <option value="Autre">Autre</option>
                         </select>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="modal_group_description" class="form-label">Description</label>
                         <textarea class="form-control" id="modal_group_description" rows="3"></textarea>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="modal_group_target_amount" class="form-label">Montant Cible (MAD) *</label>
-                        <input type="number" class="form-control" id="modal_group_target_amount" min="1" step="0.01" required>
+                        <input type="number" class="form-control" id="modal_group_target_amount" min="1" step="0.01"
+                            required>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="modal_group_deadline" class="form-label">Date Limite</label>
                         <input type="date" class="form-control" id="modal_group_deadline">
@@ -541,7 +524,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="modal_invite_code" class="form-label">Code d'Invitation *</label>
-                        <input type="text" class="form-control" id="modal_invite_code" placeholder="Entrez le code à 8 caractères" required>
+                        <input type="text" class="form-control" id="modal_invite_code"
+                            placeholder="Entrez le code à 8 caractères" required>
                         <div class="form-text">Demandez le code d'invitation au créateur du groupe</div>
                     </div>
                     <div class="alert alert-info">

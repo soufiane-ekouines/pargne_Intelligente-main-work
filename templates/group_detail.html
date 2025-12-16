@@ -35,419 +35,434 @@
                 </div>
                 <div class="card-body">
                     <!-- Progress Bar -->
-                    {% if progress_percentage < 30 %}
-                        {% set progress_color = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %}
-                        {% set progress_label = 'Starting Out' %}
-                    {% elif progress_percentage < 50 %}
-                        {% set progress_color = 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %}
-                        {% set progress_label = 'Making Progress' %}
-                    {% elif progress_percentage < 75 %}
-                        {% set progress_color = 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %}
-                        {% set progress_label = 'Halfway There' %}
-                    {% elif progress_percentage < 100 %}
-                        {% set progress_color = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %}
-                        {% set progress_label = 'Almost Done' %}
-                    {% else %}
-                        {% set progress_color = 'linear-gradient(135deg, #10b981 0%, #059669 100%)' %}
-                        {% set progress_label = 'Goal Achieved!' %}
-                    {% endif %}
-                    
-                    <div class="mb-3">
+                    {% if progress_percentage < 30 %} {% set
+                        progress_color='linear-gradient(135deg, #ef4444 0%, #dc2626 100%)' %} {% set
+                        progress_label='Starting Out' %} {% elif progress_percentage < 50 %} {% set
+                        progress_color='linear-gradient(135deg, #f97316 0%, #ea580c 100%)' %} {% set
+                        progress_label='Making Progress' %} {% elif progress_percentage < 75 %} {% set
+                        progress_color='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' %} {% set
+                        progress_label='Halfway There' %} {% elif progress_percentage < 100 %} {% set
+                        progress_color='linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)' %} {% set
+                        progress_label='Almost Done' %} {% else %} {% set
+                        progress_color='linear-gradient(135deg, #10b981 0%, #059669 100%)' %} {% set
+                        progress_label='Goal Achieved!' %} {% endif %} <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="fw-bold text-muted">Progress Status:</span>
-                            <span class="badge" style="background: {{ progress_color }} !important; font-size: 0.9rem; padding: 0.5rem 1rem;">
+                            <span class="badge"
+                                style="background: {{ progress_color }} !important; font-size: 0.9rem; padding: 0.5rem 1rem;">
                                 {{ progress_label }}
                             </span>
                         </div>
                         <div class="progress mb-3" style="height: 30px;">
-                            <div class="progress-bar" 
-                                 role="progressbar" 
-                                 style="width: {{ progress_percentage }}%; background: {{ progress_color }} !important;"
-                                 aria-valuenow="{{ progress_percentage }}" 
-                                 aria-valuemin="0" 
-                                 aria-valuemax="100">
+                            <div class="progress-bar" role="progressbar"
+                                style="width: {{ progress_percentage }}%; background: {{ progress_color }} !important;"
+                                aria-valuenow="{{ progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
                                 <strong style="font-size: 1rem;">{{ "%.1f"|format(progress_percentage) }}%</strong>
                             </div>
                         </div>
+                </div>
+
+                <!-- Progress Color Legend -->
+                <div class="progress-guide-box border mb-4" id="progress-legend"
+                    style="display: block !important; visibility: visible !important; padding: 1rem; border-radius: 0.375rem; background-color: #f8f9fa;">
+                    <h6 class="fw-bold mb-3">
+                        <i class="fas fa-info-circle me-2"></i>Progress Levels
+                    </h6>
+                    <div class="row g-2">
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded"
+                                    style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                                </div>
+                                <span class="ms-2 small"><strong>0-29%:</strong> Starting Out</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded"
+                                    style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);">
+                                </div>
+                                <span class="ms-2 small"><strong>30-49%:</strong> Making Progress</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded"
+                                    style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+                                </div>
+                                <span class="ms-2 small"><strong>50-74%:</strong> Halfway There</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded"
+                                    style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);">
+                                </div>
+                                <span class="ms-2 small"><strong>75-99%:</strong> Almost Done</span>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded"
+                                    style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                </div>
+                                <span class="ms-2 small"><strong>100%+:</strong> Goal Achieved! 🎉</span>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- Progress Color Legend -->
-                    <div class="progress-guide-box border mb-4" id="progress-legend" style="display: block !important; visibility: visible !important; padding: 1rem; border-radius: 0.375rem; background-color: #f8f9fa;">
-                        <h6 class="fw-bold mb-3">
-                            <i class="fas fa-info-circle me-2"></i>Progress Levels
-                        </h6>
-                        <div class="row g-2">
-                            <div class="col-md-6 col-lg-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);"></div>
-                                    <span class="ms-2 small"><strong>0-29%:</strong> Starting Out</span>
+                </div>
+
+                <!-- Progress Stats -->
+                <div class="row text-center g-4">
+                    <div class="col-md-4">
+                        <div class="stats-card position-relative overflow-hidden">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="stats-number">{{ "%.0f"|format(total_contributed) }}</div>
+                                    <div class="stats-label">MAD Saved</div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);"></div>
-                                    <span class="ms-2 small"><strong>30-49%:</strong> Making Progress</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);"></div>
-                                    <span class="ms-2 small"><strong>50-74%:</strong> Halfway There</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);"></div>
-                                    <span class="ms-2 small"><strong>75-99%:</strong> Almost Done</span>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded" style="width: 24px; height: 24px; background: linear-gradient(135deg, #10b981 0%, #059669 100%);"></div>
-                                    <span class="ms-2 small"><strong>100%+:</strong> Goal Achieved! 🎉</span>
+                                <div class="stats-icon">
+                                    <i class="fas fa-coins"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Progress Stats -->
-                    <div class="row text-center g-4">
-                        <div class="col-md-4">
-                            <div class="stats-card position-relative overflow-hidden">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="stats-number">{{ "%.0f"|format(total_contributed) }}</div>
-                                        <div class="stats-label">MAD Saved</div>
-                                    </div>
-                                    <div class="stats-icon">
-                                        <i class="fas fa-coins"></i>
-                                    </div>
+                    <div class="col-md-4">
+                        <div class="stats-card position-relative overflow-hidden">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="stats-number">{{ group.target_amount }}</div>
+                                    <div class="stats-label">Target (MAD)</div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="stats-card position-relative overflow-hidden">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="stats-number">{{ group.target_amount }}</div>
-                                        <div class="stats-label">Target (MAD)</div>
-                                    </div>
-                                    <div class="stats-icon">
-                                        <i class="fas fa-bullseye"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="stats-card position-relative overflow-hidden">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="stats-number">{{ "%.0f"|format(group.target_amount - total_contributed) }}</div>
-                                        <div class="stats-label">Remaining (MAD)</div>
-                                    </div>
-                                    <div class="stats-icon">
-                                        <i class="fas fa-clock"></i>
-                                    </div>
+                                <div class="stats-icon">
+                                    <i class="fas fa-bullseye"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Chart Container -->
-                    <div class="mt-4">
-                        <canvas id="progressChart" width="400" height="200"></canvas>
+                    <div class="col-md-4">
+                        <div class="stats-card position-relative overflow-hidden">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <div class="stats-number">{{ "%.0f"|format(group.target_amount - total_contributed)
+                                        }}</div>
+                                    <div class="stats-label">Remaining (MAD)</div>
+                                </div>
+                                <div class="stats-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <!-- Chart Container -->
+                <div class="mt-4">
+                    <canvas id="progressChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>Quick Actions
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('group_analytics', group_id=group.id) }}" class="btn btn-success">
+                        <i class="fas fa-chart-line me-2"></i>View Analytics
+                    </a>
+                    {% if is_admin %}
+                    <a href="{{ url_for('manage_requests', group_id=group.id) }}" class="btn btn-warning">
+                        <i class="fas fa-user-cog me-2"></i>Manage Requests
+                        {% if (pending_members|length > 0 or rejected_members|length > 0) %}
+                        <span class="badge bg-danger ms-1">{{ pending_members|length + rejected_members|length }}</span>
+                        {% endif %}
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary"
+                        data-bs-toggle="modal" data-bs-target="#contributeModal">
+                        <i class="fas fa-plus me-2"></i>Add Contribution
+                    </a>
+                    <button class="btn btn-outline-primary" onclick="shareInviteCode()">
+                        <i class="fas fa-share me-2"></i>Share Invite Code
+                    </button>
+                    {% if current_user.is_premium %}
+                    <a href="{{ url_for('export_group_data', group_id=group.id) }}" class="btn btn-outline-success">
+                        <i class="fas fa-download me-2"></i>Export Data
+                    </a>
+                    {% endif %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="col-lg-4">
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-bolt me-2"></i>Quick Actions
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-grid gap-2">
-                        <a href="{{ url_for('group_analytics', group_id=group.id) }}" class="btn btn-success">
-                            <i class="fas fa-chart-line me-2"></i>View Analytics
-                        </a>
-                        {% if is_admin %}
-                        <a href="{{ url_for('manage_requests', group_id=group.id) }}" class="btn btn-warning">
-                            <i class="fas fa-user-cog me-2"></i>Manage Requests
-                            {% if (pending_members|length > 0 or rejected_members|length > 0) %}
-                            <span class="badge bg-danger ms-1">{{ pending_members|length + rejected_members|length }}</span>
-                            {% endif %}
-                        </a>
+        <!-- Group Members -->
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-users me-2"></i>Group Members
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for member in members %}
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        {% if member.profile_picture %}
+                        <img src="{{ url_for('static', filename=member.profile_picture) }}"
+                            class="rounded-circle border border-2 border-primary"
+                            style="width: 40px; height: 40px; object-fit: cover;" alt="{{ member.username }}">
+                        {% else %}
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;">
+                            <i class="fas fa-user"></i>
+                        </div>
                         {% endif %}
-                        <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contributeModal">
-                            <i class="fas fa-plus me-2"></i>Add Contribution
-                        </a>
-                        <button class="btn btn-outline-primary" onclick="shareInviteCode()">
-                            <i class="fas fa-share me-2"></i>Share Invite Code
-                        </button>
-                        {% if current_user.is_premium %}
-                        <a href="{{ url_for('export_group_data', group_id=group.id) }}" class="btn btn-outline-success">
-                            <i class="fas fa-download me-2"></i>Export Data
-                        </a>
-                        {% endif %}
-                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
-                        </a>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <div class="fw-bold">{{ member.username }}</div>
+                        <div class="text-muted small">Joined {{ member.joined_at[:10] }}</div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
+        </div>
 
-            <!-- Group Members -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="fas fa-users me-2"></i>Group Members
-                    </h5>
-                </div>
-                <div class="card-body">
-                    {% for member in members %}
-                    <div class="d-flex align-items-center mb-3">
+        <!-- Pending Members (Admin Only) -->
+        {% if is_admin and (pending_members or rejected_members) %}
+        <div class="card mb-3">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>Join Requests
+                    <span class="badge bg-danger ms-2">{{ pending_members|length + rejected_members|length }}</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                <!-- Pending Requests -->
+                {% if pending_members %}
+                <h6 class="text-warning mb-3"><i class="fas fa-hourglass-half me-2"></i>Pending Approval ({{
+                    pending_members|length }})</h6>
+                {% for pending in pending_members %}
+                <div class="d-flex align-items-center justify-content-between mb-3 p-3 border border-warning rounded">
+                    <div class="d-flex align-items-center">
                         <div class="flex-shrink-0">
-                            {% if member.profile_picture %}
-                            <img src="{{ url_for('static', filename=member.profile_picture) }}" 
-                                 class="rounded-circle border border-2 border-primary" 
-                                 style="width: 40px; height: 40px; object-fit: cover;"
-                                 alt="{{ member.username }}">
+                            {% if pending.profile_picture %}
+                            <img src="{{ url_for('static', filename=pending.profile_picture) }}"
+                                class="rounded-circle border border-2 border-warning"
+                                style="width: 40px; height: 40px; object-fit: cover;" alt="{{ pending.username }}">
                             {% else %}
-                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                            <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 40px; height: 40px;">
                                 <i class="fas fa-user"></i>
                             </div>
                             {% endif %}
                         </div>
                         <div class="flex-grow-1 ms-3">
-                            <div class="fw-bold">{{ member.username }}</div>
-                            <div class="text-muted small">Joined {{ member.joined_at[:10] }}</div>
+                            <div class="fw-bold">{{ pending.username }}</div>
+                            <div class="text-muted small">{{ pending.email }}</div>
+                            <div class="text-muted small">Requested: {{ pending.joined_at[:10] }}</div>
                         </div>
                     </div>
-                    {% endfor %}
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm"
+                            onclick="approveMember({{ group.id }}, {{ pending.user_id }})">
+                            <i class="fas fa-check me-1"></i>Approve
+                        </button>
+                        <button class="btn btn-danger btn-sm"
+                            onclick="rejectMember({{ group.id }}, {{ pending.user_id }})">
+                            <i class="fas fa-times me-1"></i>Reject
+                        </button>
+                    </div>
                 </div>
-            </div>
+                {% endfor %}
+                {% endif %}
 
-            <!-- Pending Members (Admin Only) -->
-            {% if is_admin and (pending_members or rejected_members) %}
-            <div class="card mb-3">
-                <div class="card-header bg-warning">
-                    <h5 class="mb-0">
-                        <i class="fas fa-clock me-2"></i>Join Requests
-                        <span class="badge bg-danger ms-2">{{ pending_members|length + rejected_members|length }}</span>
-                    </h5>
+                <!-- Rejected Requests -->
+                {% if rejected_members %}
+                <h6 class="text-danger mb-3 mt-4"><i class="fas fa-ban me-2"></i>Rejected ({{ rejected_members|length
+                    }})</h6>
+                {% for rejected in rejected_members %}
+                <div
+                    class="d-flex align-items-center justify-content-between mb-3 p-3 border border-danger rounded bg-light">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            {% if rejected.profile_picture %}
+                            <img src="{{ url_for('static', filename=rejected.profile_picture) }}"
+                                class="rounded-circle border border-2 border-danger"
+                                style="width: 40px; height: 40px; object-fit: cover;" alt="{{ rejected.username }}">
+                            {% else %}
+                            <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center"
+                                style="width: 40px; height: 40px;">
+                                <i class="fas fa-user-slash"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <div class="fw-bold">{{ rejected.username }}</div>
+                            <div class="text-muted small">{{ rejected.email }}</div>
+                            <div class="text-muted small">Requested: {{ rejected.joined_at[:10] }}</div>
+                            <span class="badge bg-danger">Rejected</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success btn-sm"
+                            onclick="approveMember({{ group.id }}, {{ rejected.user_id }})">
+                            <i class="fas fa-check me-1"></i>Approve Now
+                        </button>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <!-- Pending Requests -->
-                    {% if pending_members %}
-                    <h6 class="text-warning mb-3"><i class="fas fa-hourglass-half me-2"></i>Pending Approval ({{ pending_members|length }})</h6>
-                    {% for pending in pending_members %}
-                    <div class="d-flex align-items-center justify-content-between mb-3 p-3 border border-warning rounded">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                {% if pending.profile_picture %}
-                                <img src="{{ url_for('static', filename=pending.profile_picture) }}" 
-                                     class="rounded-circle border border-2 border-warning" 
-                                     style="width: 40px; height: 40px; object-fit: cover;"
-                                     alt="{{ pending.username }}">
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Pending Contributions (Admin Only) -->
+{% if is_admin and pending_contributions %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">
+                    <i class="fas fa-clock me-2"></i>Pending Contributions - Requires Your Approval
+                    <span class="badge bg-dark ms-2">{{ pending_contributions|length }}</span>
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for contribution in pending_contributions %}
+                <div class="border border-warning rounded p-3 mb-3 bg-light">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-start">
+                                {% if contribution.profile_picture %}
+                                <img src="{{ url_for('static', filename=contribution.profile_picture) }}"
+                                    class="rounded-circle border border-2 border-warning me-3"
+                                    style="width: 50px; height: 50px; object-fit: cover;"
+                                    alt="{{ contribution.username }}">
                                 {% else %}
-                                <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                                    style="width: 50px; height: 50px;">
                                     <i class="fas fa-user"></i>
                                 </div>
                                 {% endif %}
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="fw-bold">{{ pending.username }}</div>
-                                <div class="text-muted small">{{ pending.email }}</div>
-                                <div class="text-muted small">Requested: {{ pending.joined_at[:10] }}</div>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-success btn-sm" onclick="approveMember({{ group.id }}, {{ pending.user_id }})">
-                                <i class="fas fa-check me-1"></i>Approve
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="rejectMember({{ group.id }}, {{ pending.user_id }})">
-                                <i class="fas fa-times me-1"></i>Reject
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                    
-                    <!-- Rejected Requests -->
-                    {% if rejected_members %}
-                    <h6 class="text-danger mb-3 mt-4"><i class="fas fa-ban me-2"></i>Rejected ({{ rejected_members|length }})</h6>
-                    {% for rejected in rejected_members %}
-                    <div class="d-flex align-items-center justify-content-between mb-3 p-3 border border-danger rounded bg-light">
-                        <div class="d-flex align-items-center">
-                            <div class="flex-shrink-0">
-                                {% if rejected.profile_picture %}
-                                <img src="{{ url_for('static', filename=rejected.profile_picture) }}" 
-                                     class="rounded-circle border border-2 border-danger" 
-                                     style="width: 40px; height: 40px; object-fit: cover;"
-                                     alt="{{ rejected.username }}">
-                                {% else %}
-                                <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                    <i class="fas fa-user-slash"></i>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="flex-grow-1 ms-3">
-                                <div class="fw-bold">{{ rejected.username }}</div>
-                                <div class="text-muted small">{{ rejected.email }}</div>
-                                <div class="text-muted small">Requested: {{ rejected.joined_at[:10] }}</div>
-                                <span class="badge bg-danger">Rejected</span>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-success btn-sm" onclick="approveMember({{ group.id }}, {{ rejected.user_id }})">
-                                <i class="fas fa-check me-1"></i>Approve Now
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Pending Contributions (Admin Only) -->
-    {% if is_admin and pending_contributions %}
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card border-warning">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">
-                        <i class="fas fa-clock me-2"></i>Pending Contributions - Requires Your Approval
-                        <span class="badge bg-dark ms-2">{{ pending_contributions|length }}</span>
-                    </h5>
-                </div>
-                <div class="card-body">
-                    {% for contribution in pending_contributions %}
-                    <div class="border border-warning rounded p-3 mb-3 bg-light">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-start">
-                                    {% if contribution.profile_picture %}
-                                    <img src="{{ url_for('static', filename=contribution.profile_picture) }}" 
-                                         class="rounded-circle border border-2 border-warning me-3" 
-                                         style="width: 50px; height: 50px; object-fit: cover;"
-                                         alt="{{ contribution.username }}">
-                                    {% else %}
-                                    <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
-                                        <i class="fas fa-user"></i>
-                                    </div>
-                                    {% endif %}
-                                    <div>
-                                        <h6 class="mb-1 fw-bold">{{ contribution.username }}</h6>
-                                        <p class="mb-1 text-success fw-bold fs-5">{{ contribution.amount }} MAD</p>
-                                        <p class="mb-1 text-muted small">{{ contribution.description or 'No description' }}</p>
-                                        <p class="mb-0 text-muted small">
-                                            <i class="fas fa-calendar me-1"></i>{{ contribution.contribution_date[:16] }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 text-center my-2">
-                                {% if contribution.proof_image %}
-                                <a href="{{ url_for('static', filename=contribution.proof_image) }}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                    <i class="fas fa-image me-1"></i>View Proof Image
-                                </a>
-                                <br>
-                                <img src="{{ url_for('static', filename=contribution.proof_image) }}" 
-                                     class="img-thumbnail mt-2" 
-                                     style="max-height: 100px; cursor: pointer;"
-                                     onclick="window.open(this.src, '_blank')">
-                                {% else %}
-                                <span class="text-muted small"><i class="fas fa-times-circle"></i> No proof image</span>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-3">
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-success" onclick="approveContribution({{ group.id }}, {{ contribution.id }})">
-                                        <i class="fas fa-check me-1"></i>Approve
-                                    </button>
-                                    <button class="btn btn-danger" onclick="rejectContribution({{ group.id }}, {{ contribution.id }})">
-                                        <i class="fas fa-times me-1"></i>Reject
-                                    </button>
+                                <div>
+                                    <h6 class="mb-1 fw-bold">{{ contribution.username }}</h6>
+                                    <p class="mb-1 text-success fw-bold fs-5">{{ contribution.amount }} MAD</p>
+                                    <p class="mb-1 text-muted small">{{ contribution.description or 'No description' }}
+                                    </p>
+                                    <p class="mb-0 text-muted small">
+                                        <i class="fas fa-calendar me-1"></i>{{ contribution.contribution_date[:16] }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- Contributions History -->
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
-                        <i class="fas fa-history me-2"></i>Contributions History
-                    </h5>
-                    <span class="badge bg-secondary">{{ contributions|length }} contributions</span>
-                </div>
-                <div class="card-body">
-                    {% if contributions %}
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Member</th>
-                                        <th>Amount</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for contribution in contributions %}
-                                    <tr>
-                                        <td>{{ contribution.contribution_date[:10] }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                {% if contribution.profile_picture %}
-                                                <img src="{{ url_for('static', filename=contribution.profile_picture) }}" 
-                                                     class="rounded-circle border border-2 border-primary me-2" 
-                                                     style="width: 30px; height: 30px; object-fit: cover;"
-                                                     alt="{{ contribution.username }}">
-                                                {% else %}
-                                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 30px; height: 30px; font-size: 0.8rem;">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                                {% endif %}
-                                                {{ contribution.username }}
-                                            </div>
-                                        </td>
-                                        <td class="fw-bold text-success">{{ contribution.amount }} MAD</td>
-                                        <td>{{ contribution.description or 'No description' }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <div class="text-center py-4">
-                            <i class="fas fa-piggy-bank text-muted" style="font-size: 3rem;"></i>
-                            <h5 class="mt-3 text-muted">No contributions yet</h5>
-                            <p class="text-muted">Be the first to contribute to this savings goal!</p>
-                            <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary">
-                                <i class="fas fa-plus me-2"></i>Add First Contribution
+                        <div class="col-md-3 text-center my-2">
+                            {% if contribution.proof_image %}
+                            <a href="{{ url_for('static', filename=contribution.proof_image) }}" target="_blank"
+                                class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-image me-1"></i>View Proof Image
                             </a>
+                            <br>
+                            <img src="{{ url_for('static', filename=contribution.proof_image) }}"
+                                class="img-thumbnail mt-2" style="max-height: 100px; cursor: pointer;"
+                                onclick="window.open(this.src, '_blank')">
+                            {% else %}
+                            <span class="text-muted small"><i class="fas fa-times-circle"></i> No proof image</span>
+                            {% endif %}
                         </div>
-                    {% endif %}
+                        <div class="col-md-3">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success"
+                                    onclick="approveContribution({{ group.id }}, {{ contribution.id }})">
+                                    <i class="fas fa-check me-1"></i>Approve
+                                </button>
+                                <button class="btn btn-danger"
+                                    onclick="rejectContribution({{ group.id }}, {{ contribution.id }})">
+                                    <i class="fas fa-times me-1"></i>Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
+</div>
+{% endif %}
+
+<!-- Contributions History -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">
+                    <i class="fas fa-history me-2"></i>Contributions History
+                </h5>
+                <span class="badge bg-secondary">{{ contributions|length }} contributions</span>
+            </div>
+            <div class="card-body">
+                {% if contributions %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Member</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contribution in contributions %}
+                            <tr>
+                                <td>{{ contribution.contribution_date[:10] }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        {% if contribution.profile_picture %}
+                                        <img src="{{ url_for('static', filename=contribution.profile_picture) }}"
+                                            class="rounded-circle border border-2 border-primary me-2"
+                                            style="width: 30px; height: 30px; object-fit: cover;"
+                                            alt="{{ contribution.username }}">
+                                        {% else %}
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                            style="width: 30px; height: 30px; font-size: 0.8rem;">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        {% endif %}
+                                        {{ contribution.username }}
+                                    </div>
+                                </td>
+                                <td class="fw-bold text-success">{{ contribution.amount }} MAD</td>
+                                <td>{{ contribution.description or 'No description' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-piggy-bank text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3 text-muted">No contributions yet</h5>
+                    <p class="text-muted">Be the first to contribute to this savings goal!</p>
+                    <a href="{{ url_for('contribute', group_id=group.id) }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add First Contribution
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <!-- Invite Code Modal -->
@@ -463,8 +478,8 @@
             <div class="modal-body">
                 <p>Share this invite code with friends and family to let them join your savings group:</p>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control text-center fw-bold fs-5" 
-                           value="{{ group.invite_code }}" id="inviteCodeInput" readonly>
+                    <input type="text" class="form-control text-center fw-bold fs-5" value="{{ group.invite_code }}"
+                        id="inviteCodeInput" readonly>
                     <button class="btn btn-outline-secondary" type="button" onclick="copyInviteCode()">
                         <i class="fas fa-copy"></i>
                     </button>
@@ -499,20 +514,20 @@
                             <span class="input-group-text">
                                 <i class="fas fa-money-bill-wave"></i>
                             </span>
-                            <input type="number" class="form-control" id="modal_amount" name="amount" 
-                                   placeholder="100" min="0.01" step="0.01" required>
+                            <input type="number" class="form-control" id="modal_amount" name="amount" placeholder="100"
+                                min="0.01" step="0.01" required>
                             <span class="input-group-text">MAD</span>
                         </div>
                         <div class="form-text">Enter the amount you want to contribute</div>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="modal_description" class="form-label">Description</label>
-                        <textarea class="form-control" id="modal_description" name="description" rows="3" 
-                                  placeholder="Optional: Add a note about this contribution..."></textarea>
+                        <textarea class="form-control" id="modal_description" name="description" rows="3"
+                            placeholder="Optional: Add a note about this contribution..."></textarea>
                         <div class="form-text">Optional: Describe what this contribution is for</div>
                     </div>
-                    
+
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="fas fa-plus-circle me-2"></i>Add Contribution
@@ -524,64 +539,275 @@
     </div>
 </div>
 
-<script>
-// Handle contribute form submission
-document.getElementById('contributeForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const formData = {
-        amount: parseFloat(document.getElementById('modal_amount').value),
-        description: document.getElementById('modal_description').value
-    };
-    
-    try {
-        const response = await fetch('/groups/{{ group.id }}/contribute', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.status === 'success') {
-            // Close modal
-            const modalElement = document.getElementById('contributeModal');
-            const modal = bootstrap.Modal.getInstance(modalElement);
-            if (modal) {
-                modal.hide();
-            }
-            
-            // Show success message
-            alert(data.message);
-            
-            // Reload page to show new contribution
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Erreur lors de l\'ajout de la contribution: ' + error.message);
-    }
-});
 
-// Progress Chart
-const ctx = document.getElementById('progressChart').getContext('2d');
-const progressChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-        labels: ['Saved', 'Remaining'],
-        datasets: [{
-            data: [{{ total_contributed }}, {{ group.target_amount - total_contributed }}],
-            backgroundColor: ['#4CAF50', '#e9ecef'],
-            borderWidth: 0
-        }]
+<!-- AI Chat Widget -->
+<style>
+    /* Chat Widget Styles */
+    .chat-widget-fab {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 50%;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .chat-widget-fab:hover {
+        transform: scale(1.1);
+    }
+
+    .chat-widget-fab i {
+        color: white;
+        font-size: 24px;
+    }
+
+    .chat-window {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        display: flex;
+        flex-direction: column;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .chat-window.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    .chat-header {
+        padding: 15px 20px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: #f8f9fa;
+        scroll-behavior: smooth;
+    }
+
+    .chat-message {
+        max-width: 80%;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        position: relative;
+        word-wrap: break-word;
+    }
+
+    .chat-message.assistant {
+        background: white;
+        align-self: flex-start;
+        border-bottom-left-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        color: #333;
+    }
+
+    .chat-message.user {
+        background: #10b981;
+        align-self: flex-end;
+        border-bottom-right-radius: 5px;
+        color: white;
+        box-shadow: 0 2px 5px rgba(16, 185, 129, 0.2);
+    }
+
+    .chat-input-area {
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+    }
+
+    .chat-input {
+        flex: 1;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 8px 15px;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    .chat-input:focus {
+        border-color: #10b981;
+    }
+
+    .chat-send-btn {
+        background: #10b981;
+        color: white;
+        border: none;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .chat-send-btn:hover {
+        background: #059669;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+        display: flex;
+        gap: 5px;
+        padding: 5px 10px;
+        background: white;
+        border-radius: 10px;
+        align-self: flex-start;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+        background: #ccc;
+        border-radius: 50%;
+        animation: bounce 1.4s infinite ease-in-out both;
+    }
+
+    .dot:nth-child(1) {
+        animation-delay: -0.32s;
+    }
+
+    .dot:nth-child(2) {
+        animation-delay: -0.16s;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        80%,
+        100% {
+            transform: scale(0);
+        }
+
+        40% {
+            transform: scale(1);
+        }
+    }
+</style>
+
+<div class="chat-widget-fab" onclick="toggleChat()">
+    <i class="fas fa-robot"></i>
+</div>
+
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <div class="d-flex align-items-center">
+            <i class="fas fa-robot me-2"></i>
+            <span class="fw-bold">AI Assistant</span>
+        </div>
+        <i class="fas fa-times" style="cursor: pointer;" onclick="toggleChat()"></i>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-message assistant">
+            Hi! I'm your savings assistant. How can I help you with the "{{ group.name }}" project today?
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask for advice..."
+            onkeypress="handleEnter(event)">
+        <button class="chat-send-btn" onclick="sendMessage()">
+            <i class="fas fa-paper-plane" style="font-size: 14px;"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+    // Handle contribute form submission
+    document.getElementById('contributeForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = {
+            amount: parseFloat(document.getElementById('modal_amount').value),
+            description: document.getElementById('modal_description').value
+        };
+
+        try {
+            const response = await fetch('/groups/{{ group.id }}/contribute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                // Close modal
+                const modalElement = document.getElementById('contributeModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+
+                // Show success message
+                alert(data.message);
+
+                // Reload page to show new contribution
+                location.reload();
+            } else {
+                alert('Erreur: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Erreur lors de l\'ajout de la contribution: ' + error.message);
+        }
+    });
+
+    // Progress Chart
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    const progressChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Saved', 'Remaining'],
+            datasets: [{
+                data: [{{ total_contributed }}, {{ group.target_amount - total_contributed }}],
+        backgroundColor: ['#4CAF50', '#e9ecef'],
+        borderWidth: 0
+    }]
     },
     options: {
         responsive: true,
-        plugins: {
+            plugins: {
             legend: {
                 position: 'bottom'
             }
@@ -589,129 +815,218 @@ const progressChart = new Chart(ctx, {
     }
 });
 
-function shareInviteCode() {
-    const modal = new bootstrap.Modal(document.getElementById('inviteModal'));
-    modal.show();
-}
-
-function copyInviteCode() {
-    const input = document.getElementById('inviteCodeInput');
-    input.select();
-    input.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    
-    // Show feedback
-    const button = event.target.closest('button');
-    const originalHTML = button.innerHTML;
-    button.innerHTML = '<i class="fas fa-check"></i>';
-    button.classList.remove('btn-outline-secondary');
-    button.classList.add('btn-success');
-    
-    setTimeout(() => {
-        button.innerHTML = originalHTML;
-        button.classList.remove('btn-success');
-        button.classList.add('btn-outline-secondary');
-    }, 2000);
-}
-
-function approveMember(groupId, userId) {
-    if (!confirm('Êtes-vous sûr de vouloir accepter cette demande ?')) {
-        return;
+    function shareInviteCode() {
+        const modal = new bootstrap.Modal(document.getElementById('inviteModal'));
+        modal.show();
     }
-    
-    fetch(`/groups/${groupId}/approve/${userId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+
+    function copyInviteCode() {
+        const input = document.getElementById('inviteCodeInput');
+        input.select();
+        input.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+
+        // Show feedback
+        const button = event.target.closest('button');
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check"></i>';
+        button.classList.remove('btn-outline-secondary');
+        button.classList.add('btn-success');
+
+        setTimeout(() => {
+            button.innerHTML = originalHTML;
+            button.classList.remove('btn-success');
+            button.classList.add('btn-outline-secondary');
+        }, 2000);
+    }
+
+    function approveMember(groupId, userId) {
+        if (!confirm('Êtes-vous sûr de vouloir accepter cette demande ?')) {
+            return;
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert(data.message);
-            location.reload();
+
+        fetch(`/groups/${groupId}/approve/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Erreur lors de l\'approbation: ' + error.message);
+            });
+    }
+
+    function rejectMember(groupId, userId) {
+        if (!confirm('Êtes-vous sûr de vouloir refuser cette demande ?')) {
+            return;
+        }
+
+        fetch(`/groups/${groupId}/reject/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Erreur lors du refus: ' + error.message);
+            });
+    }
+
+    function approveContribution(groupId, contributionId) {
+        if (!confirm('Êtes-vous sûr de vouloir approuver cette contribution ?')) {
+            return;
+        }
+
+        fetch(`/groups/${groupId}/contributions/${contributionId}/approve`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Erreur lors de l\'approbation: ' + error.message);
+            });
+    }
+
+    function rejectContribution(groupId, contributionId) {
+        if (!confirm('Êtes-vous sûr de vouloir rejeter cette contribution ?')) {
+            return;
+        }
+
+        fetch(`/groups/${groupId}/contributions/${contributionId}/reject`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erreur: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Erreur lors du rejet: ' + error.message);
+            });
+    }
+    // Chat Widget Logic
+    let isChatOpen = false;
+    let chatHistory = [];
+
+    function toggleChat() {
+        const chatWindow = document.getElementById('chatWindow');
+        isChatOpen = !isChatOpen;
+        if (isChatOpen) {
+            chatWindow.classList.add('active');
+            document.getElementById('chatInput').focus();
         } else {
-            alert('Erreur: ' + data.message);
+            chatWindow.classList.remove('active');
         }
-    })
-    .catch(error => {
-        alert('Erreur lors de l\'approbation: ' + error.message);
+    }
+
+    function handleEnter(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        const messagesContainer = document.getElementById('chatMessages');
+
+        if (!message) return;
+
+        // Add user message
+        appendMessage(message, 'user');
+        input.value = '';
+
+        // Add typing indicator
+        const typingId = 'typing-' + Date.now();
+        const typingHTML = `
+        <div class="typing-indicator" id="${typingId}">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    `;
+        messagesContainer.insertAdjacentHTML('beforeend', typingHTML);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    group_id: {{ group.id }},
+                message: message,
+                history: chatHistory
+            })
     });
+
+    const data = await response.json();
+
+    // Remove typing indicator
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.remove();
+
+    if (data.response) {
+        appendMessage(data.response, 'assistant');
+    } else {
+        appendMessage('Sorry, I encountered an error.', 'assistant');
+    }
+        
+    } catch (error) {
+        console.error('Chat Error:', error);
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+        appendMessage('Sorry, I could not connect to the server.', 'assistant');
+    }
 }
 
-function rejectMember(groupId, userId) {
-    if (!confirm('Êtes-vous sûr de vouloir refuser cette demande ?')) {
-        return;
-    }
-    
-    fetch(`/groups/${groupId}/reject/${userId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert(data.message);
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    })
-    .catch(error => {
-        alert('Erreur lors du refus: ' + error.message);
-    });
-}
+    function appendMessage(text, sender) {
+        const messagesContainer = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.classList.add('chat-message', sender);
+        div.textContent = text;
+        messagesContainer.appendChild(div);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
-function approveContribution(groupId, contributionId) {
-    if (!confirm('Êtes-vous sûr de vouloir approuver cette contribution ?')) {
-        return;
+        // Update history
+        chatHistory.push({ sender: sender, text: text });
+        if (chatHistory.length > 10) chatHistory.shift();
     }
-    
-    fetch(`/groups/${groupId}/contributions/${contributionId}/approve`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert(data.message);
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    })
-    .catch(error => {
-        alert('Erreur lors de l\'approbation: ' + error.message);
-    });
-}
-
-function rejectContribution(groupId, contributionId) {
-    if (!confirm('Êtes-vous sûr de vouloir rejeter cette contribution ?')) {
-        return;
-    }
-    
-    fetch(`/groups/${groupId}/contributions/${contributionId}/reject`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert(data.message);
-            location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    })
-    .catch(error => {
-        alert('Erreur lors du rejet: ' + error.message);
-    });
-}
 </script>
 {% endblock %}
